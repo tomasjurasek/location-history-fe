@@ -1,5 +1,9 @@
 <template>
     <div class="form">
+        <v-alert class="failed" type="warning" v-if="uploadFailed">
+            <strong>Něco se pokazilo!</strong> <br />
+            Prosím, zkuste to znovu.
+        </v-alert>
         <v-file-input
             class="file-input"
             placeholder="Vybrat soubor"
@@ -24,6 +28,12 @@
 </template>
 
 <style scoped>
+.failed {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .form {
     text-align: center;
 }

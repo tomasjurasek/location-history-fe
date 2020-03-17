@@ -3,10 +3,6 @@
         <v-container class="header" fluid>
             <v-row align="center" justify="center" no-gutters>
                 <v-col md="10">
-                    <v-alert type="warning" v-if="uploadFailed">
-                        <strong>Něco se pokazilo!</strong> <br />
-                        Prosím, zkuste to znovu.
-                    </v-alert>
                     <h2 class="header__title">
                         Pomozte zjistit historii vaší polohy
                     </h2>
