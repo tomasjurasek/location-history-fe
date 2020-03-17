@@ -19,6 +19,7 @@
                     <v-file-input
                         class="file-input"
                         placeholder="Vybrat soubor"
+                        accept=".zip"
                         v-model="file"
                         background-color="white"
                         hide-details
