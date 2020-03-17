@@ -28,12 +28,12 @@
                     <v-btn
                         class="upload-button"
                         v-on:click="submitFile()"
-                        :disabled="false && !file"
+                        :disabled="!file"
                         :loading="loading"
                         color="success"
                         x-large
                         elevation="0"
-                        large
+                        dark
                         >Nahrát</v-btn
                     >
                 </v-col>
