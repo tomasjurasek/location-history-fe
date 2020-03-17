@@ -149,45 +149,12 @@ export default class Home extends Vue {
             )
             .then(response => {
                 this.loading = false;
-                /*
-                {
-                    "id": "string",
-                     "locations": [
-                        {
-                          "dateTimeUtc": "2020-03-16T19:39:46.393Z",
-                          "longitude": 0,
-                          "latitude": 0,
-                          "accuracy": 0
-                        }
-                      ]
-                 }
-               */
                 locationHistoryStorage.save(response.data);
                 this.$router.push({ path: "map" });
             })
             .catch(e => {
                 this.loading = false;
                 console.log("Chybka", e);
-                //Use fake data in case of error until backend is ready
-                const locationHistory = {
-                    id: this.id,
-                    locations: [
-                        {
-                            dateTimeUtc: "20200316T14:00:00Z",
-                            latitude: 500437725,
-                            longitude: 144549068,
-                            accuracy: 96
-                        },
-                        {
-                            dateTimeUtc: "20200316T15:00:00Z",
-                            latitude: 500437275,
-                            longitude: 144545330,
-                            accuracy: 33
-                        }
-                    ]
-                };
-                locationHistoryStorage.save(locationHistory);
-                this.$router.push({ path: "map" });
             });
     }
 }

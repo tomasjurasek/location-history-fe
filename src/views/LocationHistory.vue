@@ -55,7 +55,27 @@ export default class LocationHistory extends Vue {
     mailto = "";
 
     mounted() {
-        const locationHistory = locationHistoryStorage.load();
+        let locationHistory = locationHistoryStorage.load();
+        if (!locationHistory && location.hostname === "localhost") {
+            locationHistory = {
+                id: "localhost",
+                locations: [
+                    {
+                        dateTimeUtc: "20200316T14:00:00Z",
+                        latitude: 500437725,
+                        longitude: 144549068,
+                        accuracy: 96
+                    },
+                    {
+                        dateTimeUtc: "20200316T15:00:00Z",
+                        latitude: 500437275,
+                        longitude: 144545330,
+                        accuracy: 33
+                    }
+                ]
+            };
+        }
+
         if (locationHistory) {
             this.id = locationHistory.id;
             this.locations = locationHistory.locations;
