@@ -41,12 +41,6 @@
         </v-container>
         <v-container>
             <Instructions />
-
-            <div class="mt-8">
-                <v-btn :to="{ name: 'LocationHistory' }">
-                    Mapa
-                </v-btn>
-            </div>
         </v-container>
     </div>
 </template>
