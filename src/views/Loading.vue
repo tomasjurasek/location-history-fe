@@ -2,13 +2,20 @@
     <div class="pa-3">
         <v-row align="center" justify="center" no-gutters>
             <v-col cols="10">
-                <h1 class="text-center mb-10">Nahrávání</h1>
+                <h1 class="text-center mb-10">Nahrávání...</h1>
                 <v-progress-linear
                     color="light-blue"
                     height="15"
                     indeterminate
                     striped
                 ></v-progress-linear>
+            </v-col>
+        </v-row>
+        <v-row align="center" justify="center">
+            <v-col cols="10">
+                <p class="text-center">
+                    Mějte strpení, data se mohou nahrávat několik minut.
+                </p>
             </v-col>
         </v-row>
     </div>
