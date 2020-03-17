@@ -14,7 +14,10 @@
                     x-large
                     elevation="0"
                     :href="mailto"
-                    large><v-icon class="mr-2">mdi-email</v-icon> Odeslat mailem</v-btn>
+                    large
+                    ><v-icon class="mr-2">mdi-email</v-icon> Odeslat
+                    mailem</v-btn
+                >
             </v-col>
         </v-row>
         <v-row no-gutters class="fill-height-hack">
@@ -47,15 +50,15 @@ import { locationHistoryStorage } from "@/services/LocationHistoryStorage";
 })
 export default class LocationHistory extends Vue {
     locations: Location[] = [];
-    id: string = '';
-    mailto: string = '';
+    id = "";
+    mailto = "";
 
     mounted() {
         const locationHistory = locationHistoryStorage.load();
         if (locationHistory) {
             this.id = locationHistory.id;
             this.locations = locationHistory.locations;
-            this.mailto = 'mailto:test@hygiena.cz?subject=Data pro ' + this.id;
+            this.mailto = "mailto:test@hygiena.cz?subject=Data pro " + this.id;
         }
     }
 }
