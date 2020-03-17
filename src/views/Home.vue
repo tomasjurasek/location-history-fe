@@ -154,6 +154,7 @@ export default class Home extends Vue {
             })
             .catch(e => {
                 this.loading = false;
+                this.uploadFailed = true;
                 console.log("Chybka", e);
             });
     }
