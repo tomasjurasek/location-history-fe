@@ -1,4 +1,4 @@
-import {LocationHistory} from "@/types/LocationHistory";
+import { LocationHistory } from "@/types/LocationHistory";
 
 export class LocationHistoryStorage {
     private locationHistory?: LocationHistory;
