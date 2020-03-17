@@ -9,7 +9,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { GeoJSONSource } from "mapbox-gl";
 import { Prop, Watch } from "vue-property-decorator";
 import { Location } from "@/types/Location";
 
@@ -23,6 +23,7 @@ export default class LocationHistoryMap extends Vue {
     mapLoaded = false;
 
     @Prop({ default: [] }) locations!: Location[];
+    @Prop({ default: false }) drawLine!: boolean;
 
     async mounted() {
         this.loadMap();
@@ -38,7 +39,42 @@ export default class LocationHistoryMap extends Vue {
         });
         this.map.addControl(new mapboxgl.NavigationControl(), "top-right");
         this.map.addControl(new mapboxgl.ScaleControl(), "bottom-right");
-        this.map.on("load", () => (this.mapLoaded = true));
+        this.map.on("load", () => {
+            this.map.addSource("lines", {
+                type: "geojson",
+                data: { type: "FeatureCollection", features: [] }
+            });
+            this.map.addSource("points", {
+                type: "geojson",
+                data: { type: "FeatureCollection", features: [] }
+            });
+            this.map.addLayer({
+                id: "lines",
+                type: "line",
+                source: "lines",
+                layout: {},
+                paint: {
+                    "line-color": "#ff0000"
+                }
+            });
+            this.map.addLayer({
+                id: "points",
+                type: "circle",
+                source: "points",
+                layout: {},
+                paint: {
+                    "circle-color": "#ff0000"
+                }
+            });
+
+            this.map.setLayoutProperty(
+                "lines",
+                "visibility",
+                this.drawLine ? "visible" : "none"
+            );
+
+            this.mapLoaded = true;
+        });
     }
 
     @Watch("locations")
@@ -48,67 +84,70 @@ export default class LocationHistoryMap extends Vue {
             return;
         }
 
-        this.map.addSource("lines", {
-            type: "geojson",
-            data: {
-                type: "FeatureCollection",
-                features: [
-                    {
-                        type: "Feature",
-                        geometry: {
-                            type: "LineString",
-                            coordinates: this.locations.map(location => {
-                                return [
-                                    location.longitude / 10 ** 7,
-                                    location.latitude / 10 ** 7
-                                ];
-                            })
-                        },
-                        properties: {}
-                    }
-                ]
-            }
-        });
-        this.map.addSource("points", {
-            type: "geojson",
-            data: {
-                type: "FeatureCollection",
-                features: this.locations.map(location => {
-                    return {
-                        type: "Feature",
-                        geometry: {
-                            type: "Point",
-                            coordinates: [
+        (this.map.getSource("lines") as GeoJSONSource).setData({
+            type: "FeatureCollection",
+            features: [
+                {
+                    type: "Feature",
+                    geometry: {
+                        type: "LineString",
+                        coordinates: this.locations.map(location => {
+                            return [
                                 location.longitude / 10 ** 7,
                                 location.latitude / 10 ** 7
-                            ]
-                        },
-                        properties: {
-                            dateTimeUtc: location.dateTimeUtc,
-                            accuracy: location.accuracy
-                        }
-                    };
-                })
-            }
+                            ];
+                        })
+                    },
+                    properties: {}
+                }
+            ]
         });
-        this.map.addLayer({
-            id: "lines",
-            type: "line",
-            source: "lines",
-            layout: {},
-            paint: {
-                "line-color": "#ff0000"
-            }
+        (this.map.getSource("points") as GeoJSONSource).setData({
+            type: "FeatureCollection",
+            features: this.locations.map(location => {
+                return {
+                    type: "Feature",
+                    geometry: {
+                        type: "Point",
+                        coordinates: [
+                            location.longitude / 10 ** 7,
+                            location.latitude / 10 ** 7
+                        ]
+                    },
+                    properties: {
+                        dateTimeUtc: location.dateTimeUtc,
+                        accuracy: location.accuracy
+                    }
+                };
+            })
         });
-        this.map.addLayer({
-            id: "points",
-            type: "circle",
-            source: "points",
-            layout: {},
-            paint: {
-                "circle-color": "#ff0000"
-            }
-        });
+
+        const coords = this.locations.map(
+            location =>
+                new mapboxgl.LngLat(
+                    location.longitude / 10 ** 7,
+                    location.latitude / 10 ** 7
+                )
+        );
+        const bounds = coords.reduce(
+            (bounds, coord) => bounds.extend(coord),
+            new mapboxgl.LngLatBounds(coords[0], coords[0])
+        );
+        this.map.fitBounds(bounds, { padding: 100, maxDuration: 1 });
+    }
+
+    @Watch("drawLine")
+    renderLine() {
+        if (!this.map || !this.mapLoaded) {
+            setTimeout(() => this.renderLine(), 200);
+            return;
+        }
+
+        this.map.setLayoutProperty(
+            "lines",
+            "visibility",
+            this.drawLine ? "visible" : "none"
+        );
     }
 }
 </script>
