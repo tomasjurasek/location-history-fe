@@ -117,13 +117,18 @@ export default class Home extends Vue {
     loading = false;
     id: string = this.generateId();
 
-
     generateId() {
-        return this.rand3Digits() + '-' + this.rand3Digits() + '-' + this.rand3Digits();
+        return (
+            this.rand3Digits() +
+            "-" +
+            this.rand3Digits() +
+            "-" +
+            this.rand3Digits()
+        );
     }
 
     rand3Digits() {
-        return ("000" + Math.floor((Math.random() * 1000))).slice(-3);
+        return ("000" + Math.floor(Math.random() * 1000)).slice(-3);
     }
 
     submitFile() {
@@ -131,7 +136,8 @@ export default class Home extends Vue {
         this.loading = true;
         const formData = new FormData();
         formData.append("file", this.file);
-        axios.post(
+        axios
+            .post(
                 `${process.env.VUE_APP_API_URL}/users/${this.id}/file`,
                 formData,
                 {
@@ -140,7 +146,7 @@ export default class Home extends Vue {
                     }
                 }
             )
-            .then((response) => {
+            .then(response => {
                 this.loading = false;
                 /*
                 {
@@ -156,7 +162,7 @@ export default class Home extends Vue {
                  }
                */
                 locationHistoryStorage.save(response.data);
-                this.$router.push({ path: 'map' })
+                this.$router.push({ path: "map" });
             })
             .catch(e => {
                 this.loading = false;
@@ -166,21 +172,21 @@ export default class Home extends Vue {
                     id: this.id,
                     locations: [
                         {
-                            "dateTimeUtc": "20200316T14:00:00Z",
-                            "latitude": 500437725,
-                            "longitude": 144549068,
-                            "accuracy": 96,
+                            dateTimeUtc: "20200316T14:00:00Z",
+                            latitude: 500437725,
+                            longitude: 144549068,
+                            accuracy: 96
                         },
                         {
-                            "dateTimeUtc": "20200316T15:00:00Z",
-                            "latitude": 500437275,
-                            "longitude": 144545330,
-                            "accuracy": 33,
-                        },
+                            dateTimeUtc: "20200316T15:00:00Z",
+                            latitude: 500437275,
+                            longitude: 144545330,
+                            accuracy: 33
+                        }
                     ]
                 };
                 locationHistoryStorage.save(locationHistory);
-                this.$router.push({ path: 'map' })
+                this.$router.push({ path: "map" });
             });
     }
 }

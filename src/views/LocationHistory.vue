@@ -4,8 +4,9 @@
             <v-col cols="9">
                 <v-alert type="success" v-if="id">
                     <strong>Nahrávání úspěšné, děkujeme!</strong> <br />
-                    Prosím, sdělte pracovníkovi hygienické stanice následující kód:
-                    <h3>{{id}}</h3>
+                    Prosím, sdělte pracovníkovi hygienické stanice následující
+                    kód:
+                    <h3>{{ id }}</h3>
                 </v-alert>
             </v-col>
             <v-col cols="3">
