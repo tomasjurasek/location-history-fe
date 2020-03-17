@@ -19,16 +19,19 @@
                             {{ location.dateTimeUtc | datetime }}
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
-                            Souřadnice:
-                            {{ location.latitude / 10 ** 7 }},
-                            {{ location.longitude / 10 ** 7 }}
-                            <br />
-                            Přesnost:
-                            {{
-                                location.accuracy
-                                    ? `${location.accuracy} m`
-                                    : "-"
-                            }}
+                            <div>
+                                Souřadnice:
+                                {{
+                                    [
+                                        location.longitude / 10 ** 7,
+                                        location.latitude / 10 ** 7
+                                    ] | position
+                                }}
+                            </div>
+                            <div v-if="location.accuracy">
+                                Přesnost:
+                                {{ location.accuracy | distance }}
+                            </div>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>

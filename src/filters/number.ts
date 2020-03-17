@@ -1,6 +1,6 @@
-export function number(value?: number) {
+export function formatNumber(value?: number) {
     if (value == undefined) {
         return "";
     }
-    return value.toLocaleString();
+    return new Intl.NumberFormat("cs-CZ").format(value);
 }

@@ -11,7 +11,8 @@
                         Pomozte zjistit historii vaší polohy
                     </h2>
                     <p class="short-instructions">
-                        Historii polohy stáhněte z Google podle návodu .<br />
+                        Historii polohy stáhněte z Google podle
+                        <a href="#navod">návodu</a>.<br />
                         Výsledný soubor (nazvaný např.
                         <strong>takeout-20200315T062605Z-001.zip</strong>)
                         nahrajte zde:

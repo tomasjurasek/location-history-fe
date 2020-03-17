@@ -81,7 +81,7 @@ export default class LocationHistory extends Vue {
                         dateTimeUtc: "2020-03-16T15:00:00Z",
                         latitude: 500437275,
                         longitude: 144545330,
-                        accuracy: 33
+                        accuracy: 1033
                     }
                 ]
             };
