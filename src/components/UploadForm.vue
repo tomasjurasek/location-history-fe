@@ -1,9 +1,5 @@
 <template>
     <div class="form">
-        <v-alert class="failed" type="warning" v-if="uploadFailed">
-            <strong>Něco se pokazilo!</strong> <br />
-            Prosím, zkuste to znovu.
-        </v-alert>
         <v-file-input
             class="file-input"
             placeholder="Vybrat soubor"
@@ -17,7 +13,6 @@
             class="upload-button"
             v-on:click="submitFile()"
             :disabled="!file"
-            :loading="loading"
             color="success"
             x-large
             elevation="0"
@@ -74,55 +69,13 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import axios from "axios";
-import { locationHistoryStorage } from "@/services/LocationHistoryStorage";
 
 @Component({})
 export default class UploadForm extends Vue {
     file: any = null;
-    uploadFailed = false;
-    loading = false;
-    id: string = this.generateId();
-
-    generateId() {
-        return (
-            this.rand3Digits() +
-            "-" +
-            this.rand3Digits() +
-            "-" +
-            this.rand3Digits()
-        );
-    }
-
-    rand3Digits() {
-        return ("000" + Math.floor(Math.random() * 1000)).slice(-3);
-    }
 
     submitFile() {
-        this.uploadFailed = false;
-        this.loading = true;
-        const formData = new FormData();
-        formData.append("file", this.file);
-        axios
-            .post(
-                `${process.env.VUE_APP_API_URL}/users/${this.id}/file`,
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                }
-            )
-            .then(response => {
-                this.loading = false;
-                locationHistoryStorage.save(response.data);
-                this.$router.push({ path: "map" });
-            })
-            .catch(e => {
-                this.loading = false;
-                this.uploadFailed = true;
-                console.log("Chybka", e);
-            });
+        this.$root.$emit("upload-file", this.file);
     }
 }
 </script>

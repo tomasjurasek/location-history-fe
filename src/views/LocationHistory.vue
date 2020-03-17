@@ -1,27 +1,5 @@
 <template>
     <v-container class="pa-0">
-        <v-row class="ma2">
-            <v-col cols="9">
-                <v-alert type="success" v-if="id">
-                    <strong>Nahrávání úspěšné, děkujeme!</strong> <br />
-                    Prosím, sdělte pracovníkovi hygienické stanice následující
-                    kód:
-                    <h3>{{ id }}</h3>
-                </v-alert>
-            </v-col>
-            <v-col cols="3">
-                <v-btn
-                    class="primary ma-2"
-                    x-large
-                    elevation="0"
-                    :href="mailto"
-                    large
-                >
-                    <v-icon class="mr-2">mdi-email</v-icon>
-                    Odeslat e-mailem
-                </v-btn>
-            </v-col>
-        </v-row>
         <v-row no-gutters class="location-history">
             <v-col cols="9" class="fill-height">
                 <LocationHistoryMap

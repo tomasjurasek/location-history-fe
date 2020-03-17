@@ -1,68 +1,59 @@
 <template>
     <div>
-        <v-container class="header" fluid>
-            <v-row align="center" justify="center" no-gutters>
-                <v-col md="10">
-                    <h2 class="header__title">
-                        Pomozte zjistit historii vaší polohy
-                    </h2>
-                    <p class="short-instructions">
-                        Historii polohy stáhněte z Google podle
-                        <a href="#navod">návodu</a>.<br />
-                        Výsledný soubor (nazvaný např.
-                        <strong>takeout-20200315T062605Z-001.zip</strong>)
-                        nahrajte zde:
-                    </p>
-                    <UploadForm />
-                </v-col>
-            </v-row>
-        </v-container>
-        <Instructions />
-        <footer>
-            Footer. Zpracování dat, odkazy, atd.
-        </footer>
+        <IntroForm v-if="!loading"></IntroForm>
+        <Loading v-if="loading"></Loading>
     </div>
 </template>
 
-<style scoped>
-.header {
-    padding-top: 48px;
-    padding-bottom: 68px;
-
-    background-color: rgba(0, 45, 207, 0.8);
-    color: white;
-
-    text-align: center;
-}
-
-.header__title {
-    font-size: 36px;
-    font-weight: 500;
-}
-
-.short-instructions {
-    padding: 20px;
-    font-weight: 300;
-}
-
-.short-instructions a {
-    color: inherit;
-}
-
-footer {
-    padding: 90px;
-    background-color: rgba(65, 65, 65);
-    color: white;
-    text-align: center;
-}
-</style>
+<style scoped></style>
 
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
 import UploadForm from "@/components/UploadForm.vue";
 import Instructions from "./Instructions.vue";
+import IntroForm from "@/components/IntroForm.vue";
+import Loading from "./Loading.vue";
+import axios from "axios";
+import { locationHistoryStorage } from "@/services/LocationHistoryStorage";
 
-@Component({ components: { UploadForm, Instructions } })
-export default class Home extends Vue {}
+@Component({ components: { UploadForm, Instructions, IntroForm, Loading } })
+export default class Home extends Vue {
+    loading = false;
+    uploadFailed = false;
+
+    mounted() {
+        console.log("Registering ");
+        this.$root.$on("upload-file", (file: any) => {
+            console.log("Event fired ", event);
+            this.uploadFile(file);
+        });
+    }
+
+    uploadFile(file: any) {
+        this.loading = true;
+        console.log("Received upload file event", event);
+        const formData = new FormData();
+        formData.append("file", file);
+        axios
+            .post(`${process.env.VUE_APP_API_URL}/users/file`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+            .then(response => {
+                this.loading = false;
+                console.log(response.data.id);
+                this.$router.push({
+                    name: "Done",
+                    params: { id: response.data.id }
+                });
+            })
+            .catch(e => {
+                this.loading = false;
+                this.uploadFailed = true;
+                console.log("Chybka", e);
+            });
+    }
+}
 </script>
