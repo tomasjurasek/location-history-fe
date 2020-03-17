@@ -1,6 +1,6 @@
 import { format, parseISO } from "date-fns";
 
-export function datetime(value?: string) {
+export function formatDatetime(value?: string) {
     if (!value) {
         return "";
     }

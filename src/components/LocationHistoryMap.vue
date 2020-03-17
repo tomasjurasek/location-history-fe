@@ -12,6 +12,9 @@ import Component from "vue-class-component";
 import mapboxgl, { GeoJSONSource } from "mapbox-gl";
 import { Prop, Watch } from "vue-property-decorator";
 import { Location } from "@/types/Location";
+import { formatDistance } from "@/filters/distance";
+import { formatDatetime } from "@/filters/datetime";
+import { formatPosition } from "@/filters/position";
 
 @Component({})
 export default class LocationHistoryMap extends Vue {
@@ -39,6 +42,42 @@ export default class LocationHistoryMap extends Vue {
         });
         this.map.addControl(new mapboxgl.NavigationControl(), "top-right");
         this.map.addControl(new mapboxgl.ScaleControl(), "bottom-right");
+
+        const popup = new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: false
+        });
+
+        this.map.on("mouseenter", "points", event => {
+            this.map.getCanvas().style.cursor = "pointer";
+
+            const feature = event.features![0] as GeoJSON.Feature<
+                GeoJSON.Point
+            >;
+            const position = feature.geometry.coordinates as [number, number];
+            const location = feature.properties as Location;
+            const html = `
+                <div>Datum a čas: ${formatDatetime(location.dateTimeUtc)}</div>
+                <div>Souřadnice: ${formatPosition(position)}</div>
+                ${
+                    location.accuracy
+                        ? `
+                    <div>Přesnost: ${formatDistance(location.accuracy)}</div>
+                `
+                        : ""
+                }
+            `;
+
+            popup
+                .setLngLat(new mapboxgl.LngLat(position[0], position[1]))
+                .setHTML(html)
+                .addTo(this.map);
+        });
+        this.map.on("mouseleave", "points", () => {
+            this.map.getCanvas().style.cursor = "";
+            popup.remove();
+        });
+
         this.map.on("load", () => {
             this.map.addSource("lines", {
                 type: "geojson",
@@ -114,24 +153,21 @@ export default class LocationHistoryMap extends Vue {
                             location.latitude / 10 ** 7
                         ]
                     },
-                    properties: {
-                        dateTimeUtc: location.dateTimeUtc,
-                        accuracy: location.accuracy
-                    }
+                    properties: location
                 };
             })
         });
 
-        const coords = this.locations.map(
+        const positions = this.locations.map(
             location =>
                 new mapboxgl.LngLat(
                     location.longitude / 10 ** 7,
                     location.latitude / 10 ** 7
                 )
         );
-        const bounds = coords.reduce(
-            (bounds, coord) => bounds.extend(coord),
-            new mapboxgl.LngLatBounds(coords[0], coords[0])
+        const bounds = positions.reduce(
+            (bounds, position) => bounds.extend(position),
+            new mapboxgl.LngLatBounds(positions[0], positions[0])
         );
         this.map.fitBounds(bounds, { padding: 100, maxDuration: 1 });
     }

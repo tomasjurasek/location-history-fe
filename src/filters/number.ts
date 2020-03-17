@@ -1,4 +1,4 @@
-export function number(value?: number) {
+export function formatNumber(value?: number) {
     if (value == undefined) {
         return "";
     }
