@@ -1,5 +1,5 @@
 <template>
-    <v-row align="center" justify="center" no-gutters>
+    <v-row id="navod" align="center" justify="center" no-gutters>
         <v-col md="7">
             <h1>Návod jak stáhnout data z Google</h1>
 
