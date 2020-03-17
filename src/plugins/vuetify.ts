@@ -5,6 +5,11 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
     theme: {
+        themes: {
+            light: {
+                anchor: "#002DCF"
+            }
+        },
         options: {
             customProperties: true
         }
