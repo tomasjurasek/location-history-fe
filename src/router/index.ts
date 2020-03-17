@@ -4,8 +4,8 @@ import Home from "@/views/Home.vue";
 import LocationHistory from "@/views/LocationHistory.vue";
 import About from "@/views/About.vue";
 import Instructions from "@/views/Instructions.vue";
-import Loading from "@/views/Loading.vue";
 import Done from "@/views/Done.vue";
+import Error from "@/views/Error.vue";
 
 Vue.use(VueRouter);
 
@@ -34,6 +34,11 @@ const routes = [
         path: "/done/:id",
         name: "Done",
         component: Done
+    },
+    {
+        path: "/error",
+        name: "Error",
+        component: Error
     }
 ];
 
