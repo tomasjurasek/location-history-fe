@@ -1,38 +1,38 @@
 <template>
-    <div class="pa-3">
+    <v-container class="header" fluid>
         <v-row align="center" justify="center" no-gutters>
-            <v-col cols="10">
+            <v-col md="10" class="text-center">
                 <h1 class="text-center">Stránka nebyla nalezena</h1>
-            </v-col>
-        </v-row>
-        <v-row align="center" justify="center">
-            <v-col cols="10" class="text-center">
-                <span class="xxl">404</span>
-            </v-col>
-        </v-row>
-        <v-row align="center" justify="center">
-            <v-col cols="10" class="text-center">
-                <p>
+                <span class="icon">404</span>
+                <p class="description">
                     Zadali jste buď chybnout adresu stránky a nebo stránka již
                     neexistuje.
                 </p>
-            </v-col>
-        </v-row>
-
-        <v-row align="center" justify="center">
-            <v-col cols="10" class="text-center">
                 <v-btn class="primary ma-2" x-large elevation="0" to="/" large>
                     <v-icon class="mr-2">mdi-home</v-icon>
                     Domů
                 </v-btn>
             </v-col>
         </v-row>
-    </div>
+    </v-container>
 </template>
 
 <style scoped>
-.xxl {
-    font-size: 8em;
+h1 {
+    margin: 40px 0 28px 0;
+    font-size: 36px;
+    font-weight: 900;
+}
+
+.icon {
+    display: block;
+    margin: 0;
+    margin-bottom: 40px;
+    font-size: 96px;
+}
+
+.description {
+    margin: 40px 0;
 }
 </style>
 
