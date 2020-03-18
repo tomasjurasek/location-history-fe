@@ -15,7 +15,14 @@
                         v-for="(location, index) in selectedLocations"
                         :key="index"
                     >
-                        <v-expansion-panel-header>
+                        <v-expansion-panel-header
+                            @mouseover="
+                                $emit('update:highlightedLocation', location)
+                            "
+                            @mouseout="
+                                $emit('update:highlightedLocation', null)
+                            "
+                        >
                             {{ location.dateTimeUtc | datetime }}
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>

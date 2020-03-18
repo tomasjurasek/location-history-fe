@@ -15,6 +15,7 @@ import { Location } from "@/types/Location";
 import { formatDistance } from "@/filters/distance";
 import { formatDatetime } from "@/filters/datetime";
 import { formatPosition } from "@/filters/position";
+import colors from "vuetify/lib/util/colors";
 
 @Component({})
 export default class LocationHistoryMap extends Vue {
@@ -22,11 +23,16 @@ export default class LocationHistoryMap extends Vue {
         map: HTMLDivElement;
     };
 
+    @Prop({ default: [] }) locations!: Location[];
+    @Prop() highlightedLocation!: Location;
+    @Prop() drawLine!: boolean;
+
     map!: mapboxgl.Map;
     mapLoaded = false;
 
-    @Prop({ default: [] }) locations!: Location[];
-    @Prop({ default: false }) drawLine!: boolean;
+    red = colors.red.base;
+    blue = colors.blue.accent4;
+    grey = colors.grey.lighten1;
 
     async mounted() {
         this.loadMap();
@@ -89,13 +95,17 @@ export default class LocationHistoryMap extends Vue {
                 type: "geojson",
                 data: { type: "FeatureCollection", features: [] }
             });
+            this.map.addSource("points-highlighted", {
+                type: "geojson",
+                data: { type: "FeatureCollection", features: [] }
+            });
             this.map.addLayer({
                 id: "lines",
                 type: "line",
                 source: "lines",
                 layout: {},
                 paint: {
-                    "line-color": "#ff0000"
+                    "line-color": this.red
                 }
             });
             this.map.addLayer({
@@ -104,7 +114,16 @@ export default class LocationHistoryMap extends Vue {
                 source: "points",
                 layout: {},
                 paint: {
-                    "circle-color": "#ff0000"
+                    "circle-color": this.red
+                }
+            });
+            this.map.addLayer({
+                id: "points-highlighted",
+                type: "circle",
+                source: "points-highlighted",
+                layout: {},
+                paint: {
+                    "circle-color": this.blue
                 }
             });
 
@@ -172,6 +191,47 @@ export default class LocationHistoryMap extends Vue {
             new mapboxgl.LngLatBounds(positions[0], positions[0])
         );
         this.map.fitBounds(bounds, { padding: 100, maxDuration: 1 });
+    }
+
+    @Watch("highlightedLocation")
+    renderHighlightedLocation() {
+        if (!this.map || !this.mapLoaded) {
+            setTimeout(() => this.renderHighlightedLocation(), 200);
+            return;
+        }
+
+        if (this.highlightedLocation) {
+            this.map.setPaintProperty("lines", "line-color", this.grey);
+            this.map.setPaintProperty("points", "circle-color", this.grey);
+            (this.map.getSource("points-highlighted") as GeoJSONSource).setData(
+                {
+                    type: "FeatureCollection",
+                    features: [
+                        {
+                            type: "Feature",
+                            geometry: {
+                                type: "Point",
+                                coordinates: [
+                                    this.highlightedLocation.longitude /
+                                        10 ** 7,
+                                    this.highlightedLocation.latitude / 10 ** 7
+                                ]
+                            },
+                            properties: this.highlightedLocation
+                        }
+                    ]
+                }
+            );
+        } else {
+            this.map.setPaintProperty("lines", "line-color", this.red);
+            this.map.setPaintProperty("points", "circle-color", this.red);
+            (this.map.getSource("points-highlighted") as GeoJSONSource).setData(
+                {
+                    type: "FeatureCollection",
+                    features: []
+                }
+            );
+        }
     }
 
     @Watch("drawLine")

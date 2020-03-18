@@ -34,6 +34,7 @@
             <v-col cols="9" class="fill-height">
                 <LocationHistoryMap
                     :locations="date ? selectedLocations : locations"
+                    :highlighted-location="highlightedLocation"
                     :draw-line="!!date"
                 />
             </v-col>
@@ -43,6 +44,7 @@
                     :locations="locations"
                     :selected-locations="selectedLocations"
                     @update:date="filterLocations"
+                    @update:highlightedLocation="highlightedLocation = $event"
                 />
             </v-col>
         </v-row>
@@ -73,6 +75,7 @@ export default class LocationHistory extends Vue {
 
     locations: Location[] = [];
     selectedLocations: Location[] = [];
+    highlightedLocation: Location | null = null;
     date = "";
 
     mounted() {
