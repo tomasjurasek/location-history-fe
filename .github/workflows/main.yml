@@ -9,5 +9,6 @@ jobs:
          with:
            zeit-token: ${{ secrets.ZEIT_TOKEN }}
            zeit-team-id: ceskodigital
+           now-args: '--prod'
            now-project-id: ${{ secrets.NOW_PROJECT_ID }}
            now-org-id: ${{ secrets.NOW_ORG_ID }}
