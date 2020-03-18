@@ -57,13 +57,15 @@ export default class LocationHistoryMap extends Vue {
             const position = feature.geometry.coordinates as [number, number];
             const location = feature.properties as Location;
             const html = `
-                <div>Datum a čas: ${formatDatetime(location.dateTimeUtc)}</div>
+                <div class="body-2 mb-3">${formatDatetime(
+                    location.dateTimeUtc
+                )}</div>
                 <div>Souřadnice: ${formatPosition(position)}</div>
                 ${
                     location.accuracy
-                        ? `
-                    <div>Přesnost: ${formatDistance(location.accuracy)}</div>
-                `
+                        ? `<div>Přesnost: ${formatDistance(
+                              location.accuracy
+                          )}</div>`
                         : ""
                 }
             `;
