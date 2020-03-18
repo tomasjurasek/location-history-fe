@@ -1,0 +1,21 @@
+name: ZEIT Now Deployment
+  uses: amondnet/now-deployment@v2.0.1
+  with:
+    # zeit.co token
+    zeit-token: 1zn5oMP6ZcBSQERhnSbX8Atz
+    #  This is required if your deployment is made on team project.
+    zeit-team-id: ceskodigital
+    # 
+    now-args: # optional, default is 
+    # if you want to comment on pr and commit, set true, default: true
+    github-comment: # optional, default is true
+    # if you want to comment on pr and commit, set token
+    github-token: # optional
+    # if you want to create github deployment, set true, default: false
+    github-deployment: # optional, default is false
+    # the working directory
+    working-directory: # optional
+    # Now CLI 17+, ❗️  The `name` property in now.json is deprecated (https://zeit.ink/5F)
+    now-project-id: location-history-fe
+    # Now CLI 17+, ❗️  The `name` property in now.json is deprecated (https://zeit.ink/5F)
+    now-org-id: ceskodigital
