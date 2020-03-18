@@ -13,7 +13,7 @@
                         <strong>takeout-20200315T062605Z-001.zip</strong>)
                         nahrajte zde:
                     </p>
-                    <UploadForm />
+                    <UploadForm @upload-file="$emit('upload-file', $event)" />
                 </v-col>
             </v-row>
         </v-container>

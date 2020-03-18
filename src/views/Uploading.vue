@@ -18,7 +18,8 @@
                     rounded
                 ></v-progress-linear>
                 <p class="text-center description">
-                    Mějte strpení, data se mohou nahrávat několik minut.
+                    Mějte strpení, data se mohou nahrávat a zpracovávat několik
+                    minut.
                 </p>
             </v-col>
         </v-row>

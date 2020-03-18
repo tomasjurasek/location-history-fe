@@ -72,10 +72,10 @@ import Component from "vue-class-component";
 
 @Component({})
 export default class UploadForm extends Vue {
-    file: any = null;
+    file: File | null = null;
 
     submitFile() {
-        this.$root.$emit("upload-file", this.file);
+        this.$emit("upload-file", this.file);
     }
 }
 </script>
