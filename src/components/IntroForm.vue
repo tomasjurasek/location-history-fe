@@ -8,7 +8,7 @@
                     </h2>
                     <p class="short-instructions">
                         Historii polohy stáhněte z Google podle
-                        <a href="#navod">návodu</a>.<br />
+                        <a href="#navod">návodu níže</a>.<br />
                         Výsledný soubor (nazvaný např.
                         <strong>takeout-20200315T062605Z-001.zip</strong>)
                         nahrajte zde:
