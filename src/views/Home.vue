@@ -21,7 +21,6 @@ import { UploadStatus } from "@/types/UploadStatus";
     components: { UploadForm, Instructions, IntroForm, Uploading }
 })
 export default class Home extends Vue {
-    id = "";
     uploading = false;
 
     UploadStatus = UploadStatus;
@@ -39,11 +38,10 @@ export default class Home extends Vue {
                 }
             });
 
-            this.id = response.data.id;
-
             this.$router.push({
                 name: "Status",
-                params: { id: this.id }
+                params: { id: response.data.id },
+                query: { token: response.data.token }
             });
         } catch (e) {
             this.$router.push({

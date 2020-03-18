@@ -68,6 +68,7 @@ import axios from "axios";
 })
 export default class LocationHistory extends Vue {
     id = "";
+    token = "";
     mailto = "";
 
     locations: Location[] = [];
@@ -76,6 +77,7 @@ export default class LocationHistory extends Vue {
 
     mounted() {
         this.id = this.$route.params.id;
+        this.token = this.$route.query.token as string;
         this.mailto = `mailto:test@hygiena.cz?subject=Data pro ${this.id}`;
 
         this.loadLocations();
@@ -101,7 +103,8 @@ export default class LocationHistory extends Vue {
         }
 
         const url = `${process.env.VUE_APP_API_URL}/users/${this.id}/locations`;
-        const response = await axios.get(url);
+        const params = { token: this.token };
+        const response = await axios.get(url, { params });
         this.locations = response.data;
     }
 

@@ -18,11 +18,13 @@ import { UploadStatus } from "@/types/UploadStatus";
 })
 export default class Home extends Vue {
     id = "";
+    token = "";
 
     UploadStatus = UploadStatus;
 
     mounted() {
         this.id = this.$route.params.id;
+        this.token = this.$route.query.token as string;
 
         this.checkStatusAndRedirectWhenDone();
     }
@@ -30,14 +32,16 @@ export default class Home extends Vue {
     async checkStatusAndRedirectWhenDone() {
         // TODO: check for status endpoint
         const url = `${process.env.VUE_APP_API_URL}/users/${this.id}/locations`;
-        const response = await axios.get(url);
+        const params = { token: this.token };
+        const response = await axios.get(url, { params });
         const locations = response.data;
         console.log(locations);
 
         if (locations && locations.length) {
             this.$router.push({
                 name: "LocationHistory",
-                params: { id: this.id }
+                params: { id: this.id },
+                query: { token: this.token }
             });
         } else {
             setTimeout(() => this.checkStatusAndRedirectWhenDone(), 10 * 1000);
