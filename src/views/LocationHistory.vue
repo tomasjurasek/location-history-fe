@@ -172,7 +172,7 @@ export default class LocationHistory extends Vue {
     token = "";
     mailto = "";
     isProccesing = true;
-    noLocationsFound = true;
+    noLocationsFound = false;
 
     locations: Location[] = [];
     selectedLocations: Location[] = [];
