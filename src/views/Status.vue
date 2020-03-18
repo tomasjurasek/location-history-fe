@@ -41,7 +41,9 @@ export default class Home extends Vue {
                 query: { token: this.token }
             });
         } catch (error) {
-            console.error({ error });
+            this.$router.push({
+                name: "Error"
+            });
         }
     }
 }
