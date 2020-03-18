@@ -6,6 +6,7 @@ import About from "@/views/About.vue";
 import Instructions from "@/views/Instructions.vue";
 import Done from "@/views/Done.vue";
 import Error from "@/views/Error.vue";
+import NotFound from "@/views/NotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
         path: "/error",
         name: "Error",
         component: Error
+    },
+    {
+        path: "*",
+        name: "NotFound",
+        component: NotFound
     }
 ];
 
