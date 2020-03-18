@@ -33,18 +33,15 @@ export default class Home extends Vue {
         // TODO: check for status endpoint
         const url = `${process.env.VUE_APP_API_URL}/users/${this.id}/locations`;
         const params = { token: this.token };
-        const response = await axios.get(url, { params });
-        const locations = response.data;
-        console.log(locations);
-
-        if (locations && locations.length) {
+        try {
+            const response = await axios.get(url, { params });
             this.$router.push({
                 name: "LocationHistory",
                 params: { id: this.id },
                 query: { token: this.token }
             });
-        } else {
-            setTimeout(() => this.checkStatusAndRedirectWhenDone(), 10 * 1000);
+        } catch (error) {
+            console.error({ error });
         }
     }
 }
