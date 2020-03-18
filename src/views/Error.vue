@@ -1,39 +1,39 @@
 <template>
-    <div class="pa-3">
+    <v-container class="header" fluid>
         <v-row align="center" justify="center" no-gutters>
-            <v-col cols="10">
-                <h1 class="text-center mb-10">Nastala chyba</h1>
-            </v-col>
-        </v-row>
-        <v-row align="center" justify="center">
-            <v-col cols="3" class="text-center">
-                <v-icon color="red darken-2" class="xxl"
+            <v-col md="10" class="text-center">
+                <h1 class="text-center">Nastala chyba</h1>
+                <v-icon color="red darken-2" class="icon"
                     >mdi-cloud-off-outline</v-icon
                 >
-            </v-col>
-        </v-row>
-        <v-row align="center" justify="center">
-            <v-col cols="10" class="text-center">
-                <p>
+                <p class="description">
                     Něco se nepovedlo, zkuste to, prosím znovu.
                 </p>
-            </v-col>
-        </v-row>
-
-        <v-row align="center" justify="center">
-            <v-col cols="3" class="text-center">
                 <v-btn class="primary ma-2" x-large elevation="0" to="/" large>
                     <v-icon class="mr-2">mdi-reload</v-icon>
                     Zpět
                 </v-btn>
             </v-col>
         </v-row>
-    </div>
+    </v-container>
 </template>
 
 <style scoped>
-.xxl {
-    font-size: 11em;
+h1 {
+    margin: 40px 0 28px 0;
+    font-size: 36px;
+    font-weight: 900;
+}
+
+.icon {
+    display: block;
+    margin: 0;
+    margin-bottom: 40px;
+    font-size: 96px;
+}
+
+.description {
+    margin: 40px 0;
 }
 </style>
 

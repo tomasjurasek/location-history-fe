@@ -1,16 +1,11 @@
 <template>
-    <div class="pa-3">
+    <v-container class="header" fluid>
         <v-row align="center" justify="center" no-gutters>
-            <v-col cols="10">
-                <h1 class="text-center mb-10">Nahrávání úspěšné, děkujeme!</h1>
-            </v-col>
-        </v-row>
-        <v-row align="center" justify="center">
-            <v-col cols="3" class="text-center">
-                <v-icon color="green darken-2" class="xxl"
+            <v-col md="10" class="text-center">
+                <h1 class="text-center">Nahrávání úspěšné, děkujeme!</h1>
+                <v-icon color="green darken-2" class="icon"
                     >mdi-cloud-check</v-icon
                 >
-
                 <v-btn
                     class="primary ma-2"
                     x-large
@@ -21,23 +16,37 @@
                     <v-icon class="mr-2">mdi-email</v-icon>
                     Odeslat e-mailem
                 </v-btn>
-            </v-col>
-        </v-row>
-        <v-row align="center" justify="center">
-            <v-col cols="10" class="text-center">
-                <p>
+                <p class="description">
                     Nebo sdělte pracovníkovi hygienické stanice váš unikátní
                     identifikátor:
                 </p>
-                <h3 class="mt-0">{{ id }}</h3>
+                <div class="id">{{ id }}</div>
             </v-col>
         </v-row>
-    </div>
+    </v-container>
 </template>
 
 <style scoped>
-.xxl {
-    font-size: 11em;
+h1 {
+    margin: 40px 0 28px 0;
+    font-size: 36px;
+    font-weight: 900;
+}
+
+.icon {
+    display: block;
+    margin: 0;
+    margin-bottom: 40px;
+    font-size: 96px;
+}
+
+.description {
+    margin: 40px 0 28px 0;
+}
+
+.id {
+    font-size: 28px;
+    font-weight: 600;
 }
 </style>
 
