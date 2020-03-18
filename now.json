@@ -1,0 +1,9 @@
+{
+    "version": 2,
+    "alias": "lokace.cesko.dev",
+    "github": {
+        "enabled": true,
+        "silent": false
+    },
+    "regions": ["bru1","cdg1","lhr1"]
+}
