@@ -1,25 +1,33 @@
 <template>
     <v-container class="pa-0">
-        <v-row class="ma2">
-            <v-col cols="9">
-                <v-alert type="success" v-if="id">
-                    <strong>Nahrávání úspěšné, děkujeme!</strong> <br />
-                    Prosím, sdělte pracovníkovi hygienické stanice následující
-                    kód:
-                    <h3>{{ id }}</h3>
-                </v-alert>
+        <v-row class="mb-3">
+            <v-col style="flex: 0">
+                <v-icon color="success" large>mdi-cloud-check</v-icon>
             </v-col>
-            <v-col cols="3">
-                <v-btn
-                    class="primary ma-2"
-                    x-large
-                    elevation="0"
-                    :href="mailto"
-                    large
-                >
-                    <v-icon class="mr-2">mdi-email</v-icon>
-                    Odeslat e-mailem
-                </v-btn>
+            <v-col>
+                <span class="title">Nahrávání úspěšné, děkujeme!</span>
+                <br /><br />
+                Pro vaše data byl přiřazen následující kód. Pro úspěšné
+                dokončení ho odešlete e-mailem nebo sdělte pracovníkovi
+                hygienické stanice:
+                <br /><br />
+                <div>
+                    <span
+                        class="display-1 mr-5"
+                        style="vertical-align: middle"
+                        >{{ id }}</span
+                    >
+                    <v-btn
+                        class="success"
+                        x-large
+                        elevation="0"
+                        :href="mailto"
+                        large
+                    >
+                        <v-icon class="mr-2">mdi-email</v-icon>
+                        Odeslat e-mailem
+                    </v-btn>
+                </div>
             </v-col>
         </v-row>
         <v-row no-gutters class="location-history">
