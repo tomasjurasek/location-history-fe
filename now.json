@@ -6,7 +6,9 @@
         "silent": false
     },
     "regions": ["bru1","cdg1","lhr1"],
-    "env": {
-        "VUE_APP_API_URL": "https://location-history-api.azurewebsites.net/api"
+    "build": {
+        "env": {
+            "VUE_APP_API_URL": "https://location-history-api.azurewebsites.net/api"
+        }
     }
 }
