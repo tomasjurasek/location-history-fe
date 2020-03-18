@@ -3,9 +3,7 @@
         <v-row align="center" justify="center" no-gutters>
             <v-col md="10" class="text-center">
                 <h1 class="text-center">Nahrávání úspěšné, děkujeme!</h1>
-                <v-icon color="green darken-2" class="icon"
-                    >mdi-cloud-check</v-icon
-                >
+                <v-icon class="icon">mdi-cloud-check</v-icon>
                 <v-btn
                     class="primary ma-2"
                     x-large
@@ -38,6 +36,7 @@ h1 {
     margin: 0;
     margin-bottom: 40px;
     font-size: 96px;
+    color: #5cb120;
 }
 
 .description {
