@@ -17,23 +17,22 @@
                     pracovníkovi hygienické stanice:
                     <br />
                     <br />
-                    <div>
-                        <span
-                            class="display-1 mr-6"
-                            style="vertical-align: middle"
-                            >{{ id }}</span
-                        >
-                        <v-btn
-                            class="success"
-                            x-large
-                            elevation="0"
-                            :href="mailto"
-                            large
-                        >
-                            <v-icon class="mr-2">mdi-email</v-icon>Odeslat
-                            e-mailem
-                        </v-btn>
-                    </div>
+                </div>
+                <div>
+                    <span
+                        class="display-1 mr-6"
+                        style="vertical-align: middle"
+                        >{{ id }}</span
+                    >
+                    <v-btn
+                        class="success"
+                        x-large
+                        elevation="0"
+                        :href="mailto"
+                        large
+                    >
+                        <v-icon class="mr-2">mdi-email</v-icon>Odeslat e-mailem
+                    </v-btn>
                 </div>
             </v-col>
         </v-row>
