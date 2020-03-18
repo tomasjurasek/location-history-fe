@@ -16,7 +16,7 @@
                     height="16"
                     indeterminate
                     rounded
-                ></v-progress-linear>
+                />
                 <p class="text-center description">
                     Mějte strpení, data se mohou nahrávat a zpracovávat několik
                     minut.

@@ -16,7 +16,7 @@
                 clearable
                 v-on="on"
                 readonly
-            ></v-text-field>
+            />
         </template>
         <v-date-picker
             :value="value"
@@ -24,7 +24,7 @@
             :first-day-of-week="1"
             no-title
             @input="onInput"
-        ></v-date-picker>
+        />
     </v-menu>
 </template>
 
@@ -44,9 +44,7 @@ export default class DatePicker extends Vue {
     menu = false;
 
     isDateAllowed(date: string) {
-        return this.allowedDates && this.allowedDates.length
-            ? this.allowedDates.includes(date)
-            : true;
+        return this.allowedDates ? this.allowedDates.includes(date) : true;
     }
 
     onInput(value: string) {

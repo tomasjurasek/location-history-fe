@@ -8,7 +8,7 @@
             background-color="white"
             hide-details
             outlined
-        ></v-file-input>
+        />
         <v-btn
             class="upload-button"
             v-on:click="submitFile()"
@@ -17,8 +17,9 @@
             x-large
             elevation="0"
             dark
-            >Nahrát</v-btn
         >
+            Nahrát
+        </v-btn>
     </div>
 </template>
 

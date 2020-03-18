@@ -14,9 +14,11 @@
                                     <a
                                         href="https://takeout.google.com"
                                         target="_blank"
-                                        >Google Takeout -
-                                        https://takeout.google.com</a
-                                    ><br />
+                                    >
+                                        Google Takeout -
+                                        https://takeout.google.com
+                                    </a>
+                                    <br />
                                     a přihlaste se
                                 </h2>
                             </div>
@@ -90,12 +92,13 @@
                             <div>
                                 <h2 class="step__title">
                                     Vyberte
-                                    <strong
-                                        >Odeslat odkaz ke stažení
-                                        e-mailem</strong
-                                    >
+                                    <strong>
+                                        Odeslat odkaz ke stažení e-mailem
+                                    </strong>
                                     a klikněte na tlačítko
-                                    <strong>Vytvořit export</strong>
+                                    <strong>
+                                        Vytvořit export
+                                    </strong>
                                 </h2>
                             </div>
                         </header>
@@ -158,9 +161,9 @@
                                 </h2>
                                 <p class="step__description">
                                     Zbývá už jen
-                                    <strong
-                                        >nahrát stáhnutý soubor tady:</strong
-                                    >
+                                    <strong>
+                                        nahrát stáhnutý soubor tady:
+                                    </strong>
                                 </p>
                             </div>
                         </header>

@@ -1,6 +1,6 @@
 <template>
-    <v-row no-gutters class="flex-column fill-height">
-        <v-col class="pa-3" style="flex: 0">
+    <v-row no-gutters class="flex-column fill-height ml-6">
+        <v-col style="flex: 0">
             <h2>Detaily</h2>
             <DatePicker
                 :value="date"
@@ -8,7 +8,7 @@
                 @input="$emit('update:date', $event)"
             />
         </v-col>
-        <v-col class="pa-3 overflow-y-auto">
+        <v-col class="pa-1 overflow-y-auto">
             <div v-if="date">
                 <v-expansion-panels v-if="selectedLocations.length">
                     <v-expansion-panel
@@ -36,13 +36,15 @@
                     </v-expansion-panel>
                 </v-expansion-panels>
                 <div v-else>
-                    <em class="grey--text">Žádné body ke zobrazení</em>
+                    <span class="caption grey--text">
+                        Žádné body ke zobrazení
+                    </span>
                 </div>
             </div>
             <div v-else>
-                <em class="grey--text"
-                    >Vyberte datum ke zobrazení detailů bodů</em
-                >
+                <span class="caption grey--text">
+                    Vyberte datum ke zobrazení podrobností
+                </span>
             </div>
         </v-col>
     </v-row>

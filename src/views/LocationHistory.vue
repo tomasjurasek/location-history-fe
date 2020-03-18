@@ -1,22 +1,22 @@
 <template>
     <v-container class="pa-0">
-        <v-row class="mb-3">
-            <v-col style="flex: 0">
+        <v-row no-gutters class="my-6">
+            <v-col class="mr-6" style="flex: 0">
                 <v-icon color="success" large>mdi-cloud-check</v-icon>
             </v-col>
             <v-col>
-                <span class="title">Nahrávání úspěšné, děkujeme!</span>
+                <span class="title">
+                    Nahrávání úspěšné, děkujeme!
+                </span>
                 <br /><br />
-                Pro vaše data byl přiřazen následující kód. Pro úspěšné
-                dokončení ho odešlete e-mailem nebo sdělte pracovníkovi
+                Pro vaše data byl přiřazen následující identifikátor. Pro
+                úspěšné dokončení ho odešlete e-mailem nebo sdělte pracovníkovi
                 hygienické stanice:
                 <br /><br />
                 <div>
-                    <span
-                        class="display-1 mr-5"
-                        style="vertical-align: middle"
-                        >{{ id }}</span
-                    >
+                    <span class="display-1 mr-6" style="vertical-align: middle">
+                        {{ id }}
+                    </span>
                     <v-btn
                         class="success"
                         x-large
