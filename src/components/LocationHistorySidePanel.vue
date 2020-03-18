@@ -19,7 +19,7 @@
                             {{ location.dateTimeUtc | datetime }}
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
-                            <div>
+                            <div class="caption">
                                 Souřadnice:
                                 {{
                                     [
@@ -28,7 +28,7 @@
                                     ] | position
                                 }}
                             </div>
-                            <div v-if="location.accuracy">
+                            <div class="caption" v-if="location.accuracy">
                                 Přesnost:
                                 {{ location.accuracy | distance }}
                             </div>
