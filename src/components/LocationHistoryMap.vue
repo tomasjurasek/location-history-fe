@@ -32,7 +32,7 @@ export default class LocationHistoryMap extends Vue {
 
     red = colors.red.base;
     blue = colors.blue.accent4;
-    grey = colors.grey.lighten1;
+    grey = colors.grey.base;
 
     async mounted() {
         this.loadMap();
