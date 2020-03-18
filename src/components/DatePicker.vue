@@ -16,7 +16,42 @@
                 clearable
                 v-on="on"
                 readonly
-            />
+            >
+                <template #append-outer>
+                    <v-btn
+                        title="Předchozí"
+                        icon
+                        text
+                        :disabled="!value || allowedDates.indexOf(value) === 0"
+                        @click="
+                            $emit(
+                                'input',
+                                allowedDates[allowedDates.indexOf(value) - 1]
+                            )
+                        "
+                    >
+                        <v-icon>mdi-chevron-left</v-icon>
+                    </v-btn>
+                    <v-btn
+                        title="Následující"
+                        icon
+                        text
+                        :disabled="
+                            !value ||
+                                allowedDates.indexOf(value) ===
+                                    allowedDates.length - 1
+                        "
+                        @click="
+                            $emit(
+                                'input',
+                                allowedDates[allowedDates.indexOf(value) + 1]
+                            )
+                        "
+                    >
+                        <v-icon>mdi-chevron-right</v-icon>
+                    </v-btn>
+                </template>
+            </v-text-field>
         </template>
         <v-date-picker
             :value="value"
@@ -28,7 +63,11 @@
     </v-menu>
 </template>
 
-<style scoped></style>
+<style scoped>
+.v-input /deep/ .v-input__append-outer {
+    margin-top: -2px;
+}
+</style>
 
 <script lang="ts">
 import Vue from "vue";
