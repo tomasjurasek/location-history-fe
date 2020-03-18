@@ -7,7 +7,7 @@ jobs:
        - uses: actions/checkout@v2
        - uses: amondnet/now-deployment@v2.0.1
          with:
-           zeit-token: ${{secrets.ZEIT_TOKEN}}
+           zeit-token: ${{ secrets.ZEIT_TOKEN }}
            zeit-team-id: ceskodigital
-           now-project-id: location-histor-fe
-           now-org-id: ceskodigital
+           now-project-id: ${{ secrets.NOW_PROJECT_ID }}
+           now-org-id: ${{ secrets.NOW_ORG_ID }}
