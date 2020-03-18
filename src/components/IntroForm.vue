@@ -61,7 +61,7 @@ footer {
 import Vue from "vue";
 import Component from "vue-class-component";
 import UploadForm from "@/components/UploadForm.vue";
-import Instructions from "../views/Instructions.vue";
+import Instructions from "@/components/Instructions.vue";
 
 @Component({ components: { UploadForm, Instructions } })
 export default class IntroForm extends Vue {}

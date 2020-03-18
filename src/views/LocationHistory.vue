@@ -1,43 +1,51 @@
 <template>
-    <v-container class="pa-0">
-        <v-row no-gutters class="my-6">
-            <v-col class="mr-6" style="flex: 0">
-                <v-icon color="success" large>mdi-cloud-check</v-icon>
-            </v-col>
-            <v-col>
-                <!-- todo FE better structure -->
-                <div v-if="isProccesing">
-                    <Uploading :status="UploadStatus.PROCESSING" />
-                </div>
-                <div v-else>
-                    <span class="title">Nahrávání úspěšné, děkujeme!</span>
-                    <br />
-                    <br />Pro vaše data byl přiřazen následující identifikátor.
-                    Pro úspěšné dokončení ho odešlete e-mailem nebo sdělte
-                    pracovníkovi hygienické stanice:
-                    <br />
-                    <br />
-                </div>
-                <div>
-                    <span
-                        class="display-1 mr-6"
-                        style="vertical-align: middle"
-                        >{{ id }}</span
+    <v-container fluid class="content">
+        <v-row no-gutters>
+            <v-col class="success-info-wrapper">
+                <div class="spacer"></div>
+                <div class="success-info">
+                    <v-icon class="success-info__icon" color="success" large
+                        >mdi-cloud-check</v-icon
                     >
-                    <v-btn
-                        class="success"
-                        x-large
-                        elevation="0"
-                        :href="mailto"
-                        large
-                    >
-                        <v-icon class="mr-2">mdi-email</v-icon>Odeslat e-mailem
-                    </v-btn>
+                    <h3 class="success-info__title">
+                        Nahrávání úspěšné, děkujeme!
+                    </h3>
+                    <p class="success-info__description">
+                        Pro vaše data byl přiřazen následující identifikátor.
+                        Pro úspěšné dokončení ho odešlete e-mailem nebo sdělte
+                        pracovníkovi hygienické stanice:
+                    </p>
+                    <div>
+                        <span class="code">{{ id }}</span>
+                        <v-btn
+                            class="success"
+                            large
+                            elevation="0"
+                            :href="mailto"
+                        >
+                            Odeslat e-mailem
+                        </v-btn>
+                    </div>
                 </div>
             </v-col>
         </v-row>
         <v-row no-gutters class="location-history">
-            <v-col cols="9" class="fill-height">
+            <v-col cols="9" class="fill-height map">
+                <div v-if="isProccesing" class="map-overlay loading">
+                    <Loading
+                        title="Zpracovávání ..."
+                        description="Mějte strpení, před zobrazením dat v mapě, je třeba je nejprve zpracovat, může to trvat několik minut."
+                    />
+                </div>
+                <div
+                    v-else-if="noLocationsFound"
+                    class="map-overlay no-locations-found"
+                >
+                    <h3>Bohužel</h3>
+                    <p>
+                        Za poslední dobu nebyly nalezeny žádné záznamy polohy.
+                    </p>
+                </div>
                 <LocationHistoryMap
                     :locations="date ? selectedLocations : locations"
                     :highlighted-location="highlightedLocation"
@@ -58,8 +66,92 @@
 </template>
 
 <style scoped>
+.content {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0;
+    height: 100%;
+}
+
+.content > * {
+    flex: 0 0 auto;
+}
+
+.spacer {
+    flex: 1 0 auto;
+    max-width: 150px;
+}
+
+.success-info-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.success-info {
+    position: relative;
+    margin: 32px;
+    margin-bottom: 52px;
+
+    flex: 0 1 auto;
+
+    padding-left: 52px;
+}
+
+.success-info__icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.success-info__title {
+    line-height: 36px;
+}
+
+.success-info__description {
+    margin-top: 12px;
+    margin-bottom: 40px;
+}
+
+.code {
+    font-size: 36px;
+    margin-right: 32px;
+    vertical-align: middle;
+}
+
 .location-history {
-    height: 600px;
+    flex: 1 0 auto;
+}
+
+.map {
+    position: relative;
+}
+
+.map-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: white;
+
+    z-index: 100;
+}
+
+.loading {
+}
+
+.no-locations-found {
+    padding: 32px;
+    font-size: 16px;
+}
+
+.no-locations-found h3 {
+    margin-bottom: 12px;
+}
+
+.no-locations-found p {
+    margin: 0;
 }
 </style>
 
@@ -68,20 +160,19 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import LocationHistoryMap from "@/components/LocationHistoryMap.vue";
 import LocationHistorySidePanel from "@/components/LocationHistorySidePanel.vue";
-import Uploading from "./Uploading.vue";
+import Loading from "@/components/Loading.vue";
 import { Location } from "@/types/Location";
 import axios from "axios";
-import { UploadStatus } from "@/types/UploadStatus";
 
 @Component({
-    components: { LocationHistorySidePanel, LocationHistoryMap, Uploading }
+    components: { LocationHistorySidePanel, LocationHistoryMap, Loading }
 })
 export default class LocationHistory extends Vue {
     id = "";
     token = "";
     mailto = "";
     isProccesing = true;
-    UploadStatus = UploadStatus;
+    noLocationsFound = true;
 
     locations: Location[] = [];
     selectedLocations: Location[] = [];
@@ -114,6 +205,7 @@ export default class LocationHistory extends Vue {
             }
         } catch (error) {
             this.isProccesing = false;
+            this.noLocationsFound = true;
             console.error({ error });
             //todo FE error modal
         }

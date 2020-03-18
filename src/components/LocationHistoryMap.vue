@@ -1,5 +1,5 @@
 <template>
-    <div ref="map" class="fill-height"></div>
+    <div ref="map" class="fill-height map"></div>
 </template>
 
 <style scoped>
