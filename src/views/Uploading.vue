@@ -2,7 +2,14 @@
     <v-container class="header" fluid>
         <v-row align="center" justify="center" no-gutters>
             <v-col md="10">
-                <h1 class="text-center">Nahrávání...</h1>
+                <h1 class="text-center">
+                    <span v-if="status === UploadStatus.UPLOADING">
+                        Nahrávání...
+                    </span>
+                    <span v-if="status === UploadStatus.PROCESSING">
+                        Zpracování...
+                    </span>
+                </h1>
                 <v-progress-linear
                     class="progress"
                     color="#5CB120"
@@ -50,9 +57,13 @@ h1 {
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { Prop } from "vue-property-decorator";
+import { UploadStatus } from "@/types/UploadStatus";
 
 @Component({})
-export default class Loading extends Vue {
-    progress = 0;
+export default class Uploading extends Vue {
+    @Prop() status!: UploadStatus;
+
+    UploadStatus = UploadStatus;
 }
 </script>

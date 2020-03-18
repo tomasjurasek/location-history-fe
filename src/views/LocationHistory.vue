@@ -31,45 +31,48 @@ import Component from "vue-class-component";
 import LocationHistoryMap from "@/components/LocationHistoryMap.vue";
 import LocationHistorySidePanel from "@/components/LocationHistorySidePanel.vue";
 import { Location } from "@/types/Location";
-import { locationHistoryStorage } from "@/services/LocationHistoryStorage";
+import axios from "axios";
 
 @Component({
     components: { LocationHistorySidePanel, LocationHistoryMap }
 })
 export default class LocationHistory extends Vue {
-    locations: Location[] = [];
-    selectedLocations: Location[] = [];
-    date = "";
     id = "";
     mailto = "";
 
+    locations: Location[] = [];
+    selectedLocations: Location[] = [];
+    date = "";
+
     mounted() {
-        let locationHistory = locationHistoryStorage.load();
-        if (!locationHistory && location.hostname === "localhost") {
-            locationHistory = {
-                id: "localhost",
-                locations: [
-                    {
-                        dateTimeUtc: "2020-03-16T14:00:00Z",
-                        latitude: 500437725,
-                        longitude: 144549068,
-                        accuracy: 96
-                    },
-                    {
-                        dateTimeUtc: "2020-03-16T15:00:00Z",
-                        latitude: 500437275,
-                        longitude: 144545330,
-                        accuracy: 1033
-                    }
-                ]
-            };
+        this.id = this.$route.params.id;
+        this.mailto = `mailto:test@hygiena.cz?subject=Data pro ${this.id}`;
+
+        this.loadLocations();
+    }
+
+    async loadLocations() {
+        if (this.id === "localhost") {
+            this.locations = [
+                {
+                    dateTimeUtc: "2020-03-16T14:00:00Z",
+                    latitude: 500437725,
+                    longitude: 144549068,
+                    accuracy: 96
+                },
+                {
+                    dateTimeUtc: "2020-03-16T15:00:00Z",
+                    latitude: 500437275,
+                    longitude: 144545330,
+                    accuracy: 1033
+                }
+            ];
+            return;
         }
 
-        if (locationHistory) {
-            this.id = locationHistory.id;
-            this.locations = locationHistory.locations;
-            this.mailto = `mailto:test@hygiena.cz?subject=Data pro ${this.id}`;
-        }
+        const url = `${process.env.VUE_APP_API_URL}/users/${this.id}/locations`;
+        const response = await axios.get(url);
+        this.locations = response.data;
     }
 
     filterLocations(date: string) {

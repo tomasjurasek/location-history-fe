@@ -17,7 +17,7 @@ const routes = [
         component: Home
     },
     {
-        path: "/map",
+        path: "/map/:id",
         name: "LocationHistory",
         component: LocationHistory
     },
