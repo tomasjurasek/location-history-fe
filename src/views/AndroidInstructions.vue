@@ -13,7 +13,12 @@
                         <strong>takeout-20200315T062605Z-001.zip</strong>)
                         nahrajte zde:
                     </p>
-                    <UploadForm />
+                    <UploadForm @uploadFileEvent="uploadFile" />
+                    <Loading
+                        v-if="isUploading"
+                        title="Nahrávání ..."
+                        description="Mějte strpení, data se mohou nahrávat několik minut."
+                    />
                 </v-col>
             </v-row>
         </v-container>
@@ -109,10 +114,9 @@
                             <div>
                                 <h2 class="step__title">
                                     Vyberte
-                                    <strong
-                                        >Odeslat odkaz ke stažení
-                                        e-mailem</strong
-                                    >
+                                    <strong>
+                                        Odeslat odkaz ke stažení e-mailem
+                                    </strong>
                                     a klikněte na tlačítko
                                     <strong>Vytvořit export</strong>
                                 </h2>
@@ -181,7 +185,7 @@
                                 </p>
                             </div>
                         </header>
-                        <UploadForm />
+                        <UploadForm @uploadFileEvent="uploadFile" />
                     </section>
                 </v-col>
             </v-row>
@@ -285,10 +289,38 @@ h1 {
 import Vue from "vue";
 import Component from "vue-class-component";
 import UploadForm from "@/components/UploadForm.vue";
+import Loading from "@/components/Loading.vue";
 import HomeLayout from "@/HomeLayout.vue";
+import axios from "axios";
 
-import { Prop } from "vue-property-decorator";
+@Component({ components: { UploadForm, HomeLayout, Loading } })
+export default class AndroidInstructions extends Vue {
+    isUploading = false;
 
-@Component({ components: { UploadForm, HomeLayout } })
-export default class AndroidInstructions extends Vue {}
+    async uploadFile(file: File) {
+        this.isUploading = true;
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            const url = `${process.env.VUE_APP_API_URL}/users/file`;
+            const response = await axios.post(url, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+
+            this.$router.push({
+                name: "LocationHistory",
+                params: { id: response.data.id },
+                query: { token: response.data.token }
+            });
+        } catch (e) {
+            this.$router.push({
+                name: "Error"
+            });
+        } finally {
+            this.isUploading = false;
+        }
+    }
+}
 </script>
