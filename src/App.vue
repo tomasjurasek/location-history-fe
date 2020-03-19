@@ -5,7 +5,7 @@
                 COVID19<br />CZ
             </router-link>
             <router-link :to="{ name: 'Home' }" class="site-title">
-                Google Location History
+                Historie polohy
             </router-link>
         </v-container>
 
