@@ -3,6 +3,23 @@
         <v-container id="navod">
             <v-row align="center" justify="center" no-gutters>
                 <v-col md="10">
+                    <h2 class="header__title">
+                        Pomozte zjistit historii vaší polohy
+                    </h2>
+                    <p class="short-instructions">
+                        Historii polohy stáhněte z Google podle
+                        <a href="#navod">návodu níže</a>. <br />Výsledný soubor
+                        (nazvaný např.
+                        <strong>takeout-20200315T062605Z-001.zip</strong>)
+                        nahrajte zde:
+                    </p>
+                    <UploadForm
+                        :uploading="uploading"
+                        @upload-file="uploadFile"
+                    />
+                </v-col>
+
+                <v-col md="10">
                     <h1>Návod jak stáhnout data z Google</h1>
 
                     <section class="step">
@@ -18,8 +35,7 @@
                                         Google Takeout -
                                         https://takeout.google.com
                                     </a>
-                                    <br />
-                                    a přihlaste se
+                                    <br />a přihlaste se
                                 </h2>
                             </div>
                         </header>
@@ -96,9 +112,7 @@
                                         Odeslat odkaz ke stažení e-mailem
                                     </strong>
                                     a klikněte na tlačítko
-                                    <strong>
-                                        Vytvořit export
-                                    </strong>
+                                    <strong>Vytvořit export</strong>
                                 </h2>
                             </div>
                         </header>
@@ -161,15 +175,13 @@
                                 </h2>
                                 <p class="step__description">
                                     Zbývá už jen
-                                    <strong>
-                                        nahrát stažený soubor sem:
-                                    </strong>
+                                    <strong>nahrát stažený soubor sem:</strong>
                                 </p>
                             </div>
                         </header>
                         <UploadForm
                             :uploading="uploading"
-                            @upload-file="$emit('upload-file', $event)"
+                            @upload-file="uploadFile"
                         />
                     </section>
                 </v-col>
@@ -257,5 +269,9 @@ import { Prop } from "vue-property-decorator";
 })
 export default class Instructions extends Vue {
     @Prop() uploading!: boolean;
+
+    uploadFile(event: any) {
+        this.$emit("upload-file", event);
+    }
 }
 </script>
