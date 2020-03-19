@@ -4,7 +4,9 @@
         <v-row>
             <v-col class="choices">
                 <v-sheet @click="chooseAndroid" class="choice choice--android">
-                    <v-icon class="choice__icon">mdi-android</v-icon>
+                    <v-icon class="choice__icon"
+                        >mdi-android-debug-bridge</v-icon
+                    >
                     <h3 class="choice__title">Mám telefon s Android</h3>
                     <p class="choice__description">
                         Mám chytrý telefon značky Samsung, Huawei, Xiaomi,
@@ -12,7 +14,7 @@
                     </p>
                 </v-sheet>
                 <v-sheet @click="chooseiPhone" class="choice choice--apple">
-                    <v-icon class="choice__icon">mdi-cellphone-iphone</v-icon>
+                    <v-icon class="choice__icon">mdi-apple</v-icon>
                     <h3 class="choice__title">Mám telefon od Apple</h3>
                     <p class="choice__description">
                         Jakýkoli iPhone
