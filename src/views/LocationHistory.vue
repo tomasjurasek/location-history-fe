@@ -251,8 +251,6 @@ export default class LocationHistory extends Vue {
             this.isLoading = false;
             this.isProcessing = false;
             this.isError = true;
-            console.error({ error });
-            //todo FE error modal
         }
     }
 
