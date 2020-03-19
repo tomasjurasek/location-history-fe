@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import LocationHistory from "@/views/LocationHistory.vue";
 import About from "@/views/About.vue";
+import Contacts from "@/views/Contacts.vue";
 import Error from "@/views/Error.vue";
 import NotFound from "@/views/NotFound.vue";
 
@@ -23,6 +24,11 @@ const routes = [
         path: "/about",
         name: "About",
         component: About
+    },
+    {
+        path: "/contacts",
+        name: "Contacts",
+        component: Contacts
     },
     {
         path: "/error",
