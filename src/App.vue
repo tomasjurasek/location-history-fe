@@ -9,12 +9,32 @@
             <router-link :to="{ name: 'Home' }" class="site-title"
                 >Historie polohy</router-link
             >
-            <nav class="nav">
+            <nav class="nav hidden-xs-only">
                 <router-link :to="{ name: 'Terms' }"
                     >Podmínky užití</router-link
                 >
                 <router-link :to="{ name: 'Contacts' }">Kontakty</router-link>
             </nav>
+            <v-menu class="menu">
+                <template v-slot:activator="{ on: toggle }">
+                    <v-app-bar-nav-icon
+                        v-on="toggle"
+                        class="menu__toggle hidden-sm-and-up"
+                    ></v-app-bar-nav-icon>
+                </template>
+                <v-list>
+                    <v-list-item :to="{ name: 'Terms' }">
+                        <v-list-item-title>
+                            Podmínky užití
+                        </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item :to="{ name: 'Contacts' }">
+                        <v-list-item-title>
+                            Kontakty
+                        </v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
         </v-container>
 
         <v-content>
@@ -52,6 +72,7 @@
 }
 
 .site-title {
+    padding-right: 0;
     font-size: 16px;
 }
 
@@ -69,6 +90,10 @@
 
 .nav > a:hover {
     color: #002dcf;
+}
+
+.menu__toggle {
+    margin-left: auto;
 }
 </style>
 
