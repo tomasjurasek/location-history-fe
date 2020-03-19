@@ -34,7 +34,7 @@
                 <div v-if="isProccesing" class="map-overlay loading">
                     <Loading
                         title="Zpracovávání ..."
-                        description="Mějte strpení, před zobrazením dat v mapě, je třeba je nejprve zpracovat, může to trvat několik minut."
+                        description="Mějte strpení, před zobrazením dat v mapě je třeba data nejprve zpracovat, může to trvat několik minut."
                     />
                 </div>
                 <div
@@ -195,11 +195,10 @@ export default class LocationHistory extends Vue {
         try {
             const response = await axios.get(url, { params });
             const locations = response.data;
-            console.log(locations);
             this.isProccesing = response.status === 204;
             if (this.isProccesing) {
                 console.log("try laod locations");
-                await setTimeout(() => this.loadLocations(), 10 * 1000);
+                await setTimeout(() => this.loadLocations(), 5 * 1000);
             } else {
                 this.locations = response.data;
             }

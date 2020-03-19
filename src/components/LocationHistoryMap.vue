@@ -127,76 +127,36 @@ export default class LocationHistoryMap extends Vue {
                 }
             });
 
-            this.map.setLayoutProperty(
-                "lines",
-                "visibility",
-                this.drawLine ? "visible" : "none"
-            );
-
             this.mapLoaded = true;
+
+            this.renderLocations();
+            this.renderLine();
         });
     }
 
     @Watch("locations")
     renderLocations() {
-        if (!this.map || !this.mapLoaded) {
-            setTimeout(() => this.renderLocations(), 200);
+        if (!this.map) {
             return;
         }
 
-        (this.map.getSource("lines") as GeoJSONSource).setData({
-            type: "FeatureCollection",
-            features: [
-                {
-                    type: "Feature",
-                    geometry: {
-                        type: "LineString",
-                        coordinates: this.locations.map(location => {
-                            return [
-                                location.longitude / 10 ** 7,
-                                location.latitude / 10 ** 7
-                            ];
-                        })
-                    },
-                    properties: {}
-                }
-            ]
-        });
-        (this.map.getSource("points") as GeoJSONSource).setData({
-            type: "FeatureCollection",
-            features: this.locations.map(location => {
-                return {
-                    type: "Feature",
-                    geometry: {
-                        type: "Point",
-                        coordinates: [
-                            location.longitude / 10 ** 7,
-                            location.latitude / 10 ** 7
-                        ]
-                    },
-                    properties: location
-                };
-            })
-        });
+        this.fitBounds(this.locations);
 
-        const positions = this.locations.map(
-            location =>
-                new mapboxgl.LngLat(
-                    location.longitude / 10 ** 7,
-                    location.latitude / 10 ** 7
-                )
+        if (!this.mapLoaded) {
+            return;
+        }
+
+        (this.map.getSource("lines") as GeoJSONSource).setData(
+            this.locationsToLine(this.locations)
         );
-        const bounds = positions.reduce(
-            (bounds, position) => bounds.extend(position),
-            new mapboxgl.LngLatBounds(positions[0], positions[0])
+        (this.map.getSource("points") as GeoJSONSource).setData(
+            this.locationsToPoints(this.locations)
         );
-        this.map.fitBounds(bounds, { padding: 100, maxDuration: 1 });
     }
 
     @Watch("highlightedLocation")
     renderHighlightedLocation() {
         if (!this.map || !this.mapLoaded) {
-            setTimeout(() => this.renderHighlightedLocation(), 200);
             return;
         }
 
@@ -204,23 +164,7 @@ export default class LocationHistoryMap extends Vue {
             this.map.setPaintProperty("lines", "line-color", this.grey);
             this.map.setPaintProperty("points", "circle-color", this.grey);
             (this.map.getSource("points-highlighted") as GeoJSONSource).setData(
-                {
-                    type: "FeatureCollection",
-                    features: [
-                        {
-                            type: "Feature",
-                            geometry: {
-                                type: "Point",
-                                coordinates: [
-                                    this.highlightedLocation.longitude /
-                                        10 ** 7,
-                                    this.highlightedLocation.latitude / 10 ** 7
-                                ]
-                            },
-                            properties: this.highlightedLocation
-                        }
-                    ]
-                }
+                this.locationsToPoints([this.highlightedLocation])
             );
         } else {
             this.map.setPaintProperty("lines", "line-color", this.red);
@@ -237,7 +181,6 @@ export default class LocationHistoryMap extends Vue {
     @Watch("drawLine")
     renderLine() {
         if (!this.map || !this.mapLoaded) {
-            setTimeout(() => this.renderLine(), 200);
             return;
         }
 
@@ -246,6 +189,67 @@ export default class LocationHistoryMap extends Vue {
             "visibility",
             this.drawLine ? "visible" : "none"
         );
+    }
+
+    fitBounds(locations: Location[]) {
+        const bounds = this.locationsToBounds(locations);
+        this.map.fitBounds(bounds, { padding: 100, maxDuration: 1 });
+    }
+
+    locationToPosition(location: Location): [number, number] {
+        return [location.longitude / 10 ** 7, location.latitude / 10 ** 7];
+    }
+
+    locationsToBounds(locations: Location[]): mapboxgl.LngLatBounds {
+        const lngLats = locations.map(location => {
+            const position = this.locationToPosition(location);
+            return new mapboxgl.LngLat(position[0], position[1]);
+        });
+        const bounds = lngLats.reduce(
+            (bounds, position) => bounds.extend(position),
+            new mapboxgl.LngLatBounds(lngLats[0], lngLats[0])
+        );
+        return bounds;
+    }
+
+    locationsToLine(
+        locations: Location[]
+    ): GeoJSON.FeatureCollection<GeoJSON.LineString> {
+        return {
+            type: "FeatureCollection",
+            features: [
+                {
+                    type: "Feature",
+                    geometry: {
+                        type: "LineString",
+                        coordinates: locations.map(location =>
+                            this.locationToPosition(location)
+                        )
+                    },
+                    properties: {}
+                }
+            ]
+        };
+    }
+
+    locationsToPoints(
+        locations: Location[]
+    ): GeoJSON.FeatureCollection<GeoJSON.Point> {
+        return {
+            type: "FeatureCollection",
+            features: locations.map(location => this.locationToPoint(location))
+        };
+    }
+
+    locationToPoint(location: Location): GeoJSON.Feature<GeoJSON.Point> {
+        return {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: this.locationToPosition(location)
+            },
+            properties: location
+        };
     }
 }
 </script>
