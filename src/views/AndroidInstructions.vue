@@ -1,11 +1,11 @@
 <template>
-    <HomeLayout>
+    <div>
         <Loading
             v-if="isUploading"
             title="Nahrávání ..."
             description="Mějte strpení, data se mohou nahrávat několik minut."
         />
-        <div v-else>
+        <HomeLayout v-else>
             <v-container class="header" fluid>
                 <v-row align="center" justify="center" no-gutters>
                     <v-col md="10">
@@ -194,8 +194,8 @@
                     </v-col>
                 </v-row>
             </v-container>
-        </div>
-    </HomeLayout>
+        </HomeLayout>
+    </div>
 </template>
 
 <style scoped>
