@@ -15,7 +15,8 @@
                         Pro úspěšné dokončení ho odešlete e-mailem nebo sdělte
                         pracovníkovi hygienické stanice.
                         <br />
-                        Data můžete na této stránce kdykoliv smazat.
+                        Data můžete na této stránce kdykoliv smazat, nezapoměňte
+                        si jí uložit.
                     </p>
                     <div>
                         <span class="code">{{ id }}</span>
@@ -57,7 +58,7 @@
                             depressed
                             @click="$router.push({ name: 'Home' })"
                         >
-                            Nahrát data
+                            Domů
                         </v-btn>
                     </div>
                 </div>
