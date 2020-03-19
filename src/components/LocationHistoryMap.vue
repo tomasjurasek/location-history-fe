@@ -31,7 +31,6 @@ export default class LocationHistoryMap extends Vue {
     mapLoaded = false;
 
     red = colors.red.base;
-    blue = colors.blue.accent4;
     grey = colors.grey.base;
 
     async mounted() {
@@ -123,7 +122,7 @@ export default class LocationHistoryMap extends Vue {
                 source: "points-highlighted",
                 layout: {},
                 paint: {
-                    "circle-color": this.blue
+                    "circle-color": this.red
                 }
             });
 
