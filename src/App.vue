@@ -2,7 +2,9 @@
     <v-app>
         <v-container class="topbar" fluid>
             <router-link :to="{ name: 'Home' }" class="logo">
-                COVID19<br />CZ
+                PROJEKT
+                <br />
+                <span class="red--text">#STOPCOVIDCZ</span>
             </router-link>
             <router-link :to="{ name: 'Home' }" class="site-title">
                 Historie polohy
