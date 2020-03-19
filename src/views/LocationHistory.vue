@@ -31,7 +31,7 @@
                             color="error"
                             text
                             class="float-right"
-                            :loading="deleting"
+                            :loading="isDeleting"
                             large
                             elevation="0"
                             @click="deleteLocations"
@@ -40,7 +40,7 @@
                         </v-btn>
                     </div>
                 </div>
-                <div class="success-info" v-if="isError">
+                <div class="success-info" v-if="isError || isDeleted">
                     <v-icon
                         class="success-info__icon"
                         color="red darken-2"
@@ -48,7 +48,7 @@
                         >mdi-cloud-off-outline</v-icon
                     >
                     <h3 class="success-info__title">
-                        <span v-if="deleting">
+                        <span v-if="isDeleted">
                             Data byla úspěšně smazána
                         </span>
                         <span v-else>
@@ -214,7 +214,8 @@ export default class LocationHistory extends Vue {
     isProcessing = false;
     isSuccess = false;
     isError = false;
-    deleting = false;
+    isDeleting = false;
+    isDeleted = false;
 
     locations: Location[] = [];
     selectedLocations: Location[] = [];
@@ -277,12 +278,13 @@ export default class LocationHistory extends Vue {
     }
 
     async deleteLocations() {
-        this.deleting = true;
+        this.isDeleting = true;
         const url = `${process.env.VUE_APP_API_URL}/users/${this.id}`;
         const params = { token: this.token };
         await axios.delete(url, { params });
         this.isSuccess = false;
-        this.isError = true;
+        this.isDeleting = false;
+        this.isDeleted = true;
     }
 
     filterLocations(date: string) {
