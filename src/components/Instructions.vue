@@ -167,7 +167,9 @@
                                 </p>
                             </div>
                         </header>
-                        <UploadForm />
+                        <UploadForm
+                            @upload-file="$emit('upload-file', $event)"
+                        />
                     </section>
                 </v-col>
             </v-row>

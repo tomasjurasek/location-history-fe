@@ -23,7 +23,7 @@
                     </v-col>
                 </v-row>
             </v-container>
-            <Instructions />
+            <Instructions @upload-file="uploadFile" />
             <footer>
                 Footer. Zpracování dat, odkazy, atd.
             </footer>
