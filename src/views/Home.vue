@@ -71,15 +71,12 @@ import UploadForm from "@/components/UploadForm.vue";
 import Instructions from "@/components/Instructions.vue";
 import Loading from "@/components/Loading.vue";
 import axios from "axios";
-import { UploadStatus } from "@/types/UploadStatus";
 
 @Component({
     components: { UploadForm, Instructions, Loading }
 })
 export default class Home extends Vue {
     uploading = false;
-
-    UploadStatus = UploadStatus;
 
     async uploadFile(file: File) {
         this.uploading = true;
