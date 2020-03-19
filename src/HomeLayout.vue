@@ -3,10 +3,12 @@
         <slot />
         <footer>
             <nav class="nav">
-                <router-link :to="{ name: 'Terms' }"
+                <router-link :to="{ name: 'Terms' }" target="_blank"
                     >Podmínky užití</router-link
                 >
-                <router-link :to="{ name: 'Contacts' }">Kontakty</router-link>
+                <router-link :to="{ name: 'Contacts' }" target="_blank"
+                    >Kontakty</router-link
+                >
             </nav>
         </footer>
     </div>

@@ -10,10 +10,12 @@
                 >Historie polohy</router-link
             >
             <nav class="nav hidden-xs-only">
-                <router-link :to="{ name: 'Terms' }"
+                <router-link :to="{ name: 'Terms' }" target="_blank"
                     >Podmínky užití</router-link
                 >
-                <router-link :to="{ name: 'Contacts' }">Kontakty</router-link>
+                <router-link :to="{ name: 'Contacts' }" target="_blank"
+                    >Kontakty</router-link
+                >
             </nav>
             <v-menu class="menu">
                 <template v-slot:activator="{ on: toggle }">
@@ -23,12 +25,12 @@
                     ></v-app-bar-nav-icon>
                 </template>
                 <v-list>
-                    <v-list-item :to="{ name: 'Terms' }">
+                    <v-list-item :to="{ name: 'Terms' }" target="_blank">
                         <v-list-item-title>
                             Podmínky užití
                         </v-list-item-title>
                     </v-list-item>
-                    <v-list-item :to="{ name: 'Contacts' }">
+                    <v-list-item :to="{ name: 'Contacts' }" target="_blank">
                         <v-list-item-title>
                             Kontakty
                         </v-list-item-title>
