@@ -14,7 +14,7 @@
 
 <style scoped>
 footer {
-    padding: 90px;
+    padding: 90px 0;
     background-color: rgba(65, 65, 65);
     background-color: #020c20;
     color: white;
@@ -22,9 +22,11 @@ footer {
 }
 
 nav > a {
+    display: inline-block;
     margin: 16px;
     color: white;
     text-decoration: none;
+    white-space: nowrap;
 }
 </style>
 
