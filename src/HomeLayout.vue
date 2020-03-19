@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- <router-view /> -->
         <slot />
         <footer>Footer. Zpracování dat, odkazy, atd.</footer>
     </div>

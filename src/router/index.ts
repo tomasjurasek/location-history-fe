@@ -4,7 +4,7 @@ import Home from "@/views/Home.vue";
 import AppleInstructions from "@/views/AppleInstructions.vue";
 import AndroidInstructions from "@/views/AndroidInstructions.vue";
 import LocationHistory from "@/views/LocationHistory.vue";
-import About from "@/views/About.vue";
+import Terms from "@/views/Terms.vue";
 import Contacts from "@/views/Contacts.vue";
 import Error from "@/views/Error.vue";
 import NotFound from "@/views/NotFound.vue";
@@ -33,9 +33,9 @@ const routes = [
         component: LocationHistory
     },
     {
-        path: "/about",
-        name: "About",
-        component: About
+        path: "/terms",
+        name: "Terms",
+        component: Terms
     },
     {
         path: "/contacts",

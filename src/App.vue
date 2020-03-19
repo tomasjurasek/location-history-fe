@@ -9,12 +9,12 @@
             <router-link :to="{ name: 'Home' }" class="site-title"
                 >Historie polohy</router-link
             >
-            <router-link :to="{ name: 'About' }" class="site-title"
-                >O Projektu</router-link
-            >
-            <router-link :to="{ name: 'Contacts' }" class="site-title"
-                >Kontakty</router-link
-            >
+            <nav class="nav">
+                <router-link :to="{ name: 'Terms' }"
+                    >Podmínky užití</router-link
+                >
+                <router-link :to="{ name: 'Contacts' }">Kontakty</router-link>
+            </nav>
         </v-container>
 
         <v-content>
@@ -53,6 +53,22 @@
 
 .site-title {
     font-size: 16px;
+}
+
+.nav {
+    margin-left: auto;
+    margin-right: 32px;
+}
+
+.nav > a {
+    margin-left: 28px;
+    font-size: 16px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.nav > a:hover {
+    color: #002dcf;
 }
 </style>
 
