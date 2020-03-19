@@ -1,6 +1,15 @@
 <template>
     <div>
-        <Instructions :uploading="uploading" @upload-file="uploadFile" />
+        <ChooseDevice
+            v-if="!choosedAndroidDevice && !choosedAppleDevice"
+            @chooseAndroidDeviceEvent="chooseAndroidDevice"
+            @chooseAppleDeviceEvent="chooseAppleDevice"
+        />
+        <Instructions
+            v-if="choosedAndroidDevice"
+            :uploading="uploading"
+            @upload-file="uploadFile"
+        />
         <footer>Footer. Zpracování dat, odkazy, atd.</footer>
     </div>
 </template>
