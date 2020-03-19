@@ -1,7 +1,14 @@
 <template>
     <div>
         <slot />
-        <footer>Footer. Zpracování dat, odkazy, atd.</footer>
+        <footer>
+            <nav class="nav">
+                <router-link :to="{ name: 'Terms' }"
+                    >Podmínky užití</router-link
+                >
+                <router-link :to="{ name: 'Contacts' }">Kontakty</router-link>
+            </nav>
+        </footer>
     </div>
 </template>
 
@@ -9,8 +16,15 @@
 footer {
     padding: 90px;
     background-color: rgba(65, 65, 65);
+    background-color: #020c20;
     color: white;
     text-align: center;
+}
+
+nav > a {
+    margin: 16px;
+    color: white;
+    text-decoration: none;
 }
 </style>
 
