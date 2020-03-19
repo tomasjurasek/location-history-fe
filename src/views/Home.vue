@@ -10,6 +10,7 @@
             :uploading="uploading"
             @upload-file="uploadFile"
         />
+        <AppleInstructions v-if="choosedAppleDevice" />
         <footer>Footer. Zpracování dat, odkazy, atd.</footer>
     </div>
 </template>
@@ -52,12 +53,19 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import UploadForm from "@/components/UploadForm.vue";
 import AndroidInstructions from "@/components/AndroidInstructions.vue";
+import AppleInstructions from "@/components/AppleInstructions.vue";
 import ChooseDevice from "@/components/ChooseDevice.vue";
 import Loading from "@/components/Loading.vue";
 import axios from "axios";
 
 @Component({
-    components: { UploadForm, AndroidInstructions, Loading, ChooseDevice }
+    components: {
+        UploadForm,
+        AndroidInstructions,
+        Loading,
+        ChooseDevice,
+        AppleInstructions
+    }
 })
 export default class Home extends Vue {
     uploading = false;
