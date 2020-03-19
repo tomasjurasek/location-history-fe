@@ -71,8 +71,6 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
-import axios from "axios";
 
 @Component({})
 export default class UploadForm extends Vue {
@@ -80,32 +78,8 @@ export default class UploadForm extends Vue {
     file: File | null = null;
 
     submitFile() {
-        this.uploadFile(this.file!);
-    }
-
-    async uploadFile(file: File) {
         this.uploading = true;
-
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            const url = `${process.env.VUE_APP_API_URL}/users/file`;
-            const response = await axios.post(url, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-
-            this.$router.push({
-                name: "LocationHistory",
-                params: { id: response.data.id },
-                query: { token: response.data.token }
-            });
-        } catch (e) {
-            this.$router.push({
-                name: "Error"
-            });
-        }
+        this.$emit("uploadFileEvent", this.file);
     }
 }
 </script>
