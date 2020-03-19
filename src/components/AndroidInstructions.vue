@@ -267,7 +267,7 @@ import { Prop } from "vue-property-decorator";
 @Component({
     components: { UploadForm }
 })
-export default class Instructions extends Vue {
+export default class AndroidInstructions extends Vue {
     @Prop() uploading!: boolean;
 
     uploadFile(event: any) {

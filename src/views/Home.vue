@@ -5,7 +5,7 @@
             @chooseAndroidDeviceEvent="chooseAndroidDevice"
             @chooseAppleDeviceEvent="chooseAppleDevice"
         />
-        <Instructions
+        <AndroidInstructions
             v-if="choosedAndroidDevice"
             :uploading="uploading"
             @upload-file="uploadFile"
@@ -51,13 +51,13 @@ footer {
 import Vue from "vue";
 import Component from "vue-class-component";
 import UploadForm from "@/components/UploadForm.vue";
-import Instructions from "@/components/Instructions.vue";
+import AndroidInstructions from "@/components/AndroidInstructions.vue";
 import ChooseDevice from "@/components/ChooseDevice.vue";
 import Loading from "@/components/Loading.vue";
 import axios from "axios";
 
 @Component({
-    components: { UploadForm, Instructions, Loading, ChooseDevice }
+    components: { UploadForm, AndroidInstructions, Loading, ChooseDevice }
 })
 export default class Home extends Vue {
     uploading = false;
