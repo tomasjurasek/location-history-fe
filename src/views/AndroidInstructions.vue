@@ -48,7 +48,7 @@
                             </header>
                             <img
                                 class="step__image"
-                                src="instructions/takeout-step-1.jpg"
+                                src="instructions/android/takeout-step-1.jpg"
                             />
                         </section>
 
@@ -67,7 +67,7 @@
                             </header>
                             <img
                                 class="step__image"
-                                src="instructions/takeout-step-2.jpg"
+                                src="instructions/android/takeout-step-2.jpg"
                             />
                         </section>
 
@@ -86,7 +86,7 @@
                             </header>
                             <img
                                 class="step__image"
-                                src="instructions/takeout-step-3.jpg"
+                                src="instructions/android/takeout-step-3.jpg"
                             />
                         </section>
 
@@ -105,7 +105,7 @@
                             </header>
                             <img
                                 class="step__image"
-                                src="instructions/takeout-step-4.jpg"
+                                src="instructions/android/takeout-step-4.jpg"
                             />
                         </section>
 
@@ -126,7 +126,7 @@
                             </header>
                             <img
                                 class="step__image"
-                                src="instructions/takeout-step-5.gif"
+                                src="instructions/android/takeout-step-5.gif"
                             />
                         </section>
 
@@ -145,7 +145,7 @@
                             </header>
                             <img
                                 class="step__image"
-                                src="instructions/takeout-step-6.jpg"
+                                src="instructions/android/takeout-step-6.jpg"
                             />
                         </section>
 
@@ -165,7 +165,7 @@
                             </header>
                             <img
                                 class="step__image"
-                                src="instructions/takeout-step-7.jpg"
+                                src="instructions/android/takeout-step-7.jpg"
                             />
                         </section>
                     </v-col>
