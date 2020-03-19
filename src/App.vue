@@ -6,9 +6,15 @@
                 <br />
                 <span class="red--text">#STOPCOVIDCZ</span>
             </router-link>
-            <router-link :to="{ name: 'Home' }" class="site-title">
-                Historie polohy
-            </router-link>
+            <router-link :to="{ name: 'Home' }" class="site-title"
+                >Historie polohy</router-link
+            >
+            <router-link :to="{ name: 'About' }" class="site-title"
+                >O Projektu</router-link
+            >
+            <router-link :to="{ name: 'Contacts' }" class="site-title"
+                >Kontakty</router-link
+            >
         </v-container>
 
         <v-content>
