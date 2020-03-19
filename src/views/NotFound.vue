@@ -8,7 +8,7 @@
                     Zadali jste buď chybnout adresu stránky a nebo stránka již
                     neexistuje.
                 </p>
-                <v-btn class="primary ma-2" x-large elevation="0" to="/" large>
+                <v-btn class="primary ma-2" x-large depressed to="/" large>
                     <v-icon class="mr-2">mdi-home</v-icon>
                     Domů
                 </v-btn>

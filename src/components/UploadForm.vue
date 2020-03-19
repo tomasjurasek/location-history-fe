@@ -16,7 +16,7 @@
             :disabled="!file"
             color="success"
             x-large
-            elevation="0"
+            depressed
             dark
         >
             Nahrát

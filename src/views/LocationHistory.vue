@@ -19,12 +19,7 @@
                     </p>
                     <div>
                         <span class="code">{{ id }}</span>
-                        <v-btn
-                            class="success"
-                            large
-                            elevation="0"
-                            :href="mailto"
-                        >
+                        <v-btn class="success" large depressed :href="mailto">
                             Odeslat e-mailem
                         </v-btn>
                         <v-btn
@@ -33,7 +28,7 @@
                             class="float-right"
                             :loading="isDeleting"
                             large
-                            elevation="0"
+                            depressed
                             @click="deleteLocations"
                         >
                             Smazat
@@ -57,7 +52,11 @@
                     </h3>
                     <p class="success-info__description"></p>
                     <div>
-                        <v-btn text large elevation="0" :to="{ name: 'Home' }">
+                        <v-btn
+                            large
+                            depressed
+                            @click="$router.push({ name: 'Home' })"
+                        >
                             Nahrát data
                         </v-btn>
                     </div>

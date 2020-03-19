@@ -9,7 +9,7 @@
                 <p class="description">
                     Něco se nepovedlo, zkuste to, prosím znovu.
                 </p>
-                <v-btn class="primary ma-2" x-large elevation="0" to="/" large>
+                <v-btn class="primary ma-2" x-large depressed to="/" large>
                     <v-icon class="mr-2">mdi-reload</v-icon>
                     Zpět
                 </v-btn>
