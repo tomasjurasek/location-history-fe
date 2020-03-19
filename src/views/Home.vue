@@ -15,8 +15,11 @@
 
 <style scoped>
 .container {
+    position: relative;
+    padding-bottom: 32px;
     min-height: 850px;
     background-color: rgba(0, 45, 207, 0.8);
+    overflow: hidden;
 }
 
 .background {
