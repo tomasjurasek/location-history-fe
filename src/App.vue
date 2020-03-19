@@ -6,6 +6,7 @@
                 <br />
                 <span class="red--text">#STOPCOVIDCZ</span>
             </router-link>
+            <div class="divider"></div>
             <router-link :to="{ name: 'Home' }" class="site-title"
                 >Historie polohy</router-link
             >
@@ -49,6 +50,7 @@
     flex-direction: row;
     align-items: center;
 
+    padding: 0 32px;
     height: 80px;
 
     border-bottom: solid 1px rgba(0, 0, 0, 0.075);
@@ -56,29 +58,31 @@
 
 .logo,
 .site-title {
-    padding: 0 32px;
     color: inherit;
     text-decoration: none;
 }
 
 .logo {
-    padding: 8px 32px;
-    margin-left: -12px;
-
     font-size: 14px;
     line-height: 16px;
     font-weight: bold;
-    border-right: solid 1px black;
+}
+
+.divider {
+    display: inline-block;
+    margin: 0 32px;
+    height: 60%;
+    width: 1px;
+    background: black;
 }
 
 .site-title {
-    padding-right: 0;
+    line-height: 1.2;
     font-size: 16px;
 }
 
 .nav {
     margin-left: auto;
-    margin-right: 32px;
 }
 
 .nav > a {
@@ -94,6 +98,17 @@
 
 .menu__toggle {
     margin-left: auto;
+}
+
+@media (max-width: 599px) {
+    .topbar {
+        height: 70px;
+        padding: 0 24px;
+    }
+
+    .divider {
+        margin: 0 24px;
+    }
 }
 </style>
 
