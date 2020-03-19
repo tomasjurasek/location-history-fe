@@ -2,7 +2,7 @@
     <div>
         <v-container id="navod">
             <v-row align="center" justify="center" no-gutters>
-                <v-col md="7">
+                <v-col md="10">
                     <h1>Návod jak stáhnout data z Google</h1>
 
                     <section class="step">
@@ -162,7 +162,7 @@
                                 <p class="step__description">
                                     Zbývá už jen
                                     <strong>
-                                        nahrát stáhnutý soubor tady:
+                                        nahrát stažený soubor sem:
                                     </strong>
                                 </p>
                             </div>
