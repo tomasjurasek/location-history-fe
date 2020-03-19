@@ -1,15 +1,16 @@
 <template>
-    <div>
+    <HomeLayout>
         <span>Apple intructions</span>
-    </div>
+    </HomeLayout>
 </template>
 
 <style></style>
 
 <script lang="ts">
 import Vue from "vue";
+import HomeLayout from "@/HomeLayout.vue";
 import Component from "vue-class-component";
 
-@Component({})
+@Component({ components: { HomeLayout } })
 export default class AppleInstructions extends Vue {}
 </script>

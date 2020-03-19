@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <HomeLayout>
         <v-container id="navod">
             <v-row align="center" justify="center" no-gutters>
                 <v-col md="10">
@@ -108,9 +108,10 @@
                             <div>
                                 <h2 class="step__title">
                                     Vyberte
-                                    <strong>
-                                        Odeslat odkaz ke stažení e-mailem
-                                    </strong>
+                                    <strong
+                                        >Odeslat odkaz ke stažení
+                                        e-mailem</strong
+                                    >
                                     a klikněte na tlačítko
                                     <strong>Vytvořit export</strong>
                                 </h2>
@@ -187,7 +188,7 @@
                 </v-col>
             </v-row>
         </v-container>
-    </div>
+    </HomeLayout>
 </template>
 
 <style scoped>
@@ -262,11 +263,11 @@ h1 {
 import Vue from "vue";
 import Component from "vue-class-component";
 import UploadForm from "@/components/UploadForm.vue";
+import HomeLayout from "@/HomeLayout.vue";
+
 import { Prop } from "vue-property-decorator";
 
-@Component({
-    components: { UploadForm }
-})
+@Component({ components: { UploadForm, HomeLayout } })
 export default class AndroidInstructions extends Vue {
     @Prop() uploading!: boolean;
 

@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
+import AppleInstructions from "@/views/AppleInstructions.vue";
+import AndroidInstructions from "@/views/AndroidInstructions.vue";
 import LocationHistory from "@/views/LocationHistory.vue";
 import About from "@/views/About.vue";
 import Contacts from "@/views/Contacts.vue";
@@ -14,6 +16,16 @@ const routes = [
         path: "/",
         name: "Home",
         component: Home
+    },
+    {
+        path: "/iphone",
+        name: "AppleInstructions",
+        component: AppleInstructions
+    },
+    {
+        path: "/iphone",
+        name: "AndroidInstructions",
+        component: AndroidInstructions
     },
     {
         path: "/map/:id",
