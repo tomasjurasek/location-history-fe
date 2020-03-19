@@ -1,8 +1,26 @@
 <template>
-    <div>
-        <v-container id="navod">
+    <HomeLayout>
+        <v-container class="header" fluid>
             <v-row align="center" justify="center" no-gutters>
                 <v-col md="10">
+                    <h2 class="header__title">
+                        Pomozte zjistit historii vaší polohy
+                    </h2>
+                    <p class="short-instructions">
+                        Historii polohy stáhněte z Google podle
+                        <a href="#navod">návodu níže</a>. <br />Výsledný soubor
+                        (nazvaný např.
+                        <strong>takeout-20200315T062605Z-001.zip</strong>)
+                        nahrajte zde:
+                    </p>
+                    <UploadForm />
+                </v-col>
+            </v-row>
+        </v-container>
+
+        <v-container id="navod">
+            <v-row>
+                <v-col>
                     <h1>Návod jak stáhnout data z Google</h1>
 
                     <section class="step">
@@ -18,8 +36,7 @@
                                         Google Takeout -
                                         https://takeout.google.com
                                     </a>
-                                    <br />
-                                    a přihlaste se
+                                    <br />a přihlaste se
                                 </h2>
                             </div>
                         </header>
@@ -92,13 +109,12 @@
                             <div>
                                 <h2 class="step__title">
                                     Vyberte
-                                    <strong>
-                                        Odeslat odkaz ke stažení e-mailem
-                                    </strong>
+                                    <strong
+                                        >Odeslat odkaz ke stažení
+                                        e-mailem</strong
+                                    >
                                     a klikněte na tlačítko
-                                    <strong>
-                                        Vytvořit export
-                                    </strong>
+                                    <strong>Vytvořit export</strong>
                                 </h2>
                             </div>
                         </header>
@@ -161,24 +177,43 @@
                                 </h2>
                                 <p class="step__description">
                                     Zbývá už jen
-                                    <strong>
-                                        nahrát stažený soubor sem:
-                                    </strong>
+                                    <strong>nahrát stažený soubor sem:</strong>
                                 </p>
                             </div>
                         </header>
-                        <UploadForm
-                            :uploading="uploading"
-                            @upload-file="$emit('upload-file', $event)"
-                        />
+                        <UploadForm />
                     </section>
                 </v-col>
             </v-row>
         </v-container>
-    </div>
+    </HomeLayout>
 </template>
 
 <style scoped>
+.header {
+    padding-top: 48px;
+    padding-bottom: 68px;
+
+    background-color: rgba(0, 45, 207, 0.8);
+    color: white;
+
+    text-align: center;
+}
+
+.header__title {
+    font-size: 36px;
+    font-weight: 500;
+}
+
+.short-instructions {
+    padding: 20px;
+    font-weight: 300;
+}
+
+.short-instructions a {
+    color: inherit;
+}
+
 h1 {
     margin: 48px 0;
     font-size: 36px;
@@ -250,12 +285,10 @@ h1 {
 import Vue from "vue";
 import Component from "vue-class-component";
 import UploadForm from "@/components/UploadForm.vue";
+import HomeLayout from "@/HomeLayout.vue";
+
 import { Prop } from "vue-property-decorator";
 
-@Component({
-    components: { UploadForm }
-})
-export default class Instructions extends Vue {
-    @Prop() uploading!: boolean;
-}
+@Component({ components: { UploadForm, HomeLayout } })
+export default class AndroidInstructions extends Vue {}
 </script>

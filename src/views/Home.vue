@@ -1,102 +1,64 @@
 <template>
-    <div>
-        <v-container class="header" fluid>
-            <v-row align="center" justify="center" no-gutters>
-                <v-col md="10">
-                    <h2 class="header__title">
-                        Pomozte zjistit historii vaší polohy
-                    </h2>
-                    <p class="short-instructions">
-                        Historii polohy stáhněte z Google podle
-                        <a href="#navod">návodu níže</a>.<br />
-                        Výsledný soubor (nazvaný např.
-                        <strong>takeout-20200315T062605Z-001.zip</strong>)
-                        nahrajte zde:
-                    </p>
-                    <UploadForm
-                        :uploading="uploading"
-                        @upload-file="uploadFile"
-                    />
-                </v-col>
-            </v-row>
+    <HomeLayout>
+        <v-container fluid class="container">
+            <div class="background"></div>
+            <div class="content">
+                <h1>Pomozte nám určit svou polohu<br />v minulých dnech</h1>
+                <ChooseDevice
+                    @chooseAndroidDeviceEvent="chooseAndroidDevice"
+                    @chooseAppleDeviceEvent="chooseAppleDevice"
+                />
+            </div>
         </v-container>
-        <Instructions :uploading="uploading" @upload-file="uploadFile" />
-        <footer>
-            Footer. Zpracování dat, odkazy, atd.
-        </footer>
-    </div>
+    </HomeLayout>
 </template>
 
 <style scoped>
-.header {
-    padding-top: 48px;
-    padding-bottom: 68px;
-
+.container {
+    min-height: 850px;
     background-color: rgba(0, 45, 207, 0.8);
-    color: white;
-
-    text-align: center;
 }
 
-.header__title {
+.background {
+    position: absolute;
+    top: 190px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-image: url("../../public/map-bg.png");
+    background-size: cover;
+    width: 1213px;
+    height: 605px;
+    opacity: 0.5;
+    z-index: 0;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    margin: 48px auto;
+    color: white;
     font-size: 36px;
-    font-weight: 500;
-}
-
-.short-instructions {
-    padding: 20px;
-    font-weight: 300;
-}
-
-.short-instructions a {
-    color: inherit;
-}
-
-footer {
-    padding: 90px;
-    background-color: rgba(65, 65, 65);
-    color: white;
     text-align: center;
 }
 </style>
 
 <script lang="ts">
 import Vue from "vue";
+import HomeLayout from "@/HomeLayout.vue";
 import Component from "vue-class-component";
-import UploadForm from "@/components/UploadForm.vue";
-import Instructions from "@/components/Instructions.vue";
-import Loading from "@/components/Loading.vue";
-import axios from "axios";
+import ChooseDevice from "@/components/ChooseDevice.vue";
 
-@Component({
-    components: { UploadForm, Instructions, Loading }
-})
+@Component({ components: { ChooseDevice, HomeLayout } })
 export default class Home extends Vue {
-    uploading = false;
+    chooseAndroidDevice() {
+        this.$router.push({ name: "AndroidInstructions" });
+    }
 
-    async uploadFile(file: File) {
-        this.uploading = true;
-
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            const url = `${process.env.VUE_APP_API_URL}/users/file`;
-            const response = await axios.post(url, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-
-            this.$router.push({
-                name: "LocationHistory",
-                params: { id: response.data.id },
-                query: { token: response.data.token }
-            });
-        } catch (e) {
-            this.$router.push({
-                name: "Error"
-            });
-        }
+    chooseAppleDevice() {
+        this.$router.push({ name: "AppleInstructions" });
     }
 }
 </script>
