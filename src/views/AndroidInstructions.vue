@@ -1,6 +1,6 @@
 <template>
     <HomeLayout>
-        <v-container id="navod">
+        <v-container class="header" fluid>
             <v-row align="center" justify="center" no-gutters>
                 <v-col md="10">
                     <h2 class="header__title">
@@ -13,13 +13,14 @@
                         <strong>takeout-20200315T062605Z-001.zip</strong>)
                         nahrajte zde:
                     </p>
-                    <UploadForm
-                        :uploading="uploading"
-                        @upload-file="uploadFile"
-                    />
+                    <UploadForm />
                 </v-col>
+            </v-row>
+        </v-container>
 
-                <v-col md="10">
+        <v-container id="navod">
+            <v-row>
+                <v-col>
                     <h1>Návod jak stáhnout data z Google</h1>
 
                     <section class="step">
@@ -180,10 +181,7 @@
                                 </p>
                             </div>
                         </header>
-                        <UploadForm
-                            :uploading="uploading"
-                            @upload-file="uploadFile"
-                        />
+                        <UploadForm />
                     </section>
                 </v-col>
             </v-row>
@@ -192,6 +190,30 @@
 </template>
 
 <style scoped>
+.header {
+    padding-top: 48px;
+    padding-bottom: 68px;
+
+    background-color: rgba(0, 45, 207, 0.8);
+    color: white;
+
+    text-align: center;
+}
+
+.header__title {
+    font-size: 36px;
+    font-weight: 500;
+}
+
+.short-instructions {
+    padding: 20px;
+    font-weight: 300;
+}
+
+.short-instructions a {
+    color: inherit;
+}
+
 h1 {
     margin: 48px 0;
     font-size: 36px;
@@ -268,11 +290,5 @@ import HomeLayout from "@/HomeLayout.vue";
 import { Prop } from "vue-property-decorator";
 
 @Component({ components: { UploadForm, HomeLayout } })
-export default class AndroidInstructions extends Vue {
-    @Prop() uploading!: boolean;
-
-    uploadFile(event: any) {
-        this.$emit("upload-file", event);
-    }
-}
+export default class AndroidInstructions extends Vue {}
 </script>

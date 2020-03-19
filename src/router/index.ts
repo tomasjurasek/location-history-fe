@@ -23,7 +23,7 @@ const routes = [
         component: AppleInstructions
     },
     {
-        path: "/iphone",
+        path: "/android",
         name: "AndroidInstructions",
         component: AndroidInstructions
     },
