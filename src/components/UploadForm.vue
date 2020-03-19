@@ -12,6 +12,7 @@
         <v-btn
             class="upload-button"
             v-on:click="submitFile()"
+            :loading="uploading"
             :disabled="!file"
             color="success"
             x-large
@@ -70,9 +71,12 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 
 @Component({})
 export default class UploadForm extends Vue {
+    @Prop() uploading!: boolean;
+
     file: File | null = null;
 
     submitFile() {

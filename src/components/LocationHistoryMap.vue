@@ -192,6 +192,9 @@ export default class LocationHistoryMap extends Vue {
 
     fitBounds(locations: Location[]) {
         const bounds = this.locationsToBounds(locations);
+        if (!bounds) {
+            return;
+        }
         this.map.fitBounds(bounds, { padding: 100, maxDuration: 1 });
     }
 
@@ -199,7 +202,11 @@ export default class LocationHistoryMap extends Vue {
         return [location.longitude / 10 ** 7, location.latitude / 10 ** 7];
     }
 
-    locationsToBounds(locations: Location[]): mapboxgl.LngLatBounds {
+    locationsToBounds(locations: Location[]): mapboxgl.LngLatBounds | null {
+        if (!locations.length) {
+            return null;
+        }
+
         const lngLats = locations.map(location => {
             const position = this.locationToPosition(location);
             return new mapboxgl.LngLat(position[0], position[1]);

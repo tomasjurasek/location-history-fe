@@ -1,9 +1,9 @@
 <template>
-    <v-container fluid class="content">
+    <v-container fluid class="content" v-if="!isLoading">
         <v-row no-gutters>
             <v-col class="success-info-wrapper">
                 <div class="spacer"></div>
-                <div class="success-info">
+                <div class="success-info" v-if="isProcessing || isSuccess">
                     <v-icon class="success-info__icon" color="success" large
                         >mdi-cloud-check</v-icon
                     >
@@ -13,7 +13,9 @@
                     <p class="success-info__description">
                         Pro vaše data byl přiřazen následující identifikátor.
                         Pro úspěšné dokončení ho odešlete e-mailem nebo sdělte
-                        pracovníkovi hygienické stanice:
+                        pracovníkovi hygienické stanice.
+                        <br />
+                        Data můžete na této stránce kdykoliv smazat.
                     </p>
                     <div>
                         <span class="code">{{ id }}</span>
@@ -25,20 +27,57 @@
                         >
                             Odeslat e-mailem
                         </v-btn>
+                        <v-btn
+                            color="error"
+                            text
+                            class="float-right"
+                            :loading="deleting"
+                            large
+                            elevation="0"
+                            @click="deleteLocations"
+                        >
+                            Smazat
+                        </v-btn>
+                    </div>
+                </div>
+                <div class="success-info" v-if="isError">
+                    <v-icon
+                        class="success-info__icon"
+                        color="red darken-2"
+                        large
+                        >mdi-cloud-off-outline</v-icon
+                    >
+                    <h3 class="success-info__title">
+                        <span v-if="deleting">
+                            Data byla úspěšně smazána
+                        </span>
+                        <span v-else>
+                            Žádná data pro zadaný identifikátor nenalezena
+                        </span>
+                    </h3>
+                    <p class="success-info__description"></p>
+                    <div>
+                        <v-btn text large elevation="0" :to="{ name: 'Home' }">
+                            Nahrát data
+                        </v-btn>
                     </div>
                 </div>
             </v-col>
         </v-row>
-        <v-row no-gutters class="location-history">
+        <v-row
+            no-gutters
+            class="location-history"
+            v-if="isProcessing || isSuccess"
+        >
             <v-col cols="9" class="fill-height map">
-                <div v-if="isProccesing" class="map-overlay loading">
+                <div v-if="isProcessing" class="map-overlay loading">
                     <Loading
                         title="Zpracovávání ..."
                         description="Mějte strpení, před zobrazením dat v mapě je třeba data nejprve zpracovat, může to trvat několik minut."
                     />
                 </div>
                 <div
-                    v-else-if="noLocationsFound"
+                    v-else-if="isSuccess && !locations.length"
                     class="map-overlay no-locations-found"
                 >
                     <h3>Bohužel</h3>
@@ -171,8 +210,11 @@ export default class LocationHistory extends Vue {
     id = "";
     token = "";
     mailto = "";
-    isProccesing = true;
-    noLocationsFound = false;
+    isLoading = true;
+    isProcessing = false;
+    isSuccess = false;
+    isError = false;
+    deleting = false;
 
     locations: Location[] = [];
     selectedLocations: Location[] = [];
@@ -195,16 +237,19 @@ export default class LocationHistory extends Vue {
         try {
             const response = await axios.get(url, { params });
             const locations = response.data;
-            this.isProccesing = response.status === 204;
-            if (this.isProccesing) {
-                console.log("try laod locations");
+            this.isLoading = false;
+            this.isProcessing = response.status === 204;
+            if (this.isProcessing) {
                 await setTimeout(() => this.loadLocations(), 5 * 1000);
             } else {
-                this.locations = response.data;
+                this.isProcessing = false;
+                this.isSuccess = true;
+                this.locations = locations;
             }
         } catch (error) {
-            this.isProccesing = false;
-            this.noLocationsFound = true;
+            this.isLoading = false;
+            this.isProcessing = false;
+            this.isError = true;
             console.error({ error });
             //todo FE error modal
         }
@@ -229,6 +274,15 @@ export default class LocationHistory extends Vue {
             return true;
         }
         return false;
+    }
+
+    async deleteLocations() {
+        this.deleting = true;
+        const url = `${process.env.VUE_APP_API_URL}/users/${this.id}`;
+        const params = { token: this.token };
+        await axios.delete(url, { params });
+        this.isSuccess = false;
+        this.isError = true;
     }
 
     filterLocations(date: string) {

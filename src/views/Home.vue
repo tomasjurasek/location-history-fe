@@ -1,33 +1,29 @@
 <template>
     <div>
-        <Loading
-            v-if="uploading"
-            title="Nahrávání ..."
-            description="Mějte strpení, data se mohou nahrávat několik minut."
-        />
-        <div v-if="!uploading">
-            <v-container class="header" fluid>
-                <v-row align="center" justify="center" no-gutters>
-                    <v-col md="10">
-                        <h2 class="header__title">
-                            Pomozte zjistit historii vaší polohy
-                        </h2>
-                        <p class="short-instructions">
-                            Historii polohy stáhněte z Google podle
-                            <a href="#navod">návodu níže</a>.<br />
-                            Výsledný soubor (nazvaný např.
-                            <strong>takeout-20200315T062605Z-001.zip</strong>)
-                            nahrajte zde:
-                        </p>
-                        <UploadForm @upload-file="uploadFile" />
-                    </v-col>
-                </v-row>
-            </v-container>
-            <Instructions @upload-file="uploadFile" />
-            <footer>
-                Footer. Zpracování dat, odkazy, atd.
-            </footer>
-        </div>
+        <v-container class="header" fluid>
+            <v-row align="center" justify="center" no-gutters>
+                <v-col md="10">
+                    <h2 class="header__title">
+                        Pomozte zjistit historii vaší polohy
+                    </h2>
+                    <p class="short-instructions">
+                        Historii polohy stáhněte z Google podle
+                        <a href="#navod">návodu níže</a>.<br />
+                        Výsledný soubor (nazvaný např.
+                        <strong>takeout-20200315T062605Z-001.zip</strong>)
+                        nahrajte zde:
+                    </p>
+                    <UploadForm
+                        :uploading="uploading"
+                        @upload-file="uploadFile"
+                    />
+                </v-col>
+            </v-row>
+        </v-container>
+        <Instructions :uploading="uploading" @upload-file="uploadFile" />
+        <footer>
+            Footer. Zpracování dat, odkazy, atd.
+        </footer>
     </div>
 </template>
 

@@ -168,6 +168,7 @@
                             </div>
                         </header>
                         <UploadForm
+                            :uploading="uploading"
                             @upload-file="$emit('upload-file', $event)"
                         />
                     </section>
@@ -249,7 +250,12 @@ h1 {
 import Vue from "vue";
 import Component from "vue-class-component";
 import UploadForm from "@/components/UploadForm.vue";
+import { Prop } from "vue-property-decorator";
 
-@Component({ components: { UploadForm } })
-export default class Instructions extends Vue {}
+@Component({
+    components: { UploadForm }
+})
+export default class Instructions extends Vue {
+    @Prop() uploading!: boolean;
+}
 </script>
