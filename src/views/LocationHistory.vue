@@ -84,11 +84,11 @@
             <v-col cols="12" md="9" class="location-history__map">
                 <v-responsive
                     :aspect-ratio="16 / 9"
-                    min-height="300"
-                    max-height="600"
+                    min-height="400"
+                    max-height="800"
                 >
                     <div
-                        v-if="isProcessing"
+                        v-if="isProcessing || true"
                         class="location-history__map-overlay"
                     >
                         <Loading
