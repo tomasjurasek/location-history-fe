@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <v-form v-model="form1Valid" v-if="!verificationCodeSent">
+    <v-form v-model="valid">
+        <div v-if="!verificationCodeSent">
             <v-text-field
                 v-model="phoneNumber"
                 label="Telefonní číslo"
@@ -16,13 +16,13 @@
                 dark
                 x-large
                 depressed
-                :disabled="!form1Valid"
+                :disabled="!valid"
                 @click="sendVerificationCode"
             >
                 Odeslat ověřovací SMS
             </v-btn>
-        </v-form>
-        <v-form v-model="form2Valid" v-else>
+        </div>
+        <div v-else>
             <p>
                 Ověřovací SMS s kódem byla odeslána na telefonní číslo
                 {{ phoneNumber }}
@@ -49,7 +49,7 @@
             <v-btn
                 v-on:click="submitFile()"
                 :loading="uploading"
-                :disabled="!form2Valid"
+                :disabled="!valid"
                 color="success"
                 x-large
                 depressed
@@ -57,8 +57,8 @@
             >
                 Nahrát
             </v-btn>
-        </v-form>
-    </div>
+        </div>
+    </v-form>
 </template>
 
 <style scoped>
@@ -110,13 +110,11 @@ import Component from "vue-class-component";
 @Component({})
 export default class UploadForm extends Vue {
     phoneNumber = "+420";
-    form1Valid = false;
-
     verificationCodeSent = false;
-
     verificationCode = "";
     file: File | null = null;
-    form2Valid = false;
+
+    valid = false;
 
     uploading = false;
 
