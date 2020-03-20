@@ -88,7 +88,7 @@
                     max-height="800"
                 >
                     <div
-                        v-if="isProcessing || true"
+                        v-if="isProcessing"
                         class="location-history__map-overlay"
                     >
                         <Loading
