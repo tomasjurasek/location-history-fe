@@ -89,16 +89,16 @@
                 >
                     <div
                         v-if="isProcessing"
-                        class="location-history__map-overlay loading"
+                        class="location-history__map-overlay"
                     >
                         <Loading
-                            title="Zpracovávání ..."
+                            title="Zpracovávání..."
                             description="Mějte strpení, před zobrazením dat v mapě je třeba data nejprve zpracovat, může to trvat několik minut."
                         />
                     </div>
                     <div
                         v-else-if="isSuccess && !locations.length"
-                        class="map-overlay no-locations-found"
+                        class="location-history__map-overlay no-locations-found"
                     >
                         <h3>Bohužel</h3>
                         <p>
