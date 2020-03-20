@@ -1,5 +1,5 @@
 <template>
-    <v-form v-model="valid">
+    <v-form v-model="valid" ref="form">
         <div v-if="!verificationCodeSent">
             <v-text-field
                 v-model="phoneNumber"
@@ -16,6 +16,7 @@
                 dark
                 x-large
                 depressed
+                :loading="verificationCodeSending"
                 :disabled="!valid"
                 @click="sendVerificationCode"
             >
@@ -38,12 +39,15 @@
                 style="width: 323px"
             />
             <v-file-input
-                placeholder="Vybrat soubor"
-                accept=".zip"
                 v-model="file"
+                label="Soubor"
                 background-color="white"
-                hide-details
-                outlined
+                filled
+                rounded
+                show-size
+                prepend-icon=""
+                prepend-inner-icon="mdi-paperclip"
+                accept=".zip"
                 :rules="[fileValidation]"
             />
             <v-btn
@@ -72,20 +76,16 @@
     border-radius: 4px;
 }
 
-.v-file-input /deep/ .v-input__prepend-outer {
-    position: absolute;
-    top: 0;
-    left: 16px;
-    margin-top: 16px;
-    z-index: 100;
-}
-
-.v-file-input /deep/ .v-input__prepend-outer button {
-    color: black;
-}
-
 .v-file-input /deep/ .v-input__slot {
-    padding-left: 5em !important;
+    padding-left: 12px !important;
+}
+
+.v-file-input /deep/ .v-input__prepend-inner {
+    padding-right: 24px !important;
+}
+
+.v-input /deep/ .v-messages.error--text {
+    color: var(--v-error-lighten4) !important;
 }
 
 .v-btn {
@@ -109,7 +109,12 @@ import Component from "vue-class-component";
 
 @Component({})
 export default class UploadForm extends Vue {
+    $refs!: {
+        form: Vue & { resetValidation: () => void };
+    };
+
     phoneNumber = "+420";
+    verificationCodeSending = false;
     verificationCodeSent = false;
     verificationCode = "";
     file: File | null = null;
@@ -118,9 +123,13 @@ export default class UploadForm extends Vue {
 
     uploading = false;
 
-    sendVerificationCode() {
+    async sendVerificationCode() {
+        this.verificationCodeSending = true;
         // TODO: send verification code to phone number
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        this.verificationCodeSending = false;
         this.verificationCodeSent = true;
+        this.$refs.form.resetValidation();
     }
 
     submitFile() {
@@ -130,18 +139,29 @@ export default class UploadForm extends Vue {
     }
 
     phoneNumberValidation(value: string) {
-        return !!value.match(/^\+420\d{9}$/); // TODO: international phone numbers
+        // TODO: international phone numbers?
+        if (!value.match(/^\+420\d{9}$/)) {
+            return "Povolený formát telefonního čísla je +420nnnnnnnnn";
+        }
+        return true;
     }
 
     verificationCodeValidation(value: string) {
-        return !!value.match(/^\d{6}$/); // TODO: match with real verification code format
+        // TODO: match with real verification code format
+        if (!value.match(/^\d{6}$/)) {
+            return "Očekávaný formát ověřovacího kódu je nnnnnn";
+        }
+        return true;
     }
 
     fileValidation(value: File | null) {
-        return (
-            (value && value.size < 200 * 1024 * 1024) ||
-            "Maximální povolená velikost souboru je 200 MB"
-        );
+        if (!value) {
+            return "Soubor je povinný";
+        }
+        if (value.size >= 100 * 1024 * 1024) {
+            return "Maximální povolená velikost souboru je 100 MB";
+        }
+        return true;
     }
 }
 </script>
