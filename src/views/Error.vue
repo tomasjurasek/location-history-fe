@@ -1,5 +1,5 @@
 <template>
-    <v-container class="header" fluid>
+    <v-container class="header">
         <v-row align="center" justify="center" no-gutters>
             <v-col md="10" class="text-center">
                 <h1 class="text-center">Nastala chyba</h1>

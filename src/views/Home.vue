@@ -1,20 +1,20 @@
 <template>
     <HomeLayout>
-        <v-container fluid class="container">
+        <v-container class="wrapper" fluid>
             <div class="background"></div>
-            <div class="content">
+            <v-container class="content">
                 <h1>Pomozte nám určit svou polohu<br />v minulých dnech</h1>
                 <ChooseDevice
                     @chooseAndroidDeviceEvent="chooseAndroidDevice"
                     @chooseAppleDeviceEvent="chooseAppleDevice"
                 />
-            </div>
+            </v-container>
         </v-container>
     </HomeLayout>
 </template>
 
 <style scoped>
-.container {
+.wrapper {
     position: relative;
     padding-bottom: 32px;
     min-height: 850px;

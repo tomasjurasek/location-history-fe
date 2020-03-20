@@ -1,6 +1,8 @@
 <template>
     <HomeLayout>
-        <h1>Kontakty</h1>
+        <v-container>
+            <h1>Kontakty</h1>
+        </v-container>
     </HomeLayout>
 </template>
 
