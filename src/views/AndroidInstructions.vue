@@ -10,13 +10,16 @@
                 <v-row align="center" justify="center" no-gutters>
                     <v-col md="10">
                         <h2 class="header__title">
-                            Pomozte zjistit historii vaší polohy
+                            <v-icon class="header__icon"
+                                >mdi-android-debug-bridge</v-icon
+                            >
+                            Android - Nahrajte historii vaší polohy
                         </h2>
                         <p class="short-instructions">
-                            Historii polohy stáhněte z Google podle
-                            <a href="#navod">návodu níže</a>. <br />Výsledný
-                            soubor (nazvaný např.
-                            <strong>takeout-20200315T062605Z-001.zip</strong>)
+                            Historii si stáhněte podle
+                            <a href="#navod">návodu</a>.<br />
+                            Stažený soubor (např.
+                            takeout-20200315T06505Z-001.zip) následně vyberte a
                             nahrajte zde:
                         </p>
                         <UploadForm @uploadFileEvent="uploadFile" />
@@ -27,14 +30,14 @@
             <v-container id="navod">
                 <v-row>
                     <v-col>
-                        <h1>Návod jak stáhnout data z Google</h1>
+                        <h1>Návod - jak stáhnout historii polohy z Google</h1>
 
                         <section class="step">
                             <header class="step__header">
                                 <div class="step__number">1.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Navštivte web
+                                        Navštivte
                                         <a
                                             href="https://takeout.google.com"
                                             target="_blank"
@@ -42,7 +45,7 @@
                                             Google Takeout -
                                             https://takeout.google.com
                                         </a>
-                                        <br />a přihlaste se
+                                        <br />a přihlašte se.
                                     </h2>
                                 </div>
                             </header>
@@ -57,11 +60,11 @@
                                 <div class="step__number">2.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Klikněte na
-                                        <strong>Zrušit výběr všech</strong>
+                                        Zvolte
+                                        <strong>Zrušit výběr všech</strong>.
                                     </h2>
                                     <p class="step__description">
-                                        Ulehčí to následující kroky
+                                        Usnadní vám to následující kroky.
                                     </p>
                                 </div>
                             </header>
@@ -76,11 +79,12 @@
                                 <div class="step__number">3.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Vyberte pouze položku
-                                        <strong>Historie polohy</strong>
+                                        Zaškrtněte položku
+                                        <strong>Historie polohy</strong>, nic
+                                        jiného.
                                     </h2>
                                     <p class="step__description">
-                                        Najdete ji níže v seznamu
+                                        Najdete ji níže v seznamu.
                                     </p>
                                 </div>
                             </header>
@@ -95,11 +99,11 @@
                                 <div class="step__number">4.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Klikněte na tlačítko
+                                        Pokračujte na
                                         <strong>Další krok</strong>
                                     </h2>
                                     <p class="step__description">
-                                        na konci seznamu
+                                        na konci sekce.
                                     </p>
                                 </div>
                             </header>
@@ -118,9 +122,10 @@
                                         <strong
                                             >Odeslat odkaz ke stažení
                                             e-mailem</strong
-                                        >
-                                        a klikněte na tlačítko
-                                        <strong>Vytvořit export</strong>
+                                        >, ponechejte ve výběru
+                                        <strong>Exportovat jednou</strong> a
+                                        potvrďte tlačítkem
+                                        <strong>Vytvořit export</strong>.
                                     </h2>
                                 </div>
                             </header>
@@ -136,10 +141,10 @@
                                 <div>
                                     <h2 class="step__title">
                                         <strong>Vyčkejte</strong> až se objeví
-                                        následující obrazovka
+                                        <strong>následující obrazovka</strong>.
                                     </h2>
                                     <p class="step__description">
-                                        s exportem, který jste právě vytvořili
+                                        Může to trvat až několik minut.
                                     </p>
                                 </div>
                             </header>
@@ -154,13 +159,10 @@
                                 <div class="step__number">7.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Klikněte na tlačítko
-                                        <strong>Stáhnout</strong>
+                                        Zvolte <strong>Stáhnout</strong> a
+                                        uložte si výsledný soubor na plochu nebo
+                                        někam, kde ho snadno najdete.
                                     </h2>
-                                    <p class="step__description">
-                                        Na disk se stáhne soubor např.
-                                        takeout-20200314T194428Z-001.zip
-                                    </p>
                                 </div>
                             </header>
                             <img
@@ -182,10 +184,9 @@
                                         Téměr hotovo!
                                     </h2>
                                     <p class="step__description">
-                                        Zbývá už jen
-                                        <strong
-                                            >nahrát stažený soubor sem:</strong
-                                        >
+                                        Poslední krok -
+                                        <strong>nahrajte stažený soubor</strong>
+                                        zde:
                                     </p>
                                 </div>
                             </header>
@@ -212,6 +213,14 @@
 .header__title {
     font-size: 36px;
     font-weight: 500;
+}
+
+.header__icon {
+    position: relative;
+    top: -5px;
+    margin-right: 8px;
+    color: white;
+    font-size: 56px;
 }
 
 .short-instructions {

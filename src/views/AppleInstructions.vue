@@ -5,13 +5,14 @@
                 <v-row align="center" justify="center" no-gutters>
                     <v-col md="10">
                         <h2 class="header__title">
-                            Pomozte zjistit historii vaší polohy
+                            <v-icon class="header__icon">mdi-apple</v-icon>
+                            iPhone
                         </h2>
                         <p class="short-instructions">
-                            Zobrazte si <strong>neoblíbenější místa</strong> v
-                            nastavení Vašeho iPhone. <br />
-                            A sdělte je pracovníkovi Hygienické stanice - nebo
-                            zašlete otisk obrazovky.
+                            Zobrazte si vaši historii polohy v nastavení a
+                            sdělte ji pracovníkům hygieny telefonicky,<br />
+                            nebo lépe - pošlete ji emailem jako snímky obrazovky
+                            (screenshoty).
                         </p>
                     </v-col>
                 </v-row>
@@ -20,7 +21,9 @@
             <v-container id="navod">
                 <v-row>
                     <v-col>
-                        <h1>Jak na to?</h1>
+                        <h1>
+                            Návod - jak zobrazit historii polohy na iPhonech
+                        </h1>
 
                         <div class="steps row">
                             <section class="step col-lg-4-bak col-sm-6-bak">
@@ -28,10 +31,10 @@
                                     <div class="step__number">1.</div>
                                     <div>
                                         <h2 class="step__title">
-                                            Zvolte <strong>Nastavení</strong>
+                                            Jděte do <strong>Nastavení</strong>
                                         </h2>
                                         <p class="step__description">
-                                            na základní obrazovce
+                                            (Settings)
                                         </p>
                                     </div>
                                 </header>
@@ -50,7 +53,7 @@
                                             <strong>Soukromí</strong>
                                         </h2>
                                         <p class="step__description">
-                                            v menu Nastavení
+                                            (Privacy)
                                         </p>
                                     </div>
                                 </header>
@@ -65,11 +68,11 @@
                                     <div class="step__number">3.</div>
                                     <div>
                                         <h2 class="step__title">
-                                            Vyberte položku
+                                            Vyberte
                                             <strong>Polohové služby</strong>
                                         </h2>
                                         <p class="step__description">
-                                            z menu Soukromí
+                                            (Location services)
                                         </p>
                                     </div>
                                 </header>
@@ -84,11 +87,12 @@
                                     <div class="step__number">4.</div>
                                     <div>
                                         <h2 class="step__title">
-                                            Vyberte položku
+                                            Pokračujte na
                                             <strong>Systémové služby</strong>
                                         </h2>
                                         <p class="step__description">
-                                            na konci seznamu
+                                            (System services) úplně na konci
+                                            seznamu.
                                         </p>
                                     </div>
                                 </header>
@@ -107,7 +111,7 @@
                                             <strong>Významná místa</strong>
                                         </h2>
                                         <p class="step__description">
-                                            v Systémových službách
+                                            (Significant locations)
                                         </p>
                                     </div>
                                 </header>
@@ -122,12 +126,11 @@
                                     <div class="step__number">6.</div>
                                     <div>
                                         <h2 class="step__title">
-                                            Úplně dole je sekce nazvaná
-                                            <strong>Historie</strong>
+                                            V sekci
+                                            <strong>Historie</strong> vyberte
+                                            postupně všechny lokality, kde jste
+                                            byli od února 2020
                                         </h2>
-                                        <p class="step__description">
-                                            Vyberte ji
-                                        </p>
                                     </div>
                                 </header>
                                 <img
@@ -141,13 +144,15 @@
                                     <div class="step__number">7.</div>
                                     <div>
                                         <h2 class="step__title">
-                                            Zobrazí se mapa spolu se seznamem
-                                            míst, které jste navštivili
+                                            U každé lokality se zobrazí
+                                            <strong>mapka</strong> a podrobnější
+                                            <strong>seznam lokalit</strong>.
+                                            Tady
+                                            <strong
+                                                >postupně rolujte dolů</strong
+                                            >
+                                            a pořizujte snímky obrazovky.
                                         </h2>
-                                        <p class="step__description">
-                                            Kliknutím na položku seznamu se
-                                            zobrazí detail místa
-                                        </p>
                                     </div>
                                 </header>
                                 <img
@@ -156,7 +161,36 @@
                                 />
                             </section>
 
-                            <div class="step-placeholder"></div>
+                            <section class="step col-lg-4-bak col-sm-6-bak">
+                                <header class="step__header">
+                                    <div class="step__number">8.</div>
+                                    <div>
+                                        <h2 class="step__title">
+                                            Nezapomeňte se vrátit na
+                                            <strong>Významná místa</strong> a
+                                            nasnímkovat i další lokality.
+                                        </h2>
+                                    </div>
+                                </header>
+                            </section>
+
+                            <section class="step col-lg-4-bak col-sm-6-bak">
+                                <header class="step__header">
+                                    <div class="step__number">9.</div>
+                                    <div>
+                                        <h2 class="step__title">
+                                            Na závěr běžte do aplikace Fotky
+                                            (Photos), zvolte Vybrat v pravém
+                                            horním rohu, označte všechny
+                                            pořízené snímky obrazovky a klikněte
+                                            na ikonu sdílení vlevo dole.
+                                            Odešlete snímky emailem (postačí
+                                            nejnižší kvalita).
+                                        </h2>
+                                    </div>
+                                </header>
+                            </section>
+
                             <div class="step-placeholder"></div>
                         </div>
                     </v-col>
@@ -182,8 +216,17 @@
     font-weight: 500;
 }
 
+.header__icon {
+    position: relative;
+    top: -8px;
+    margin-right: 8px;
+    color: white;
+    font-size: 56px;
+}
+
 .short-instructions {
     padding: 20px;
+    margin: 0;
     font-weight: 300;
 }
 

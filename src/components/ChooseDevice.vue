@@ -1,23 +1,24 @@
 <template>
     <div>
-        <h2>Vyberte váš chytrý telefon:</h2>
+        <h2>Jaký máte chytrý telefon?</h2>
         <v-row>
             <v-col class="choices">
                 <v-sheet @click="chooseAndroid" class="choice choice--android">
                     <v-icon class="choice__icon"
                         >mdi-android-debug-bridge</v-icon
                     >
-                    <h3 class="choice__title">Mám telefon s Android</h3>
+                    <h3 class="choice__title">Mám Android</h3>
                     <p class="choice__description">
-                        Mám chytrý telefon značky Samsung, Huawei, Xiaomi,
-                        Honor, LG, Google, Motorola, Nokia nebo jiný než iPhone
+                        Chytrý telefon od Samsung, Huawei,<br />Xiaomi, Honor,
+                        LG, Google,<br />Motorola, Nokia, ...
                     </p>
                 </v-sheet>
                 <v-sheet @click="chooseiPhone" class="choice choice--apple">
                     <v-icon class="choice__icon">mdi-apple</v-icon>
-                    <h3 class="choice__title">Mám telefon od Apple</h3>
+                    <h3 class="choice__title">Mám iPhone</h3>
                     <p class="choice__description">
-                        Jakýkoli iPhone
+                        Chytrý telefon od Apple<br />
+                        (s jablkem na zadní straně)
                     </p>
                 </v-sheet>
             </v-col>
