@@ -3,7 +3,7 @@
         <div class="topbar">
             <v-container class="topbar__content">
                 <router-link :to="{ name: 'Home' }" class="logo">
-                    PROJEKT
+                    INICIATIVA
                     <br />
                     <span class="red--text">#STOPCOVIDCZ</span>
                 </router-link>
