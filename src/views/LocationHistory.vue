@@ -1,97 +1,120 @@
 <template>
     <v-container fluid class="content" v-if="!isLoading">
+        <v-container>
+            <v-row>
+                <v-col>
+                    <div class="success-info" v-if="isProcessing || isSuccess">
+                        <v-icon class="success-info__icon" color="success" large
+                            >mdi-cloud-check</v-icon
+                        >
+                        <h3 class="success-info__title">
+                            Nahrávání úspěšné, děkujeme!
+                        </h3>
+                        <p class="success-info__description">
+                            Pro vaše data byl přiřazen následující
+                            identifikátor. Pro úspěšné dokončení ho odešlete
+                            e-mailem nebo sdělte pracovníkovi hygienické
+                            stanice.
+                            <br />
+                            Data můžete na této stránce kdykoliv smazat,
+                            nezapoměňte si jí uložit.
+                        </p>
+                        <div>
+                            <v-row no-gutters class="align-center">
+                                <v-col cols="auto" class="mr-12 mb-3">
+                                    <span class="display-1 text-no-wrap">
+                                        {{ id }}
+                                    </span>
+                                </v-col>
+                                <v-col cols="auto" class="mr-auto mb-3">
+                                    <v-btn
+                                        class="success"
+                                        large
+                                        depressed
+                                        :href="mailto"
+                                    >
+                                        Odeslat e-mailem
+                                    </v-btn>
+                                </v-col>
+                                <v-col cols="auto" class="mb-3">
+                                    <v-btn
+                                        color="error"
+                                        text
+                                        :loading="isDeleting"
+                                        large
+                                        depressed
+                                        @click="deleteLocations"
+                                    >
+                                        Smazat
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </div>
+                    </div>
+                    <div class="success-info" v-if="isError || isDeleted">
+                        <v-icon
+                            class="success-info__icon"
+                            color="red darken-2"
+                            large
+                            >mdi-cloud-off-outline</v-icon
+                        >
+                        <h3 class="success-info__title">
+                            <span v-if="isDeleted">
+                                Data byla úspěšně smazána
+                            </span>
+                            <span v-else>
+                                Žádná data pro zadaný identifikátor nenalezena
+                            </span>
+                        </h3>
+                        <p class="success-info__description"></p>
+                        <div>
+                            <v-btn
+                                large
+                                depressed
+                                @click="$router.push({ name: 'Home' })"
+                            >
+                                Domů
+                            </v-btn>
+                        </div>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-container>
         <v-row no-gutters>
-            <v-col class="success-info-wrapper">
-                <div class="spacer"></div>
-                <div class="success-info" v-if="isProcessing || isSuccess">
-                    <v-icon class="success-info__icon" color="success" large
-                        >mdi-cloud-check</v-icon
-                    >
-                    <h3 class="success-info__title">
-                        Nahrávání úspěšné, děkujeme!
-                    </h3>
-                    <p class="success-info__description">
-                        Pro vaše data byl přiřazen následující identifikátor.
-                        Pro úspěšné dokončení ho odešlete e-mailem nebo sdělte
-                        pracovníkovi hygienické stanice.
-                        <br />
-                        Data můžete na této stránce kdykoliv smazat, nezapoměňte
-                        si jí uložit.
-                    </p>
-                    <div>
-                        <span class="code">{{ id }}</span>
-                        <v-btn class="success" large depressed :href="mailto">
-                            Odeslat e-mailem
-                        </v-btn>
-                        <v-btn
-                            color="error"
-                            text
-                            class="float-right"
-                            :loading="isDeleting"
-                            large
-                            depressed
-                            @click="deleteLocations"
-                        >
-                            Smazat
-                        </v-btn>
-                    </div>
-                </div>
-                <div class="success-info" v-if="isError || isDeleted">
-                    <v-icon
-                        class="success-info__icon"
-                        color="red darken-2"
-                        large
-                        >mdi-cloud-off-outline</v-icon
-                    >
-                    <h3 class="success-info__title">
-                        <span v-if="isDeleted">
-                            Data byla úspěšně smazána
-                        </span>
-                        <span v-else>
-                            Žádná data pro zadaný identifikátor nenalezena
-                        </span>
-                    </h3>
-                    <p class="success-info__description"></p>
-                    <div>
-                        <v-btn
-                            large
-                            depressed
-                            @click="$router.push({ name: 'Home' })"
-                        >
-                            Domů
-                        </v-btn>
-                    </div>
-                </div>
-            </v-col>
-        </v-row>
-        <v-row
-            no-gutters
-            class="location-history"
-            v-if="isProcessing || isSuccess"
-        >
-            <v-col cols="9" class="fill-height map">
-                <div v-if="isProcessing" class="map-overlay loading">
-                    <Loading
-                        title="Zpracovávání ..."
-                        description="Mějte strpení, před zobrazením dat v mapě je třeba data nejprve zpracovat, může to trvat několik minut."
-                    />
-                </div>
-                <div
-                    v-else-if="isSuccess && !locations.length"
-                    class="map-overlay no-locations-found"
+            <v-col cols="12" md="9" class="location-history__map">
+                <v-responsive
+                    :aspect-ratio="16 / 9"
+                    min-height="300"
+                    max-height="600"
+                    v-if="isProcessing || isSuccess"
                 >
-                    <h3>Bohužel</h3>
-                    <p>
-                        Za poslední dobu nebyly nalezeny žádné záznamy polohy.
-                    </p>
-                </div>
-                <LocationHistoryMap
-                    :locations="date ? selectedLocations : locations"
-                    :highlighted-location="highlightedLocation"
-                    :draw-line="!!date"
-                />
+                    <div
+                        v-if="isProcessing"
+                        class="location-history__map-overlay loading"
+                    >
+                        <Loading
+                            title="Zpracovávání ..."
+                            description="Mějte strpení, před zobrazením dat v mapě je třeba data nejprve zpracovat, může to trvat několik minut."
+                        />
+                    </div>
+                    <div
+                        v-else-if="isSuccess && !locations.length"
+                        class="map-overlay no-locations-found"
+                    >
+                        <h3>Bohužel</h3>
+                        <p>
+                            Za poslední dobu nebyly nalezeny žádné záznamy
+                            polohy.
+                        </p>
+                    </div>
+                    <LocationHistoryMap
+                        :locations="date ? selectedLocations : locations"
+                        :highlighted-location="highlightedLocation"
+                        :draw-line="!!date"
+                    />
+                </v-responsive>
             </v-col>
-            <v-col cols="3" class="fill-height">
+            <v-col cols="12" md="3" class="location-history__side-panel">
                 <LocationHistorySidePanel
                     :date="date"
                     :locations="locations"
@@ -115,16 +138,6 @@
 
 .content > * {
     flex: 0 0 auto;
-}
-
-.spacer {
-    flex: 1 0 auto;
-    max-width: 150px;
-}
-
-.success-info-wrapper {
-    display: flex;
-    flex-direction: row;
 }
 
 .success-info {
@@ -152,21 +165,11 @@
     margin-bottom: 40px;
 }
 
-.code {
-    font-size: 36px;
-    margin-right: 32px;
-    vertical-align: middle;
-}
-
-.location-history {
-    flex: 1 0 auto;
-}
-
-.map {
+.location-history__map {
     position: relative;
 }
 
-.map-overlay {
+.location-history__map-overlay {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -177,7 +180,8 @@
     z-index: 100;
 }
 
-.loading {
+.location-history__side-panel {
+    min-height: 400px;
 }
 
 .no-locations-found {

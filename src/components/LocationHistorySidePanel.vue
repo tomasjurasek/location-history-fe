@@ -1,5 +1,5 @@
 <template>
-    <v-row no-gutters class="flex-column fill-height mx-6">
+    <v-row no-gutters class="flex-column fill-height mx-6 my-3 my-md-0">
         <v-col style="flex: 0">
             <h2>Detaily</h2>
             <DatePicker
