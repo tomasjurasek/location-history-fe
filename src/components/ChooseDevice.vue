@@ -42,6 +42,7 @@ h2 {
 }
 
 .choice {
+    position: relative;
     flex: 0 1 auto;
     margin: 8px 20px;
     width: 340px;
@@ -50,6 +51,29 @@ h2 {
     padding: 50px 30px;
     text-align: center;
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.choice::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 8px;
+    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.choice:hover {
+    transform: scale(1.02);
+}
+
+.choice:hover::after {
+    opacity: 1;
 }
 
 .choice__icon {
