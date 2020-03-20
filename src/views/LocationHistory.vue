@@ -80,13 +80,12 @@
                 </v-col>
             </v-row>
         </v-container>
-        <v-row no-gutters>
+        <v-row no-gutters v-if="isProcessing || isSuccess">
             <v-col cols="12" md="9" class="location-history__map">
                 <v-responsive
                     :aspect-ratio="16 / 9"
                     min-height="300"
                     max-height="600"
-                    v-if="isProcessing || isSuccess"
                 >
                     <div
                         v-if="isProcessing"
