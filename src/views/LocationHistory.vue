@@ -243,7 +243,7 @@ export default class LocationHistory extends Vue {
             const locations = response.data;
             this.isLoading = false;
             this.isProcessing = response.status === 204;
-            if (this.isProcessing) {
+            if (this.isProcessing && !this.isDeleted) {
                 await setTimeout(() => this.loadLocations(), 5 * 1000);
             } else {
                 this.isProcessing = false;
@@ -283,6 +283,7 @@ export default class LocationHistory extends Vue {
         const url = `${process.env.VUE_APP_API_URL}/users/${this.id}`;
         const params = { token: this.token };
         await axios.delete(url, { params });
+        this.isProcessing = false;
         this.isSuccess = false;
         this.isDeleting = false;
         this.isDeleted = true;
