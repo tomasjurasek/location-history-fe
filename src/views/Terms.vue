@@ -1,6 +1,6 @@
 <template>
     <HomeLayout>
-        <v-container fluid>
+        <v-container>
             <h1>PODMÍNKY UŽITÍ APLIKACE [•]</h1>
             <p>
                 Aplikace slouží je webová aplikace [•], která má sloužit k
