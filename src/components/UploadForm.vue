@@ -40,7 +40,7 @@
             />
             <v-file-input
                 v-model="file"
-                label="Soubor"
+                label="Vyberte soubor"
                 background-color="white"
                 filled
                 rounded
@@ -103,6 +103,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import axios from "axios";
 
 @Component({})
 export default class UploadForm extends Vue {
@@ -110,9 +111,10 @@ export default class UploadForm extends Vue {
         form: Vue & { resetValidation: () => void };
     };
 
-    phoneNumber = "+420";
+    phoneNumber = "";
     verificationCodeSending = false;
     verificationCodeSent = false;
+    id = "";
     verificationCode = "";
     file: File | null = null;
 
@@ -122,8 +124,14 @@ export default class UploadForm extends Vue {
 
     async sendVerificationCode() {
         this.verificationCodeSending = true;
-        // TODO: send verification code to phone number
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        const url = `${process.env.VUE_APP_API_URL}/users/send`;
+        const data = this.phoneNumber;
+        const response = await axios.post(url, data, {
+            headers: {
+                "Content-Type": "application/json" // FIXME: text/plain?
+            }
+        });
+        this.id = response.data;
         this.verificationCodeSending = false;
         this.verificationCodeSent = true;
         this.$refs.form.resetValidation();
@@ -131,22 +139,27 @@ export default class UploadForm extends Vue {
 
     submitFile() {
         this.uploading = true;
-        // TODO: send verification code with file upload
-        this.$emit("uploadFileEvent", this.file);
+        const event = {
+            id: this.id,
+            verificationCode: this.verificationCode,
+            file: this.file
+        };
+        this.$emit("uploadFileEvent", event);
     }
 
     phoneNumberValidation(value: string) {
-        // TODO: international phone numbers?
-        if (!value.match(/^\+420\d{9}$/)) {
-            return "Povolený formát telefonního čísla je +420nnnnnnnnn";
+        if (!value) {
+            return "Telefonní číslo je povinné";
+        }
+        if (!value.match(/^\d{9}$/)) {
+            return "Formát telefonního čísla je nnnnnnnnn (9 číslic)";
         }
         return true;
     }
 
     verificationCodeValidation(value: string) {
-        // TODO: match with real verification code format
-        if (!value.match(/^\d{6}$/)) {
-            return "Očekávaný formát ověřovacího kódu je nnnnnn";
+        if (!value) {
+            return "Ověřovací kód z SMS je povinný";
         }
         return true;
     }
