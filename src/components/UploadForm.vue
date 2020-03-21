@@ -1,6 +1,6 @@
 <template>
     <v-form v-model="valid" ref="form">
-        <div v-if="!verificationCodeSent">
+        <div v-if="!verificationCodeSending && !verificationCodeSent">
             <v-text-field
                 v-model="phoneNumber"
                 label="Telefonní číslo"
@@ -24,10 +24,22 @@
             </v-btn>
         </div>
         <div v-else>
-            <p>
-                Ověřovací SMS s kódem byla odeslána na telefonní číslo
-                {{ phoneNumber }}
+            <p class="short-instructions">
+                <v-progress-circular
+                    indeterminate
+                    class="ma-2"
+                    v-if="verificationCodeSending"
+                ></v-progress-circular>
+                <span v-else>
+                    Ověřovací SMS s kódem byla odeslána na telefonní číslo
+                    {{ phoneNumber }}.
+                    <br />
+                    <a href="javascript:void(0)" @click="sendVerificationCode">
+                        Nedostali jste kód? Zaslat kód znovu.
+                    </a>
+                </span>
             </p>
+
             <v-text-field
                 v-model="verificationCode"
                 label="Ověřovací kód z SMS"
@@ -94,6 +106,10 @@
     background-color: #777777 !important;
     color: white !important;
 }
+
+.short-instructions a {
+    color: inherit;
+}
 </style>
 
 <script lang="ts">
@@ -119,6 +135,7 @@ export default class UploadForm extends Vue {
     uploading = false;
 
     async sendVerificationCode() {
+        this.$refs.form.resetValidation();
         this.verificationCodeSending = true;
         const url = `${process.env.VUE_APP_API_URL}/users/send`;
         const data = this.phoneNumber;
@@ -131,7 +148,6 @@ export default class UploadForm extends Vue {
         this.id = response.data;
         this.verificationCodeSending = false;
         this.verificationCodeSent = true;
-        this.$refs.form.resetValidation();
     }
 
     submitFile() {
