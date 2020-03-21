@@ -20,7 +20,8 @@
                 :disabled="!valid"
                 @click="sendVerificationCode"
             >
-                Odeslat ověřovací SMS
+                <v-icon class="mr-2">mdi-android-messages</v-icon> Odeslat
+                ověřovací SMS
             </v-btn>
         </div>
         <div v-else>
@@ -34,8 +35,9 @@
                     Ověřovací SMS s kódem byla odeslána na telefonní číslo
                     {{ phoneNumber }}.
                     <br />
+                    SMS nepřišla?
                     <a href="javascript:void(0)" @click="sendVerificationCode">
-                        Nedostali jste kód? Zaslat kód znovu.
+                        Zaslat kód znovu.
                     </a>
                 </span>
             </p>
@@ -50,7 +52,11 @@
                 class="d-inline-block"
                 style="width: 323px"
             />
+            <br />
+            Stažený soubor (např. takeout-20200315T06505Z-001.zip) nahrajte zde:
+
             <v-file-input
+                class="mt-2"
                 v-model="file"
                 label="Vyberte soubor"
                 background-color="white"
@@ -71,7 +77,7 @@
                 depressed
                 dark
             >
-                Nahrát
+                <v-icon class="mr-2">mdi-cloud-upload-outline</v-icon> Nahrát
             </v-btn>
         </div>
     </v-form>

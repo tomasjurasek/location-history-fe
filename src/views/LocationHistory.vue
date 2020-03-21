@@ -11,13 +11,9 @@
                             Nahrávání úspěšné, děkujeme!
                         </h3>
                         <p class="success-info__description">
-                            Pro vaše data byl přiřazen následující
-                            identifikátor. Pro úspěšné dokončení ho odešlete
-                            e-mailem nebo sdělte pracovníkovi hygienické
-                            stanice.
-                            <br />
-                            Data můžete na této stránce kdykoliv smazat,
-                            nezapoměňte si jí uložit.
+                            Pro úspěšné dokončení odešlete e-mailem nebo sdělte
+                            pracovníkovi hygienické stanice následující
+                            identifikátor:
                         </p>
                         <div>
                             <v-row no-gutters class="align-center">
@@ -45,7 +41,8 @@
                                         depressed
                                         @click="deleteLocations"
                                     >
-                                        Smazat
+                                        <v-icon>mdi-trash-can-outline</v-icon>
+                                        Smazat data
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -93,7 +90,7 @@
                     >
                         <Loading
                             title="Zpracovávání..."
-                            description="Mějte strpení, před zobrazením dat v mapě je třeba data nejprve zpracovat, může to trvat několik minut."
+                            description="Před zobrazením dat v mapě musíme data zpracovat, může to trvat několik minut."
                         />
                     </div>
                     <div

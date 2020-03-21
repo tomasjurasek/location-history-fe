@@ -9,8 +9,8 @@
                             iPhone
                         </h2>
                         <p class="short-instructions">
-                            Zobrazte si vaši historii polohy v nastavení a
-                            sdělte ji pracovníkům hygieny telefonicky,<br />
+                            Zobrazte si historii své polohy v nastavení a sdělte
+                            ji pracovníkům hygieny telefonicky,<br />
                             nebo lépe - pošlete ji emailem jako snímky obrazovky
                             (screenshoty).
                         </p>
@@ -22,7 +22,7 @@
                 <v-row>
                     <v-col>
                         <h1>
-                            Návod - jak zobrazit historii polohy na iPhonech
+                            Jak na to?
                         </h1>
 
                         <div class="steps row">
@@ -168,7 +168,7 @@
                                         <h2 class="step__title">
                                             Nezapomeňte se vrátit na
                                             <strong>Významná místa</strong> a
-                                            nasnímkovat i další lokality.
+                                            nasnímat i další lokality.
                                         </h2>
                                     </div>
                                 </header>
@@ -180,12 +180,13 @@
                                     <div>
                                         <h2 class="step__title">
                                             Na závěr běžte do aplikace Fotky
-                                            (Photos), zvolte Vybrat v pravém
-                                            horním rohu, označte všechny
-                                            pořízené snímky obrazovky a klikněte
-                                            na ikonu sdílení vlevo dole.
-                                            Odešlete snímky emailem (postačí
-                                            nejnižší kvalita).
+                                            (Photos), zvolte
+                                            <strong>Vybrat</strong> v pravém
+                                            horním rohu. <br />
+                                            Označte všechny pořízené snímky
+                                            obrazovky a klikněte na ikonu
+                                            sdílení vlevo dole. <br />
+                                            Odešlete nám snímky emailem.
                                         </h2>
                                     </div>
                                 </header>

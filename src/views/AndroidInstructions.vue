@@ -13,14 +13,12 @@
                             <v-icon class="header__icon"
                                 >mdi-android-debug-bridge</v-icon
                             >
-                            Android - Nahrajte historii vaší polohy
+                            Předejte nám historii svojí polohy
                         </h2>
                         <p class="short-instructions">
-                            Historii si stáhněte podle
+                            Historii polohy připravte podle
                             <a href="#navod">návodu</a>.<br />
-                            Stažený soubor (např.
-                            takeout-20200315T06505Z-001.zip) následně vyberte a
-                            nahrajte zde:
+                            Před nahráním ověřte své telefonní číslo.
                         </p>
                         <UploadForm @uploadFileEvent="uploadFile" />
                     </v-col>
@@ -30,14 +28,14 @@
             <v-container id="navod">
                 <v-row>
                     <v-col>
-                        <h1>Návod - jak stáhnout historii polohy z Google</h1>
+                        <h1>Jak na to?</h1>
 
                         <section class="step">
                             <header class="step__header">
                                 <div class="step__number">1.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Navštivte
+                                        Navštivte stránku
                                         <a
                                             href="https://takeout.google.com"
                                             target="_blank"
@@ -45,7 +43,7 @@
                                             Google Takeout -
                                             https://takeout.google.com
                                         </a>
-                                        <br />a přihlašte se.
+                                        <br />a přihlaste se do Google.
                                     </h2>
                                 </div>
                             </header>
@@ -60,11 +58,11 @@
                                 <div class="step__number">2.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Zvolte
+                                        Nejprve zvolte
                                         <strong>Zrušit výběr všech</strong>.
                                     </h2>
                                     <p class="step__description">
-                                        Usnadní vám to následující kroky.
+                                        Zajímají nás jen data o poloze.
                                     </p>
                                 </div>
                             </header>
@@ -80,11 +78,10 @@
                                 <div>
                                     <h2 class="step__title">
                                         Zaškrtněte položku
-                                        <strong>Historie polohy</strong>, nic
-                                        jiného.
+                                        <strong>Historie polohy</strong>
                                     </h2>
                                     <p class="step__description">
-                                        Najdete ji níže v seznamu.
+                                        ve spodní půlce seznamu.
                                     </p>
                                 </div>
                             </header>
@@ -99,7 +96,7 @@
                                 <div class="step__number">4.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Pokračujte na
+                                        Pokračujte tlačítkem
                                         <strong>Další krok</strong>
                                     </h2>
                                     <p class="step__description">
@@ -140,11 +137,12 @@
                                 <div class="step__number">6.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        <strong>Vyčkejte</strong> až se objeví
-                                        <strong>následující obrazovka</strong>.
+                                        <strong>Vyčkejte</strong> dokud neskončí
+                                        export.
                                     </h2>
                                     <p class="step__description">
-                                        Může to trvat až několik minut.
+                                        <v-icon>mdi-timer-sand</v-icon> Může to
+                                        trvat několik minut.
                                     </p>
                                 </div>
                             </header>
@@ -159,9 +157,11 @@
                                 <div class="step__number">7.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Zvolte <strong>Stáhnout</strong> a
-                                        uložte si výsledný soubor na plochu nebo
-                                        někam, kde ho snadno najdete.
+                                        Po skončení exportu zvolte
+                                        <strong>Stáhnout</strong> a uložte
+                                        výsledný soubor na
+                                        <strong>plochu</strong> nebo někam, kde
+                                        ho snadno najdete.
                                     </h2>
                                 </div>
                             </header>
