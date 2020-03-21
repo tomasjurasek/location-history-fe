@@ -8,7 +8,7 @@
                 filled
                 rounded
                 :rules="[phoneNumberValidation]"
-                class="mx-auto"
+                class="d-inline-block"
                 style="width: 323px"
             />
             <v-btn
@@ -35,7 +35,7 @@
                 filled
                 rounded
                 :rules="[verificationCodeValidation]"
-                class="mx-auto"
+                class="d-inline-block"
                 style="width: 323px"
             />
             <v-file-input
@@ -85,10 +85,6 @@
     color: var(--v-error-lighten4) !important;
 }
 
-.v-btn {
-    margin-top: 20px;
-}
-
 .v-btn:not(.v-btn--round).v-size--x-large {
     height: 60px;
     padding: 0 48px;
@@ -128,7 +124,8 @@ export default class UploadForm extends Vue {
         const data = this.phoneNumber;
         const response = await axios.post(url, data, {
             headers: {
-                "Content-Type": "application/json" // FIXME: text/plain?
+                // FIXME: text/plain? or change BE to accept and send JSON
+                "Content-Type": "application/json"
             }
         });
         this.id = response.data;
