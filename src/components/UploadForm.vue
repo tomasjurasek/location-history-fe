@@ -76,11 +76,8 @@
     border-radius: 4px;
 }
 
-.v-file-input /deep/ .v-input__slot {
-    padding-left: 12px !important;
-}
-
 .v-file-input /deep/ .v-input__prepend-inner {
+    margin-left: -8px;
     padding-right: 24px !important;
 }
 
