@@ -311,17 +311,18 @@ import axios from "axios";
 export default class AndroidInstructions extends Vue {
     isUploading = false;
 
-    async uploadFile(file: File) {
+    async uploadFile(event: {
+        id: string;
+        verificationCode: string;
+        file: File;
+    }) {
         this.isUploading = true;
         try {
-            const formData = new FormData();
-            formData.append("file", file);
-            const url = `${process.env.VUE_APP_API_URL}/users/file`;
-            const response = await axios.post(url, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            });
+            const url = `${process.env.VUE_APP_API_URL}/users/${event.id}/file`;
+            const params = { verifyCode: event.verificationCode };
+            const data = new FormData();
+            data.append("file", event.file);
+            const response = await axios.post(url, data, { params });
 
             this.$router.push({
                 name: "LocationHistory",

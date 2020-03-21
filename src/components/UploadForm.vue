@@ -1,68 +1,96 @@
 <template>
-    <div class="form">
-        <v-file-input
-            class="file-input"
-            placeholder="Vybrat soubor"
-            accept=".zip"
-            v-model="file"
-            background-color="white"
-            hide-details
-            outlined
-        />
-        <v-btn
-            class="upload-button"
-            v-on:click="submitFile()"
-            :loading="uploading"
-            :disabled="!file"
-            color="success"
-            x-large
-            depressed
-            dark
-        >
-            Nahrát
-        </v-btn>
-    </div>
+    <v-form v-model="valid" ref="form">
+        <div v-if="!verificationCodeSent">
+            <v-text-field
+                v-model="phoneNumber"
+                label="Telefonní číslo"
+                background-color="white"
+                filled
+                rounded
+                :rules="[phoneNumberValidation]"
+                class="d-inline-block"
+                style="width: 323px"
+            />
+            <v-btn
+                color="success"
+                dark
+                x-large
+                depressed
+                :loading="verificationCodeSending"
+                :disabled="!valid"
+                @click="sendVerificationCode"
+            >
+                Odeslat ověřovací SMS
+            </v-btn>
+        </div>
+        <div v-else>
+            <p>
+                Ověřovací SMS s kódem byla odeslána na telefonní číslo
+                {{ phoneNumber }}
+            </p>
+            <v-text-field
+                v-model="verificationCode"
+                label="Ověřovací kód z SMS"
+                background-color="white"
+                filled
+                rounded
+                :rules="[verificationCodeValidation]"
+                class="d-inline-block"
+                style="width: 323px"
+            />
+            <v-file-input
+                v-model="file"
+                label="Vyberte soubor"
+                background-color="white"
+                filled
+                rounded
+                show-size
+                prepend-icon=""
+                prepend-inner-icon="mdi-paperclip"
+                accept=".zip"
+                :rules="[fileValidation]"
+            />
+            <v-btn
+                v-on:click="submitFile()"
+                :loading="uploading"
+                :disabled="!valid"
+                color="success"
+                x-large
+                depressed
+                dark
+            >
+                Nahrát
+            </v-btn>
+        </div>
+    </v-form>
 </template>
 
 <style scoped>
-.failed {
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.form {
+.v-form {
     text-align: center;
-}
-
-.file-input {
     max-width: 600px;
     margin: 0 auto !important;
 }
 
-.file-input /deep/ .v-input__prepend-outer {
-    position: absolute;
-    top: 0;
-    left: 16px;
-    margin-top: 16px;
-    z-index: 100;
+.v-text-field--rounded {
+    border-radius: 4px;
 }
 
-.file-input /deep/ .v-input__prepend-outer button {
-    color: black;
+.v-file-input /deep/ .v-input__prepend-inner {
+    margin-left: -8px;
+    padding-right: 24px !important;
 }
 
-.file-input /deep/ .v-input__slot {
-    padding-left: 5em !important;
+.v-input /deep/ .v-messages.error--text {
+    color: var(--v-error-lighten4) !important;
 }
 
-.upload-button {
-    height: 60px !important;
-    min-width: 200px !important;
-    margin-top: 20px;
+.v-btn:not(.v-btn--round).v-size--x-large {
+    height: 60px;
+    padding: 0 48px;
 }
 
-.upload-button.theme--dark.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+.v-btn.v-btn.v-btn--disabled.theme--dark:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
     background-color: #777777 !important;
     color: white !important;
 }
@@ -71,15 +99,76 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import axios from "axios";
 
 @Component({})
 export default class UploadForm extends Vue {
-    uploading = false;
+    $refs!: {
+        form: Vue & { resetValidation: () => void };
+    };
+
+    phoneNumber = "";
+    verificationCodeSending = false;
+    verificationCodeSent = false;
+    id = "";
+    verificationCode = "";
     file: File | null = null;
+
+    valid = false;
+
+    uploading = false;
+
+    async sendVerificationCode() {
+        this.verificationCodeSending = true;
+        const url = `${process.env.VUE_APP_API_URL}/users/send`;
+        const data = this.phoneNumber;
+        const response = await axios.post(url, data, {
+            headers: {
+                // FIXME: text/plain? or change BE to accept and send JSON
+                "Content-Type": "application/json"
+            }
+        });
+        this.id = response.data;
+        this.verificationCodeSending = false;
+        this.verificationCodeSent = true;
+        this.$refs.form.resetValidation();
+    }
 
     submitFile() {
         this.uploading = true;
-        this.$emit("uploadFileEvent", this.file);
+        const event = {
+            id: this.id,
+            verificationCode: this.verificationCode,
+            file: this.file
+        };
+        this.$emit("uploadFileEvent", event);
+    }
+
+    phoneNumberValidation(value: string) {
+        if (!value) {
+            return "Telefonní číslo je povinné";
+        }
+        if (!value.match(/^\d{9}$/)) {
+            return "Formát telefonního čísla je nnnnnnnnn (9 číslic)";
+        }
+        return true;
+    }
+
+    verificationCodeValidation(value: string) {
+        if (!value) {
+            return "Ověřovací kód z SMS je povinný";
+        }
+        return true;
+    }
+
+    fileValidation(value: File | null) {
+        if (!value) {
+            return "Soubor je povinný";
+        }
+        if (value.size >= 100 * 1024 * 1024) {
+            return "Maximální povolená velikost souboru je 100 MB";
+        }
+        return true;
     }
 }
 </script>
