@@ -15,9 +15,9 @@
                     <router-link :to="{ name: 'Terms' }" target="_blank"
                         >Podmínky užití</router-link
                     >
-                    <router-link :to="{ name: 'Contacts' }" target="_blank"
-                        >Kontakty</router-link
-                    >
+                    <a href="mailto:historie.lokaci@gmail.com" target="_blank">
+                        Napište nám
+                    </a>
                 </nav>
                 <v-menu class="menu">
                     <template v-slot:activator="{ on: toggle }">
@@ -32,9 +32,12 @@
                                 Podmínky užití
                             </v-list-item-title>
                         </v-list-item>
-                        <v-list-item :to="{ name: 'Contacts' }" target="_blank">
+                        <v-list-item
+                            href="mailto:historie.lokaci@gmail.com"
+                            target="_blank"
+                        >
                             <v-list-item-title>
-                                Kontakty
+                                Napište nám
                             </v-list-item-title>
                         </v-list-item>
                     </v-list>

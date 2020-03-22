@@ -6,9 +6,9 @@
                 <router-link :to="{ name: 'Terms' }" target="_blank"
                     >Podmínky užití</router-link
                 >
-                <router-link :to="{ name: 'Contacts' }" target="_blank"
-                    >Kontakty</router-link
-                >
+                <a href="mailto:historie.lokaci@gmail.com" target="_blank">
+                    Napište nám
+                </a>
             </nav>
         </footer>
     </div>
