@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div v-else>
-                <p class="short-instructions">
+                <p>
                     SMS s kódem byla odeslána na telefonní číslo
                     <strong
                         >{{ phoneCallingCode.text }} {{ phoneNumber }}</strong
@@ -84,7 +84,10 @@
         <section class="section" :class="{ disabled: !verificationCode }">
             <v-icon>mdi-cloud-upload</v-icon>
             <h3>Nahrajte soubor</h3>
-            Stažený soubor (např. takeout-20200315T06505Z-001.zip) nahrajte zde:
+            <p>
+                Stažený soubor (např. takeout-20200315T06505Z-001.zip) nahrajte
+                zde:
+            </p>
 
             <v-file-input
                 class="mt-2"
@@ -97,8 +100,27 @@
                 prepend-icon=""
                 prepend-inner-icon="mdi-paperclip"
                 accept=".zip"
+                :disabled="!verificationCode"
                 :rules="[fileValidation]"
             />
+            <v-checkbox
+                class="terms-consent"
+                v-model="termsConsent"
+                :disabled="!verificationCode"
+                :rules="[termsConsentValidation]"
+                dark
+            >
+                <template v-slot:label>
+                    <span>
+                        Souhlasím s
+                        <router-link :to="{ name: 'Terms' }" v-slot="{ href }">
+                            <a :href="href" target="_blank" @click.stop>
+                                podmínkami užití
+                            </a>
+                        </router-link>
+                    </span>
+                </template>
+            </v-checkbox>
             <v-btn
                 v-on:click="submitFile()"
                 :loading="uploading"
@@ -135,9 +157,17 @@
     color: white;
 }
 
-h3 {
+.section h3 {
     margin-top: 24px;
     margin-bottom: 8px;
+}
+
+.section a {
+    color: inherit;
+}
+
+.section p {
+    font-weight: 300;
 }
 
 .v-btn {
@@ -202,8 +232,19 @@ h3 {
     color: white !important;
 }
 
-.short-instructions a {
-    color: inherit;
+.terms-consent {
+    margin-top: 0;
+    margin-bottom: 6px;
+    padding-top: 0;
+}
+
+.terms-consent /deep/ .v-label {
+    color: white;
+    font-weight: 300;
+}
+
+.terms-consent /deep/ .v-icon.mdi-checkbox-blank-outline::before {
+    content: "\F012E";
 }
 </style>
 
@@ -235,6 +276,7 @@ export default class UploadForm extends Vue {
 
     phoneCallingCode = this.phoneCallingCodeOptions[0];
     phoneNumber = "";
+    termsConsent = false;
     verificationCodeSending = false;
     verificationCodeSent = false;
     id = "";
@@ -257,8 +299,10 @@ export default class UploadForm extends Vue {
         this.$refs.form.resetValidation();
         this.verificationCodeSending = true;
         const url = `${process.env.VUE_APP_API_URL}/users/send`;
-        // TODO const data = `${this.phoneCallingCode.value}${this.phoneNumber.replace(/\s/g, '')}`;
-        const data = `${this.phoneNumber.replace(/\s/g, "")}`;
+        const data = `${this.phoneCallingCode.value}${this.phoneNumber.replace(
+            /\s/g,
+            ""
+        )}`;
         const response = await axios.post(url, data, {
             headers: {
                 // FIXME: text/plain? or change BE to accept and send JSON
@@ -299,6 +343,14 @@ export default class UploadForm extends Vue {
         if (!value) {
             return "Ověřovací kód z SMS je povinný";
         }
+        return true;
+    }
+
+    termsConsentValidation(value: boolean) {
+        if (!value) {
+            return "Musíte souhlasit s podmínkami užití";
+        }
+
         return true;
     }
 
