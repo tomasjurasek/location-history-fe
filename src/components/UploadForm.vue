@@ -1,5 +1,5 @@
 <template>
-    <v-form v-model="valid" ref="form">
+    <v-form v-model="valid" ref="form" v-on:submit.prevent>
         <section class="section">
             <v-icon>mdi-shield-alert</v-icon>
             <h3>Ověřte svoji totožnost</h3>
