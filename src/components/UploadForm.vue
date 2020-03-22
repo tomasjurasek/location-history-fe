@@ -1,58 +1,89 @@
 <template>
     <v-form v-model="valid" ref="form">
-        <div v-if="!verificationCodeSending && !verificationCodeSent">
-            <v-text-field
-                v-model="phoneNumber"
-                label="Telefonní číslo"
-                background-color="white"
-                filled
-                rounded
-                :rules="[phoneNumberValidation]"
-                class="d-inline-block"
-                style="width: 323px"
-            />
-            <v-btn
-                color="success"
-                dark
-                x-large
-                depressed
-                :loading="verificationCodeSending"
-                :disabled="!valid"
-                @click="sendVerificationCode"
-            >
-                <v-icon class="mr-2">mdi-android-messages</v-icon> Odeslat
-                ověřovací SMS
-            </v-btn>
-        </div>
-        <div v-else>
-            <p class="short-instructions">
-                <v-progress-circular
-                    indeterminate
-                    class="ma-2"
-                    v-if="verificationCodeSending"
-                ></v-progress-circular>
-                <span v-else>
-                    Ověřovací SMS s kódem byla odeslána na telefonní číslo
-                    {{ phoneNumber }}.
+        <section class="section">
+            <v-icon>mdi-shield-alert</v-icon>
+            <h3>Ověřte svoji totožnost</h3>
+            <div v-if="!verificationCodeSent">
+                <p>
+                    Zadejte svoje telefonní číslo, na které vám obratem zašleme
+                    SMS a ověřovacím kódem.
+                </p>
+                <div class="d-flex align-start">
+                    <v-select
+                        class="phone-calling-code-input"
+                        :items="phoneCallingCodeOptions"
+                        v-model="phoneCallingCode"
+                        filled
+                        rounded
+                        dense
+                        background-color="white"
+                        hide-details
+                    >
+                        <template slot="selection" slot-scope="data">
+                            <div class="phone-calling-code">
+                                <img :src="data.item.icon" class="flag-icon" />
+                                {{ data.item.text }}
+                            </div>
+                        </template>
+                        <template slot="item" slot-scope="data">
+                            <div class="phone-calling-code">
+                                <img :src="data.item.icon" class="flag-icon" />
+                                {{ data.item.text }}
+                                {{ data.item.description }}
+                            </div>
+                        </template>
+                    </v-select>
+                    <v-text-field
+                        class="phone-input"
+                        v-model="phoneNumber"
+                        placeholder="777 123 456"
+                        background-color="white"
+                        filled
+                        rounded
+                        dense
+                        :rules="[phoneNumberValidation]"
+                    />
+                    <v-btn
+                        color="success"
+                        dark
+                        x-large
+                        depressed
+                        :loading="verificationCodeSending"
+                        :disabled="!phoneValid"
+                        @click="sendVerificationCode"
+                    >
+                        Odeslat kód
+                    </v-btn>
+                </div>
+            </div>
+            <div v-else>
+                <p class="short-instructions">
+                    SMS s kódem byla odeslána na telefonní číslo
+                    <strong
+                        >{{ phoneCallingCode.text }} {{ phoneNumber }}</strong
+                    >.
                     <br />
                     SMS nepřišla?
-                    <a href="javascript:void(0)" @click="sendVerificationCode">
+                    <a href="javascript:void(0)" @click="resetVerification">
                         Zaslat kód znovu.
                     </a>
-                </span>
-            </p>
+                </p>
 
-            <v-text-field
-                v-model="verificationCode"
-                label="Ověřovací kód z SMS"
-                background-color="white"
-                filled
-                rounded
-                :rules="[verificationCodeValidation]"
-                class="d-inline-block"
-                style="width: 323px"
-            />
-            <br />
+                <v-text-field
+                    v-model="verificationCode"
+                    label="Ověřovací kód z SMS"
+                    background-color="white"
+                    filled
+                    rounded
+                    :rules="[verificationCodeValidation]"
+                    class="d-inline-block"
+                    style="width: 323px"
+                />
+            </div>
+        </section>
+        <section class="section" :class="{ disabled: !verificationCode }">
+            <v-icon>mdi-cloud-upload</v-icon>
+            <h3>Nahrajte soubor</h3>
             Stažený soubor (např. takeout-20200315T06505Z-001.zip) nahrajte zde:
 
             <v-file-input
@@ -76,22 +107,85 @@
                 x-large
                 depressed
                 dark
+                class="upload-button"
             >
-                <v-icon class="mr-2">mdi-cloud-upload-outline</v-icon> Nahrát
+                Nahrát soubor
             </v-btn>
-        </div>
+        </section>
     </v-form>
 </template>
 
 <style scoped>
-.v-form {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto !important;
+.section {
+    position: relative;
+}
+
+.section:not(:last-child) {
+    padding-bottom: 6px;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+}
+
+.section.disabled {
+    opacity: 0.5;
+}
+
+.section .v-icon {
+    position: absolute;
+    left: -36px;
+    color: white;
+}
+
+h3 {
+    margin-top: 24px;
+    margin-bottom: 8px;
+}
+
+.v-btn {
+    text-transform: none;
 }
 
 .v-text-field--rounded {
     border-radius: 4px;
+}
+
+.phone-calling-code-input {
+    position: absolute;
+    width: 125px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: solid 1px #d8d8d8;
+    z-index: 10;
+}
+
+.phone-calling-code-input /deep/ .v-input__slot {
+    padding: 6px 16px !important;
+    padding-right: 4px !important;
+}
+
+.phone-calling-code-input /deep/ .v-select__slot {
+    height: 40px;
+}
+
+.phone-calling-code {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flag-icon {
+    margin-right: 8px;
+    width: 28px;
+}
+
+.phone-input {
+    display: inline-block;
+    width: 200px;
+    margin-right: 16px !important;
+}
+
+.phone-input /deep/ .v-input__slot {
+    padding-left: 149px !important;
+    height: 52px;
 }
 
 .v-file-input /deep/ .v-input__prepend-inner {
@@ -101,11 +195,6 @@
 
 .v-input /deep/ .v-messages.error--text {
     color: var(--v-error-lighten4) !important;
-}
-
-.v-btn:not(.v-btn--round).v-size--x-large {
-    height: 60px;
-    padding: 0 48px;
 }
 
 .v-btn.v-btn.v-btn--disabled.theme--dark:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
@@ -129,6 +218,22 @@ export default class UploadForm extends Vue {
         form: Vue & { resetValidation: () => void };
     };
 
+    phoneCallingCodeOptions = [
+        {
+            icon: "/cz-flag.png",
+            value: "420",
+            text: "+420",
+            description: "Česká republika"
+        },
+        {
+            icon: "/sk-flag.png",
+            value: "421",
+            text: "+421",
+            description: "Slovensko"
+        }
+    ];
+
+    phoneCallingCode = this.phoneCallingCodeOptions[0];
     phoneNumber = "";
     verificationCodeSending = false;
     verificationCodeSent = false;
@@ -137,14 +242,23 @@ export default class UploadForm extends Vue {
     file: File | null = null;
 
     valid = false;
+    phoneValid = false;
 
     uploading = false;
+
+    resetVerification() {
+        this.id = "";
+        this.verificationCode = "";
+        this.verificationCodeSending = false;
+        this.verificationCodeSent = false;
+    }
 
     async sendVerificationCode() {
         this.$refs.form.resetValidation();
         this.verificationCodeSending = true;
         const url = `${process.env.VUE_APP_API_URL}/users/send`;
-        const data = this.phoneNumber;
+        // TODO const data = `${this.phoneCallingCode.value}${this.phoneNumber.replace(/\s/g, '')}`;
+        const data = `${this.phoneNumber.replace(/\s/g, "")}`;
         const response = await axios.post(url, data, {
             headers: {
                 // FIXME: text/plain? or change BE to accept and send JSON
@@ -167,12 +281,17 @@ export default class UploadForm extends Vue {
     }
 
     phoneNumberValidation(value: string) {
+        this.phoneValid = false;
+
         if (!value) {
             return "Telefonní číslo je povinné";
         }
-        if (!value.match(/^\d{9}$/)) {
+        if (!value.match(/^\s*(\d\s*){9}$/)) {
             return "Formát telefonního čísla je nnnnnnnnn (9 číslic)";
         }
+
+        this.phoneValid = true;
+
         return true;
     }
 
