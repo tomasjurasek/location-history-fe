@@ -13,7 +13,7 @@
                             <v-icon class="header__icon"
                                 >mdi-android-debug-bridge</v-icon
                             >
-                            Android - Nahrajte historii vaší polohy
+                            Android - Nahrajte historii svojí polohy
                         </h2>
                         <div class="upload">
                             <section class="upload__section">
