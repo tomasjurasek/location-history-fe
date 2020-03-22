@@ -1,10 +1,10 @@
 <template>
     <v-form v-model="valid" ref="form" v-on:submit.prevent>
         <section class="section">
-            <v-icon>mdi-shield-alert</v-icon>
-            <h3>Ověřte svoji totožnost</h3>
+            <v-icon class="section__icon">mdi-shield-alert</v-icon>
+            <h3 class="section__title">Ověřte svoji totožnost</h3>
             <div v-if="!verificationCodeSent">
-                <p>
+                <p class="section__description">
                     Zadejte svoje telefonní číslo, na které vám obratem zašleme
                     SMS a ověřovacím kódem.
                 </p>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div v-else>
-                <p>
+                <p class="section__description">
                     SMS s kódem byla odeslána na telefonní číslo
                     <strong
                         >{{ phoneCallingCode.text }} {{ phoneNumber }}</strong
@@ -83,9 +83,9 @@
             </div>
         </section>
         <section class="section" :class="{ disabled: !verificationCode }">
-            <v-icon>mdi-cloud-upload</v-icon>
-            <h3>Nahrajte soubor</h3>
-            <p>
+            <v-icon class="section__icon">mdi-cloud-upload</v-icon>
+            <h3 class="section__title">Nahrajte soubor</h3>
+            <p class="section__description">
                 Stažený soubor (např. takeout-20200315T06505Z-001.zip) nahrajte
                 zde:
             </p>
@@ -152,13 +152,13 @@
     opacity: 0.5;
 }
 
-.section .v-icon {
+.section__icon {
     position: absolute;
     left: -36px;
     color: white;
 }
 
-.section h3 {
+.section__title {
     margin-top: 24px;
     margin-bottom: 8px;
 }
@@ -167,7 +167,7 @@
     color: inherit;
 }
 
-.section p {
+.section__description {
     font-weight: 300;
 }
 

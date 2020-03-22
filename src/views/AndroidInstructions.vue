@@ -17,9 +17,13 @@
                         </h2>
                         <div class="upload">
                             <section class="upload__section">
-                                <v-icon>mdi-history</v-icon>
-                                <h3>Připravte historii</h3>
-                                <p>
+                                <v-icon class="upload__icon"
+                                    >mdi-history</v-icon
+                                >
+                                <h3 class="upload__title">
+                                    Připravte historii
+                                </h3>
+                                <p class="upload__description">
                                     Historii polohy připravte podle
                                     <a href="#navod">návodu</a>.<br />
                                 </p>
@@ -240,22 +244,25 @@
     position: relative;
     padding-bottom: 14px;
     border-bottom: solid 1px rgba(255, 255, 255, 0.2);
-    font-weight: 300;
 }
 
-.upload__section .v-icon {
+.upload__icon {
     position: absolute;
     left: -36px;
     color: white;
 }
 
-.upload__section h3 {
+.upload__title {
     margin-top: 30px;
     margin-bottom: 8px;
 }
 
 .upload__section a {
     color: inherit;
+}
+
+.upload__description {
+    font-weight: 300;
 }
 
 h1 {
