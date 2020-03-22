@@ -7,17 +7,17 @@
                     <v-icon class="choice__icon"
                         >mdi-android-debug-bridge</v-icon
                     >
-                    <h3 class="choice__title">Mám Android</h3>
+                    <h3 class="choice__title">Android</h3>
                     <p class="choice__description">
-                        Chytrý telefon od Samsung, Huawei,<br />Xiaomi, Honor,
-                        LG, Google,<br />Motorola, Nokia, ...
+                        Telefon od Samsung, Huawei,<br />Xiaomi, Honor, LG,
+                        Google,<br />Motorola, Nokia, ...
                     </p>
                 </v-sheet>
                 <v-sheet @click="chooseiPhone" class="choice choice--apple">
                     <v-icon class="choice__icon">mdi-apple</v-icon>
-                    <h3 class="choice__title">Mám iPhone</h3>
+                    <h3 class="choice__title">iPhone</h3>
                     <p class="choice__description">
-                        Chytrý telefon od Apple<br />
+                        Telefon od Apple<br />
                         (s jablkem na zadní straně)
                     </p>
                 </v-sheet>

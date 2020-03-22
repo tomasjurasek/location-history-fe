@@ -13,16 +13,19 @@
                             <v-icon class="header__icon"
                                 >mdi-android-debug-bridge</v-icon
                             >
-                            Android - Nahrajte historii vaší polohy
+                            Android - Nahrajte historii svojí polohy
                         </h2>
-                        <p class="short-instructions">
-                            Historii si stáhněte podle
-                            <a href="#navod">návodu</a>.<br />
-                            Stažený soubor (např.
-                            takeout-20200315T06505Z-001.zip) následně vyberte a
-                            nahrajte zde:
-                        </p>
-                        <UploadForm @uploadFileEvent="uploadFile" />
+                        <div class="upload">
+                            <section class="upload__section">
+                                <v-icon>mdi-history</v-icon>
+                                <h3>Připravte historii</h3>
+                                <p>
+                                    Historii polohy připravte podle
+                                    <a href="#navod">návodu</a>.<br />
+                                </p>
+                            </section>
+                            <UploadForm @uploadFileEvent="uploadFile" />
+                        </div>
                     </v-col>
                 </v-row>
             </v-container>
@@ -30,14 +33,14 @@
             <v-container id="navod">
                 <v-row>
                     <v-col>
-                        <h1>Návod - jak stáhnout historii polohy z Google</h1>
+                        <h1>Jak na to?</h1>
 
                         <section class="step">
                             <header class="step__header">
                                 <div class="step__number">1.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Navštivte
+                                        Navštivte stránku
                                         <a
                                             href="https://takeout.google.com"
                                             target="_blank"
@@ -60,11 +63,11 @@
                                 <div class="step__number">2.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Zvolte
+                                        Nejprve zvolte
                                         <strong>Zrušit výběr všech</strong>.
                                     </h2>
                                     <p class="step__description">
-                                        Usnadní vám to následující kroky.
+                                        Zajímají nás jen data o poloze.
                                     </p>
                                 </div>
                             </header>
@@ -79,12 +82,12 @@
                                 <div class="step__number">3.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Zaškrtněte položku
-                                        <strong>Historie polohy</strong>, nic
-                                        jiného.
+                                        Zaškrtněte
+                                        <strong>pouze</strong> položku
+                                        <strong>Historie polohy</strong>
                                     </h2>
                                     <p class="step__description">
-                                        Najdete ji níže v seznamu.
+                                        ve spodní půlce seznamu.
                                     </p>
                                 </div>
                             </header>
@@ -99,7 +102,7 @@
                                 <div class="step__number">4.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Pokračujte na
+                                        Pokračujte tlačítkem
                                         <strong>Další krok</strong>
                                     </h2>
                                     <p class="step__description">
@@ -140,11 +143,12 @@
                                 <div class="step__number">6.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        <strong>Vyčkejte</strong> až se objeví
-                                        <strong>následující obrazovka</strong>.
+                                        <strong>Vyčkejte</strong> dokud neskončí
+                                        export.
                                     </h2>
                                     <p class="step__description">
-                                        Může to trvat až několik minut.
+                                        <v-icon>mdi-timer-sand</v-icon> Může to
+                                        trvat několik minut.
                                     </p>
                                 </div>
                             </header>
@@ -159,9 +163,11 @@
                                 <div class="step__number">7.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Zvolte <strong>Stáhnout</strong> a
-                                        uložte si výsledný soubor na plochu nebo
-                                        někam, kde ho snadno najdete.
+                                        Po skončení exportu zvolte
+                                        <strong>Stáhnout</strong> a uložte
+                                        výsledný soubor na
+                                        <strong>plochu</strong> nebo někam, kde
+                                        ho snadno najdete.
                                     </h2>
                                 </div>
                             </header>
@@ -175,7 +181,7 @@
             </v-container>
             <v-container class="upload-step" fluid>
                 <v-row align="center" justify="center" no-gutters>
-                    <v-col md="7">
+                    <v-col>
                         <section class="step">
                             <header class="step__header">
                                 <div class="step__number">8.</div>
@@ -190,7 +196,9 @@
                                     </p>
                                 </div>
                             </header>
-                            <UploadForm @uploadFileEvent="uploadFile" />
+                            <div class="upload">
+                                <UploadForm @uploadFileEvent="uploadFile" />
+                            </div>
                         </section>
                     </v-col>
                 </v-row>
@@ -206,13 +214,12 @@
 
     background-color: rgba(0, 45, 207, 0.8);
     color: white;
-
-    text-align: center;
 }
 
 .header__title {
     font-size: 36px;
     font-weight: 500;
+    text-align: center;
 }
 
 .header__icon {
@@ -223,12 +230,31 @@
     font-size: 56px;
 }
 
-.short-instructions {
-    padding: 20px;
+.upload {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 52px;
+}
+
+.upload__section {
+    position: relative;
+    padding-bottom: 14px;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.2);
     font-weight: 300;
 }
 
-.short-instructions a {
+.upload__section .v-icon {
+    position: absolute;
+    left: -36px;
+    color: white;
+}
+
+.upload__section h3 {
+    margin-top: 30px;
+    margin-bottom: 8px;
+}
+
+.upload__section a {
     color: inherit;
 }
 
@@ -277,6 +303,11 @@ h1 {
     opacity: 0.8;
 }
 
+.step__description /deep/ .v-icon {
+    position: relative;
+    top: -2px;
+}
+
 .step__image {
     max-width: 100%;
     margin-top: 16px;
@@ -296,6 +327,16 @@ h1 {
 
 .upload-step .step__description {
     opacity: 1;
+}
+
+@media (max-width: 599px) {
+    .upload__section .v-icon {
+        left: 0;
+    }
+
+    .upload__section h3 {
+        padding-left: 36px;
+    }
 }
 </style>
 
