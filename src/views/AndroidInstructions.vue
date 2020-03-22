@@ -328,6 +328,16 @@ h1 {
 .upload-step .step__description {
     opacity: 1;
 }
+
+@media (max-width: 599px) {
+    .upload__section .v-icon {
+        left: 0;
+    }
+
+    .upload__section h3 {
+        padding-left: 36px;
+    }
+}
 </style>
 
 <script lang="ts">

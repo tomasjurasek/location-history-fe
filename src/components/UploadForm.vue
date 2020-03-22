@@ -8,7 +8,7 @@
                     Zadejte svoje telefonní číslo, na které vám obratem zašleme
                     SMS a ověřovacím kódem.
                 </p>
-                <div class="d-flex align-start">
+                <div class="d-flex align-start flex-wrap">
                     <v-select
                         class="phone-calling-code-input"
                         :items="phoneCallingCodeOptions"
@@ -44,6 +44,7 @@
                         :rules="[phoneNumberValidation]"
                     />
                     <v-btn
+                        class="verification-button"
                         color="success"
                         dark
                         x-large
@@ -209,13 +210,17 @@
 
 .phone-input {
     display: inline-block;
-    width: 200px;
+    width: 335px;
     margin-right: 16px !important;
 }
 
 .phone-input /deep/ .v-input__slot {
     padding-left: 149px !important;
     height: 52px;
+}
+
+.verification-button {
+    margin-bottom: 16px;
 }
 
 .v-file-input /deep/ .v-input__prepend-inner {
@@ -245,6 +250,16 @@
 
 .terms-consent /deep/ .v-icon.mdi-checkbox-blank-outline::before {
     content: "\F012E";
+}
+
+@media (max-width: 599px) {
+    .section .v-icon {
+        left: 0;
+    }
+
+    .section h3 {
+        padding-left: 36px;
+    }
 }
 </style>
 
