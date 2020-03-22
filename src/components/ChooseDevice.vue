@@ -9,8 +9,8 @@
                     >
                     <h3 class="choice__title">Android</h3>
                     <p class="choice__description">
-                        Samsung, Huawei,<br />Xiaomi, Honor, LG, Google,<br />Motorola,
-                        Nokia, ...
+                        Telefon od Samsung, Huawei,<br />Xiaomi, Honor, LG,
+                        Google,<br />Motorola, Nokia, ...
                     </p>
                 </v-sheet>
                 <v-sheet @click="chooseiPhone" class="choice choice--apple">

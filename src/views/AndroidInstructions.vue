@@ -13,7 +13,7 @@
                             <v-icon class="header__icon"
                                 >mdi-android-debug-bridge</v-icon
                             >
-                            Předejte nám historii svojí polohy
+                            Android - Nahrajte historii vaší polohy
                         </h2>
                         <p class="short-instructions">
                             Historii polohy připravte podle
@@ -43,7 +43,7 @@
                                             Google Takeout -
                                             https://takeout.google.com
                                         </a>
-                                        <br />a přihlaste se do Google.
+                                        <br />a přihlašte se.
                                     </h2>
                                 </div>
                             </header>
@@ -77,7 +77,8 @@
                                 <div class="step__number">3.</div>
                                 <div>
                                     <h2 class="step__title">
-                                        Zaškrtněte položku
+                                        Zaškrtněte
+                                        <strong>pouze</strong> položku
                                         <strong>Historie polohy</strong>
                                     </h2>
                                     <p class="step__description">
@@ -275,6 +276,11 @@ h1 {
     margin: 0;
     font-weight: normal;
     opacity: 0.8;
+}
+
+.step__description /deep/ .v-icon {
+    position: relative;
+    top: -2px;
 }
 
 .step__image {

@@ -8,7 +8,7 @@
                 >
                 <p class="description">
                     Něco se nepovedlo. <br />
-                    Zkuste to, prosím znovu.
+                    Zkuste to prosím znovu.
                 </p>
                 <v-btn class="primary ma-2" x-large depressed to="/" large>
                     <v-icon class="mr-2">mdi-reload</v-icon>
