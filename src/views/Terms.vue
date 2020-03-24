@@ -20,11 +20,7 @@
                     <ol>
                         <li>
                             <span>1.1.</span> Aplikace byla vytvořená
-                            poskytovatelem, společností Keboola Czech s.r.o.,
-                            IČ: 28502787, se sídlem Dělnická 191/27, Holešovice,
-                            170 00 Praha 7, zapsanou v obchodním rejstříku
-                            vedeným u Městského soudu v Praze pod sp. zn. C
-                            146313 (dále jen „<strong>poskytovatel</strong>“),
+                            poskytovatelem, [placeholder] (dále jen „<strong>poskytovatel</strong>“),
                             pro rychlejší předávání dat o polohách osob, které
                             jsou nakažené virusem COVID-19 (dále jen
                             „<strong>COVID-19</strong>“), [bude upřesněno po
@@ -109,7 +105,7 @@
                             <span>2.4.</span> Poskytovatel získaná data nepředá
                             žádným dalším příjemcům, s výjimkou hygienických
                             stanic a s výjimkou poskytovatele cloudového
-                            úložiště, kde budou data uložena (Amazon).
+                            úložiště, kde budou data uložena (Azure).
                         </li>
                         <li>
                             <span>2.5.</span> Data bude poskytovatel ukládat po
