@@ -20,7 +20,7 @@
                     <ol>
                         <li>
                             <span>1.1.</span> Aplikace byla vytvořená
-                            poskytovatelem, [placeholder] (dále jen „<strong>poskytovatel</strong>“),
+                            poskytovatelem, [•] (dále jen „<strong>poskytovatel</strong>“),
                             pro rychlejší předávání dat o polohách osob, které
                             jsou nakažené virusem COVID-19 (dále jen
                             „<strong>COVID-19</strong>“), [bude upřesněno po
