@@ -105,7 +105,7 @@
                 :rules="[fileValidation]"
             />
             <v-checkbox
-                class="terms-consent"
+                class="terms-consent checkbox"
                 v-model="termsConsent"
                 :disabled="!verificationCode"
                 :rules="[termsConsentValidation]"
@@ -115,10 +115,31 @@
                     <span>
                         Souhlasím s
                         <router-link :to="{ name: 'Terms' }" v-slot="{ href }">
-                            <a :href="href" target="_blank" @click.stop>
-                                podmínkami užití
-                            </a>
+                            <a :href="href" target="_blank" @click.stop
+                                >podmínkami užití</a
+                            > </router-link
+                        >.
+                    </span>
+                </template>
+            </v-checkbox>
+            <v-checkbox
+                class="data-processing-consent checkbox"
+                v-model="dataProcessingConsent"
+                :disabled="!verificationCode"
+                :rules="[dataProcessingConsentValidation]"
+                dark
+            >
+                <template v-slot:label>
+                    <span>
+                        Souhlasím, aby Ministerstvo zdravotnictví pracovalo s
+                        mými daty z Google Maps, které obsahují informace o
+                        poloze uživatele, podle čl.{{ "\xa0" }}2
+                        <router-link :to="{ name: 'Terms' }" v-slot="{ href }">
+                            <a :href="href" target="_blank" @click.stop
+                                >podmínek užití</a
+                            >
                         </router-link>
+                        za účelem epidemiologického šetření.
                     </span>
                 </template>
             </v-checkbox>
@@ -237,19 +258,28 @@
     color: white !important;
 }
 
-.terms-consent {
+.checkbox {
     margin-top: 0;
     margin-bottom: 6px;
     padding-top: 0;
 }
 
-.terms-consent /deep/ .v-label {
+.checkbox /deep/ .v-label {
     color: white;
     font-weight: 300;
 }
 
-.terms-consent /deep/ .v-icon.mdi-checkbox-blank-outline::before {
+.checkbox /deep/ .v-icon.mdi-checkbox-blank-outline::before {
     content: "\F012E";
+}
+
+.checkbox /deep/ .v-input__slot {
+    align-items: flex-start;
+}
+
+.checkbox /deep/ .v-input--selection-controls__input {
+    position: relative;
+    top: -3px;
 }
 
 @media (max-width: 599px) {
@@ -292,10 +322,11 @@ export default class UploadForm extends Vue {
     phoneCallingCode = this.phoneCallingCodeOptions[0];
     phoneNumber = "";
     termsConsent = false;
+    dataProcessingConsent = false;
     verificationCodeSending = false;
     verificationCodeSent = false;
     id = "";
-    verificationCode = "";
+    verificationCode = "x";
     file: File | null = null;
 
     valid = false;
@@ -343,10 +374,10 @@ export default class UploadForm extends Vue {
         this.phoneValid = false;
 
         if (!value) {
-            return "Telefonní číslo je povinné";
+            return "Telefonní číslo je povinné.";
         }
         if (!value.match(/^\s*(\d\s*){9}$/)) {
-            return "Formát telefonního čísla je nnnnnnnnn (9 číslic)";
+            return "Formát telefonního čísla je nnnnnnnnn (9 číslic).";
         }
 
         this.phoneValid = true;
@@ -356,14 +387,22 @@ export default class UploadForm extends Vue {
 
     verificationCodeValidation(value: string) {
         if (!value) {
-            return "Ověřovací kód z SMS je povinný";
+            return "Ověřovací kód z SMS je povinný.";
         }
         return true;
     }
 
     termsConsentValidation(value: boolean) {
         if (!value) {
-            return "Musíte souhlasit s podmínkami užití";
+            return "Musíte souhlasit s podmínkami užití.";
+        }
+
+        return true;
+    }
+
+    dataProcessingConsentValidation(value: boolean) {
+        if (!value) {
+            return "Musíte souhlasit se zpracováním.";
         }
 
         return true;
@@ -371,10 +410,10 @@ export default class UploadForm extends Vue {
 
     fileValidation(value: File | null) {
         if (!value) {
-            return "Soubor je povinný";
+            return "Soubor je povinný.";
         }
         if (value.size >= 100 * 1024 * 1024) {
-            return "Maximální povolená velikost souboru je 100 MB";
+            return "Maximální povolená velikost souboru je 100 MB.";
         }
         return true;
     }
