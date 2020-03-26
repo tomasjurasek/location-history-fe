@@ -326,7 +326,7 @@ export default class UploadForm extends Vue {
     verificationCodeSending = false;
     verificationCodeSent = false;
     id = "";
-    verificationCode = "x";
+    verificationCode = "";
     file: File | null = null;
 
     valid = false;
