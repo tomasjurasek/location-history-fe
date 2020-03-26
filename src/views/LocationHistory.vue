@@ -84,14 +84,23 @@
                     min-height="400"
                     max-height="800"
                 >
-                    <div
-                        v-if="isProcessing"
-                        class="location-history__map-overlay"
-                    >
-                        <Loading
-                            title="Zpracovávání..."
-                            description="Před zobrazením dat v mapě musíme data zpracovat, může to trvat několik minut."
-                        />
+                    <div v-if="isProcessing" class="map-overlay">
+                        <div class="map-loading">
+                            <v-progress-circular
+                                class="map-loading__progress"
+                                color="rgba(0, 45, 208)"
+                                size="50"
+                                width="6"
+                                indeterminate
+                            />
+                            <h1 class="map-loading__title">
+                                Zpracovávání dat ...
+                            </h1>
+                            <p class="map-loading__description">
+                                Chvilku strpení, právě pro vás připravujeme mapu
+                                s vašimi polohami.
+                            </p>
+                        </div>
                     </div>
                     <div
                         v-else-if="isSuccess && !locations.length"
@@ -165,15 +174,40 @@
     position: relative;
 }
 
-.location-history__map-overlay {
+.map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+
+    z-index: 100;
+}
+
+.map-loading {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    max-width: 358px;
 
-    background-color: white;
+    text-align: center;
 
     z-index: 100;
+}
+
+.map-loading__title {
+    font-size: 20px;
+    font-weight: 900;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+.map-loading__description {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.75;
 }
 
 .location-history__side-panel {
