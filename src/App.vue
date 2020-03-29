@@ -9,7 +9,7 @@
                 </router-link>
                 <div class="divider"></div>
                 <router-link :to="{ name: 'Home' }" class="site-title"
-                    >Historie polohy</router-link
+                    >Poloha pro{{ "\xa0" }}hygienu</router-link
                 >
                 <nav class="nav hidden-xs-only">
                     <router-link :to="{ name: 'Terms' }" target="_blank"
@@ -90,19 +90,21 @@
 
 .divider {
     display: inline-block;
-    margin: 0 32px;
-    height: 60%;
+    margin: 0 28px;
+    height: 32px;
     width: 1px;
-    background: black;
+    background-color: #999999;
 }
 
 .site-title {
     line-height: 1.2;
     font-size: 16px;
+    font-weight: 600;
 }
 
 .nav {
     margin-left: auto;
+    white-space: nowrap;
 }
 
 .nav > a {
@@ -110,6 +112,7 @@
     font-size: 16px;
     color: inherit;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .nav > a:hover {
