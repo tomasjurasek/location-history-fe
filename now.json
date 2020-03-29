@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "alias": "polohaprohygienu.cz",
+    "alias": ["polohaprohygienu.cz", "www.polohaprohygienu.cz"],
     "github": {
         "enabled": true,
         "silent": false
