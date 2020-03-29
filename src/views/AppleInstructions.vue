@@ -10,9 +10,8 @@
                         </h2>
                         <p class="short-instructions">
                             Zobrazte si historii své polohy v nastavení a sdělte
-                            ji pracovníkům hygieny telefonicky,<br />
-                            nebo lépe - pošlete ji emailem jako snímky obrazovky
-                            (screenshoty).
+                            ji<br />
+                            pracovníkům hygieny telefonicky.
                         </p>
                     </v-col>
                 </v-row>
@@ -147,11 +146,6 @@
                                             U každé lokality se zobrazí
                                             <strong>mapka</strong> a podrobnější
                                             <strong>seznam lokalit</strong>.
-                                            Tady
-                                            <strong
-                                                >postupně rolujte dolů</strong
-                                            >
-                                            a pořizujte snímky obrazovky.
                                         </h2>
                                     </div>
                                 </header>
@@ -161,37 +155,7 @@
                                 />
                             </section>
 
-                            <section class="step col-lg-4-bak col-sm-6-bak">
-                                <header class="step__header">
-                                    <div class="step__number">8.</div>
-                                    <div>
-                                        <h2 class="step__title">
-                                            Nezapomeňte se vrátit na
-                                            <strong>Významná místa</strong> a
-                                            nasnímat i další lokality.
-                                        </h2>
-                                    </div>
-                                </header>
-                            </section>
-
-                            <section class="step col-lg-4-bak col-sm-6-bak">
-                                <header class="step__header">
-                                    <div class="step__number">9.</div>
-                                    <div>
-                                        <h2 class="step__title">
-                                            Na závěr běžte do aplikace Fotky
-                                            (Photos), zvolte
-                                            <strong>Vybrat</strong> v pravém
-                                            horním rohu. <br />
-                                            Označte všechny pořízené snímky
-                                            obrazovky a klikněte na ikonu
-                                            sdílení vlevo dole. <br />
-                                            Odešlete nám snímky emailem.
-                                        </h2>
-                                    </div>
-                                </header>
-                            </section>
-
+                            <div class="step-placeholder"></div>
                             <div class="step-placeholder"></div>
                         </div>
                     </v-col>
@@ -203,8 +167,7 @@
 
 <style scoped>
 .header {
-    padding-top: 48px;
-    padding-bottom: 68px;
+    padding: 48px 0;
 
     background-color: rgba(0, 45, 207, 0.8);
     color: white;
