@@ -6,7 +6,7 @@
             <div v-if="!verificationCodeSent">
                 <p class="section__description">
                     Zadejte svoje telefonní číslo, na které vám obratem zašleme
-                    SMS a ověřovacím kódem.
+                    SMS s ověřovacím kódem.
                 </p>
                 <div class="d-flex align-start flex-wrap">
                     <v-select

@@ -6,7 +6,6 @@ import AndroidInstructions from "@/views/AndroidInstructions.vue";
 import LocationHistory from "@/views/LocationHistory.vue";
 import Terms from "@/views/Terms.vue";
 import Contacts from "@/views/Contacts.vue";
-import Error from "@/views/Error.vue";
 import NotFound from "@/views/NotFound.vue";
 
 Vue.use(VueRouter);
@@ -41,11 +40,6 @@ const routes = [
         path: "/contacts",
         name: "Contacts",
         component: Contacts
-    },
-    {
-        path: "/error",
-        name: "Error",
-        component: Error
     },
     {
         path: "*",
