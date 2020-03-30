@@ -12,8 +12,8 @@
             buttonLink="/"
         >
             Pokud tuto chybu vidíte opakovaně,<br />napište nám prosím na
-            <a href="mailto:historie.lokaci@gmail.com" target="_blank"
-                >historie.lokaci@gmail.com</a
+            <a href="mailto:polohaprohygienu@gmail.com" target="_blank"
+                >polohaprohygienu@gmail.com</a
             >.
         </Error>
         <HomeLayout v-else>

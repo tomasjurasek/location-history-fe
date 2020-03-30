@@ -15,7 +15,7 @@
                     <router-link :to="{ name: 'Terms' }" target="_blank"
                         >Podmínky užití</router-link
                     >
-                    <a href="mailto:historie.lokaci@gmail.com" target="_blank">
+                    <a href="mailto:polohaprohygienu@gmail.com" target="_blank">
                         Napište nám
                     </a>
                 </nav>
@@ -33,7 +33,7 @@
                             </v-list-item-title>
                         </v-list-item>
                         <v-list-item
-                            href="mailto:historie.lokaci@gmail.com"
+                            href="mailto:polohaprohygienu@gmail.com"
                             target="_blank"
                         >
                             <v-list-item-title>

@@ -58,10 +58,10 @@
                         Napište nám na<br />
                         <a
                             class="mail"
-                            href="mailto:historie.lokaci@gmail.com"
+                            href="mailto:polohaprohygienu@gmail.com"
                             target="_blank"
                         >
-                            historie.lokaci@gmail.com
+                            polohaprohygienu@gmail.com
                         </a>
                     </nav>
                 </div>
