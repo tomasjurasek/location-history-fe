@@ -5,7 +5,7 @@
                 <router-link :to="{ name: 'Home' }" class="logo">
                     INICIATIVA
                     <br />
-                    <span class="red--text">#STOPCOVIDCZ</span>
+                    <span class="red--text">COVID19CZ</span>
                 </router-link>
                 <div class="divider"></div>
                 <router-link :to="{ name: 'Home' }" class="site-title"
