@@ -165,6 +165,16 @@ nav a {
 .mail {
     color: #ffdf00;
 }
+
+@media (max-width: 599px) {
+    .footer-brand {
+        padding: 0;
+    }
+
+    .divider {
+        margin: 0 24px;
+    }
+}
 </style>
 
 <script lang="ts">
