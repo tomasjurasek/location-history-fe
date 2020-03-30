@@ -5,6 +5,17 @@
             title="Nahrávání ..."
             description="Mějte strpení, data se mohou nahrávat několik minut."
         />
+        <Error
+            v-else-if="isError"
+            title="Soubor se nepodařilo nahrát"
+            buttonText="Zkusit znovu"
+            buttonLink="/"
+        >
+            Pokud tuto chybu vidíte opakovaně,<br />napište nám prosím na
+            <a href="mailto:historie.lokaci@gmail.com" target="_blank"
+                >historie.lokaci@gmail.com</a
+            >.
+        </Error>
         <HomeLayout v-else>
             <v-container class="header" fluid>
                 <v-row align="center" justify="center" no-gutters>
@@ -352,12 +363,14 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import UploadForm from "@/components/UploadForm.vue";
 import Loading from "@/components/Loading.vue";
+import Error from "@/components/Error.vue";
 import HomeLayout from "@/HomeLayout.vue";
 import axios from "axios";
 
-@Component({ components: { UploadForm, HomeLayout, Loading } })
+@Component({ components: { UploadForm, HomeLayout, Loading, Error } })
 export default class AndroidInstructions extends Vue {
     isUploading = false;
+    isError = false;
 
     async uploadFile(event: {
         id: string;
@@ -365,6 +378,7 @@ export default class AndroidInstructions extends Vue {
         file: File;
     }) {
         this.isUploading = true;
+        this.isError = false;
         try {
             const url = `${process.env.VUE_APP_API_URL}/users/${event.id}/file`;
             const params = { verifyCode: event.verificationCode };
@@ -378,9 +392,7 @@ export default class AndroidInstructions extends Vue {
                 query: { token: response.data.token }
             });
         } catch (e) {
-            this.$router.push({
-                name: "Error"
-            });
+            this.isError = true;
         } finally {
             this.isUploading = false;
         }

@@ -1,10 +1,7 @@
 <template>
     <v-container fluid class="content" v-if="!isLoading">
-        <div class="info-wrapper">
-            <v-container
-                class="info-container"
-                v-if="isProcessing || isSuccess"
-            >
+        <div class="info-wrapper" v-if="isProcessing || isSuccess">
+            <v-container class="info-container">
                 <div class="success-info">
                     <v-icon class="success-info__icon" color="success"
                         >mdi-cloud-check</v-icon
@@ -13,12 +10,12 @@
                         Nahrávání dokončeno
                     </h3>
                 </div>
-                <div>
+                <div class="flex-grow-1">
                     <p class="success-info__description">
                         Na tomto unikátním odkazu si můžete opětovně zobrazit
                         svou historii polohy.
                     </p>
-                    <div>
+                    <div class="d-flex align-start flex-wrap">
                         <input
                             type="text"
                             class="success-info__url"
@@ -26,43 +23,51 @@
                             :value="url"
                             readonly
                         />
-                        <a
-                            href="#"
-                            class="success-info__url__copy"
-                            @click.prevent="copyUrl"
+                        <div
+                            class="d-flex justify-space-between flex-grow-1 flex-wrap"
                         >
-                            <v-icon>mdi-content-copy</v-icon>
-                            Zkopírovat odkaz
-                        </a>
-                    </div>
-                </div>
-            </v-container>
-            <v-container class="info-container" v-if="!isSuccess || isDeleted">
-                <div class="success-info">
-                    <v-icon class="success-info__icon" color="red darken-2"
-                        >mdi-cloud-off-outline</v-icon
-                    >
-                    <h3 class="success-info__title">
-                        <span v-if="isDeleted">
-                            Data byla úspěšně smazána
-                        </span>
-                        <span v-else>
-                            Žádná data pro zadaný identifikátor nenalezena
-                        </span>
-                    </h3>
-                    <p class="success-info__description"></p>
-                    <div>
-                        <v-btn
-                            large
-                            depressed
-                            @click="$router.push({ name: 'Home' })"
-                        >
-                            Domů
-                        </v-btn>
+                            <v-btn
+                                color="#002DCF"
+                                @click="copyUrl"
+                                depressed
+                                text
+                            >
+                                <v-icon>mdi-content-copy</v-icon>
+                                Zkopírovat odkaz
+                            </v-btn>
+                            <v-btn
+                                color="error"
+                                text
+                                :loading="isDeleting"
+                                depressed
+                                @click="deleteLocations"
+                            >
+                                <v-icon>mdi-trash-can-outline</v-icon>
+                                Smazat data
+                            </v-btn>
+                        </div>
                     </div>
                 </div>
             </v-container>
         </div>
+        <Error
+            v-else-if="isDeleted"
+            icon="mdi-trash-can-outline"
+            title="Data byla úspěšně smazána"
+            buttonText="Domů"
+            buttonLink="/"
+        >
+        </Error>
+        <Error
+            v-else
+            icon="mdi-cloud-off-outline"
+            title="Žádná data nenalezena"
+            buttonText="Domů"
+            buttonLink="/"
+        >
+            Pro zadaný identifikátor nebyla nalezena žádná data.<br />
+            Zkontroluje si adresu stránky, zda je zadaná správně.
+        </Error>
         <v-row no-gutters v-if="isProcessing || isSuccess">
             <v-col cols="12" md="9" class="location-history__map">
                 <v-responsive
@@ -71,18 +76,18 @@
                     max-height="800"
                 >
                     <div v-if="isProcessing" class="map-overlay">
-                        <div class="map-loading">
+                        <div class="map-overlay__content">
                             <v-progress-circular
-                                class="map-loading__progress"
+                                class="map-overlay__progress"
                                 color="rgba(0, 45, 208)"
                                 size="50"
                                 width="6"
                                 indeterminate
                             />
-                            <h1 class="map-loading__title">
+                            <h1 class="map-overlay__title">
                                 Generování mapy historie polohy
                             </h1>
-                            <p class="map-loading__description">
+                            <p class="map-overlay__description">
                                 Za malou chvíli uvidíte svou historii polohy na
                                 mapě.
                             </p>
@@ -90,13 +95,17 @@
                     </div>
                     <div
                         v-else-if="isSuccess && !locations.length"
-                        class="location-history__map-overlay no-locations-found"
+                        class="map-overlay"
                     >
-                        <h3>Bohužel</h3>
-                        <p>
-                            Za poslední dobu nebyly nalezeny žádné záznamy
-                            polohy.
-                        </p>
+                        <div class="map-overlay__content">
+                            <h1 class="map-overlay__title">
+                                Bohužel
+                            </h1>
+                            <p class="map-overlay__description">
+                                Za poslední dobu nebyly nalezeny žádné záznamy
+                                polohy.
+                            </p>
+                        </div>
                     </div>
                     <LocationHistoryMap
                         :locations="date ? selectedLocations : locations"
@@ -183,20 +192,26 @@
     margin-bottom: 16px;
 }
 
-.success-info__url__copy {
+.v-btn {
     display: inline-block;
-    font-size: 14px;
-    color: #002dcf;
-    text-decoration: none;
-    white-space: nowrap;
+    font-size: 14px !important;
+    font-weight: 400;
+    padding: 0 !important;
     margin-bottom: 20px;
+    text-transform: none !important;
 }
 
-.success-info__url__copy /deep/ .v-icon {
-    position: relative;
-    top: -2px;
+.v-btn:not(:last-child) {
+    margin-right: 16px;
+}
+
+.v-btn .v-icon {
     font-size: 18px;
-    color: inherit;
+    margin-right: 4px;
+}
+
+.v-btn:hover::before {
+    display: none;
 }
 
 .location-history__map {
@@ -214,7 +229,7 @@
     z-index: 100;
 }
 
-.map-loading {
+.map-overlay__content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -226,14 +241,14 @@
     z-index: 100;
 }
 
-.map-loading__title {
+.map-overlay__title {
     font-size: 20px;
     font-weight: 900;
     margin-top: 24px;
     margin-bottom: 16px;
 }
 
-.map-loading__description {
+.map-overlay__description {
     font-size: 16px;
     font-weight: 500;
     opacity: 0.75;
@@ -270,11 +285,12 @@ import Component from "vue-class-component";
 import LocationHistoryMap from "@/components/LocationHistoryMap.vue";
 import LocationHistorySidePanel from "@/components/LocationHistorySidePanel.vue";
 import Loading from "@/components/Loading.vue";
+import Error from "@/components/Error.vue";
 import { Location } from "@/types/Location";
 import axios from "axios";
 
 @Component({
-    components: { LocationHistorySidePanel, LocationHistoryMap, Loading }
+    components: { LocationHistorySidePanel, LocationHistoryMap, Loading, Error }
 })
 export default class LocationHistory extends Vue {
     id = "";
