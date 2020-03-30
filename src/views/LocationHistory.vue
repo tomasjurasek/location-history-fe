@@ -1,82 +1,68 @@
 <template>
     <v-container fluid class="content" v-if="!isLoading">
-        <v-container>
-            <v-row>
-                <v-col>
-                    <div class="success-info" v-if="isProcessing || isSuccess">
-                        <v-icon class="success-info__icon" color="success" large
-                            >mdi-cloud-check</v-icon
+        <div class="info-wrapper">
+            <v-container
+                class="info-container"
+                v-if="isProcessing || isSuccess"
+            >
+                <div class="success-info">
+                    <v-icon class="success-info__icon" color="success"
+                        >mdi-cloud-check</v-icon
+                    >
+                    <h3 class="success-info__title">
+                        Nahrávání dokončeno
+                    </h3>
+                </div>
+                <div>
+                    <p class="success-info__description">
+                        Na tomto unikátním odkazu si můžete opětovně zobrazit
+                        svou historii polohy.
+                    </p>
+                    <div>
+                        <input
+                            type="text"
+                            class="success-info__url"
+                            name="url"
+                            :value="url"
+                            readonly
+                        />
+                        <a
+                            href="#"
+                            class="success-info__url__copy"
+                            @click.prevent="copyUrl"
                         >
-                        <h3 class="success-info__title">
-                            Nahrávání úspěšné, děkujeme!
-                        </h3>
-                        <p class="success-info__description">
-                            Pro úspěšné dokončení odešlete e-mailem nebo sdělte
-                            pracovníkovi hygienické stanice následující
-                            identifikátor:
-                        </p>
-                        <div>
-                            <v-row no-gutters class="align-center">
-                                <v-col cols="auto" class="mr-12 mb-3">
-                                    <span class="display-1 text-no-wrap">
-                                        {{ id }}
-                                    </span>
-                                </v-col>
-                                <v-col cols="auto" class="mr-auto mb-3">
-                                    <v-btn
-                                        class="success"
-                                        large
-                                        depressed
-                                        :href="mailto"
-                                    >
-                                        Odeslat e-mailem
-                                    </v-btn>
-                                </v-col>
-                                <v-col cols="auto" class="mb-3">
-                                    <v-btn
-                                        color="error"
-                                        text
-                                        :loading="isDeleting"
-                                        large
-                                        depressed
-                                        @click="deleteLocations"
-                                    >
-                                        <v-icon>mdi-trash-can-outline</v-icon>
-                                        Smazat data
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-                        </div>
+                            <v-icon>mdi-content-copy</v-icon>
+                            Zkopírovat odkaz
+                        </a>
                     </div>
-                    <div class="success-info" v-if="isError || isDeleted">
-                        <v-icon
-                            class="success-info__icon"
-                            color="red darken-2"
+                </div>
+            </v-container>
+            <v-container class="info-container" v-if="!isSuccess || isDeleted">
+                <div class="success-info">
+                    <v-icon class="success-info__icon" color="red darken-2"
+                        >mdi-cloud-off-outline</v-icon
+                    >
+                    <h3 class="success-info__title">
+                        <span v-if="isDeleted">
+                            Data byla úspěšně smazána
+                        </span>
+                        <span v-else>
+                            Žádná data pro zadaný identifikátor nenalezena
+                        </span>
+                    </h3>
+                    <p class="success-info__description"></p>
+                    <div>
+                        <v-btn
                             large
-                            >mdi-cloud-off-outline</v-icon
+                            depressed
+                            @click="$router.push({ name: 'Home' })"
                         >
-                        <h3 class="success-info__title">
-                            <span v-if="isDeleted">
-                                Data byla úspěšně smazána
-                            </span>
-                            <span v-else>
-                                Žádná data pro zadaný identifikátor nenalezena
-                            </span>
-                        </h3>
-                        <p class="success-info__description"></p>
-                        <div>
-                            <v-btn
-                                large
-                                depressed
-                                @click="$router.push({ name: 'Home' })"
-                            >
-                                Domů
-                            </v-btn>
-                        </div>
+                            Domů
+                        </v-btn>
                     </div>
-                </v-col>
-            </v-row>
-        </v-container>
+                </div>
+            </v-container>
+        </div>
         <v-row no-gutters v-if="isProcessing || isSuccess">
             <v-col cols="12" md="9" class="location-history__map">
                 <v-responsive
@@ -84,14 +70,23 @@
                     min-height="400"
                     max-height="800"
                 >
-                    <div
-                        v-if="isProcessing"
-                        class="location-history__map-overlay"
-                    >
-                        <Loading
-                            title="Zpracovávání..."
-                            description="Před zobrazením dat v mapě musíme data zpracovat, může to trvat několik minut."
-                        />
+                    <div v-if="isProcessing" class="map-overlay">
+                        <div class="map-loading">
+                            <v-progress-circular
+                                class="map-loading__progress"
+                                color="rgba(0, 45, 208)"
+                                size="50"
+                                width="6"
+                                indeterminate
+                            />
+                            <h1 class="map-loading__title">
+                                Generování mapy historie polohy
+                            </h1>
+                            <p class="map-loading__description">
+                                Za malou chvíli uvidíte svou historii polohy na
+                                mapě.
+                            </p>
+                        </div>
                     </div>
                     <div
                         v-else-if="isSuccess && !locations.length"
@@ -136,12 +131,24 @@
     flex: 0 0 auto;
 }
 
-.success-info {
-    position: relative;
-    margin: 32px;
-    margin-bottom: 52px;
+.info-wrapper {
+    border-bottom: solid 1px rgba(0, 0, 0, 0.075);
+}
 
-    flex: 0 1 auto;
+.info-container {
+    padding: 20px 32px;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.success-info {
+    margin-bottom: 12px;
+    margin-right: 40px;
+    position: relative;
+
+    flex: 0 0 auto;
 
     padding-left: 52px;
 }
@@ -150,30 +157,86 @@
     position: absolute;
     left: 0;
     top: 0;
+    font-size: 28px;
 }
 
 .success-info__title {
-    line-height: 36px;
+    font-size: 16px;
+    line-height: 28px;
 }
 
 .success-info__description {
-    margin-top: 12px;
-    margin-bottom: 40px;
+    font-size: 14px;
+    line-height: 28px;
+    margin-bottom: 4px;
+}
+
+.success-info__url {
+    font-size: 12px;
+    color: #002dcf;
+    padding: 8px 12px;
+    border: solid 1px #dfdfdf;
+    border-radius: 4px;
+    outline: none;
+    width: 520px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+}
+
+.success-info__url__copy {
+    display: inline-block;
+    font-size: 14px;
+    color: #002dcf;
+    text-decoration: none;
+    white-space: nowrap;
+    margin-bottom: 20px;
+}
+
+.success-info__url__copy /deep/ .v-icon {
+    position: relative;
+    top: -2px;
+    font-size: 18px;
+    color: inherit;
 }
 
 .location-history__map {
     position: relative;
 }
 
-.location-history__map-overlay {
+.map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+
+    z-index: 100;
+}
+
+.map-loading {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    max-width: 358px;
 
-    background-color: white;
+    text-align: center;
 
     z-index: 100;
+}
+
+.map-loading__title {
+    font-size: 20px;
+    font-weight: 900;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+.map-loading__description {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.75;
 }
 
 .location-history__side-panel {
@@ -191,6 +254,13 @@
 
 .no-locations-found p {
     margin: 0;
+}
+
+@media (max-width: 599px) {
+    .success-info__url {
+        width: 100%;
+        margin-right: 0;
+    }
 }
 </style>
 
@@ -213,7 +283,6 @@ export default class LocationHistory extends Vue {
     isLoading = true;
     isProcessing = false;
     isSuccess = false;
-    isError = false;
     isDeleting = false;
     isDeleted = false;
 
@@ -221,6 +290,8 @@ export default class LocationHistory extends Vue {
     selectedLocations: Location[] = [];
     highlightedLocation: Location | null = null;
     date = "";
+
+    url = location.href;
 
     mounted() {
         this.id = this.$route.params.id;
@@ -250,7 +321,7 @@ export default class LocationHistory extends Vue {
         } catch (error) {
             this.isLoading = false;
             this.isProcessing = false;
-            this.isError = true;
+            this.isSuccess = false;
         }
     }
 
@@ -291,6 +362,15 @@ export default class LocationHistory extends Vue {
         this.selectedLocations = this.locations.filter(location => {
             return location.dateTimeUtc.startsWith(date);
         });
+    }
+
+    copyUrl() {
+        const input = document.querySelector<HTMLInputElement>("[name=url]")!;
+
+        input.select();
+        input.setSelectionRange(0, 99999);
+
+        document.execCommand("copy");
     }
 }
 </script>
