@@ -207,7 +207,7 @@
                 <li>
                     <h2><span>3.</span> LICENCE</h2>
                     <ol>
-                        <li>
+                        <li id="zdrojove-kody">
                             <span>3.1</span> Poskytovatel bezplatně zpřístupnil
                             Aplikaci na webové stránce
                             <a
@@ -216,6 +216,11 @@
                                 >https://polohaprohygienu.cz</a
                             >
                             a její zdrojové kódy zveřejnil na GitHubu:
+                            <a
+                                href="https://github.com/tomasjurasek/location-history-fe"
+                                >https://github.com/tomasjurasek/location-history-fe</a
+                            >
+                            a
                             <a
                                 href="https://github.com/tomasjurasek/location-history-app"
                                 >https://github.com/tomasjurasek/location-history-app</a
@@ -364,7 +369,7 @@
                             <span>8.1.</span> Veškerá komunikace mezi stranami
                             bude probíhat v českém jazyce elektronicky
                             prostřednictvím e-mailové adresy [•] nebo
-                            telefonický na čísle [•].
+                            telefonicky na čísle [•].
                         </li>
                         <li>
                             <span>8.2.</span> Tyto Podmínky nabývají účinnost
