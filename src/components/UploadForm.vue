@@ -1,6 +1,6 @@
 <template>
     <v-form v-model="valid" ref="form" v-on:submit.prevent>
-        <section class="section">
+        <section class="section" :class="{ disabled: codeVerified }">
             <v-icon class="section__icon">mdi-shield-alert</v-icon>
             <h3 class="section__title">Ověřte svoji totožnost</h3>
             <div v-if="!verificationCodeSent">
@@ -57,7 +57,7 @@
                     </v-btn>
                 </div>
             </div>
-            <div v-else>
+            <div v-else :class="{ disabled: codeVerified }">
                 <p class="section__description">
                     SMS s kódem byla odeslána na telefonní číslo
                     <strong
@@ -77,12 +77,29 @@
                     filled
                     rounded
                     :rules="[verificationCodeValidation]"
-                    class="d-inline-block"
+                    :disabled="codeVerified"
+                    class="verification-input"
                     style="width: 323px"
                 />
+
+                <v-btn
+                    class="verify-button"
+                    color="success"
+                    dark
+                    x-large
+                    depressed
+                    :disabled="!codeValid || codeVerified"
+                    @click="verifyCode"
+                >
+                    Ověřit
+                </v-btn>
+
+                <v-alert type="error" v-if="codeMismatch">
+                    Zadán neplatný ověřovací kód!
+                </v-alert>
             </div>
         </section>
-        <section class="section" :class="{ disabled: !verificationCode }">
+        <section class="section" :class="{ disabled: !codeVerified }">
             <v-icon class="section__icon">mdi-cloud-upload</v-icon>
             <h3 class="section__title">Nahrajte soubor</h3>
             <p class="section__description">
@@ -235,6 +252,11 @@
     margin-right: 16px !important;
 }
 
+.verification-input {
+    display: inline-block;
+    margin-right: 16px !important;
+}
+
 .phone-input /deep/ .v-input__slot {
     padding-left: 149px !important;
     height: 52px;
@@ -242,6 +264,11 @@
 
 .verification-button {
     margin-bottom: 16px;
+}
+
+.verify-button {
+    height: 56px;
+    margin-bottom: 20px;
 }
 
 .v-file-input /deep/ .v-input__prepend-inner {
@@ -332,6 +359,12 @@ export default class UploadForm extends Vue {
     valid = false;
     phoneValid = false;
 
+    codeValid = false;
+    /* Code verified server-side.*/
+    codeVerified = false;
+    /* Server rejected the code as invalid. */
+    codeMismatch = false;
+
     uploading = false;
 
     resetVerification() {
@@ -360,6 +393,22 @@ export default class UploadForm extends Vue {
         this.verificationCodeSent = true;
     }
 
+    async verifyCode() {
+        this.codeMismatch = false;
+        const url = `${process.env.VUE_APP_API_URL}/users/${this.id}/verify?verifyCode=${this.verificationCode}`;
+
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            this.codeVerified = response.status === 200;
+        } catch (exception) {
+            this.codeMismatch = true;
+        }
+    }
+
     submitFile() {
         this.uploading = true;
         const event = {
@@ -386,9 +435,11 @@ export default class UploadForm extends Vue {
     }
 
     verificationCodeValidation(value: string) {
+        this.codeValid = false;
         if (!value) {
             return "Ověřovací kód z SMS je povinný.";
         }
+        this.codeValid = true;
         return true;
     }
 
