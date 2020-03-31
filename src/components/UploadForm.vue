@@ -1,6 +1,6 @@
 <template>
     <v-form v-model="valid" ref="form" v-on:submit.prevent>
-        <section class="section" :class="{ disabled: codeVerified }">
+        <section class="section">
             <v-icon class="section__icon">mdi-shield-alert</v-icon>
             <h3 class="section__title">Ověřte svoji totožnost</h3>
             <div v-if="!verificationCodeSent">
@@ -58,7 +58,7 @@
                     </v-btn>
                 </div>
             </div>
-            <div v-else :class="{ disabled: codeVerified }">
+            <div v-else-if="!codeVerified">
                 <p class="section__description">
                     SMS s kódem byla odeslána na telefonní číslo
                     <strong
@@ -70,7 +70,6 @@
                         Zaslat kód znovu.
                     </a>
                 </p>
-
                 <div class="d-flex align-start flex-wrap">
                     <v-text-field
                         class="verification-input"
@@ -85,7 +84,6 @@
                         :loading="codeVerifying"
                         :disabled="codeVerified"
                     />
-
                     <v-btn
                         class="verify-button"
                         color="success"
@@ -99,6 +97,15 @@
                         Ověřit
                     </v-btn>
                 </div>
+            </div>
+            <div v-else>
+                <p class="section__description">
+                    Telefonní číslo
+                    <strong
+                        >{{ phoneCallingCode.text }} {{ phoneNumber }}</strong
+                    >
+                    úspěšně ověřeno.
+                </p>
             </div>
         </section>
         <section class="section" :class="{ disabled: !codeVerified }">
@@ -406,6 +413,7 @@ export default class UploadForm extends Vue {
             });
             this.id = response.data;
             this.verificationCodeSent = true;
+            this.$refs.form.resetValidation();
         } catch (e) {
             this.verificationCodeSendingFailed = true;
             this.$refs.phoneNumberInput.validate();
