@@ -111,6 +111,9 @@
                         :locations="date ? selectedLocations : locations"
                         :highlighted-location="highlightedLocation"
                         :draw-line="!!date"
+                        @update:highlightedLocation="
+                            highlightedLocation = $event
+                        "
                     />
                 </v-responsive>
             </v-col>

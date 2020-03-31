@@ -16,6 +16,7 @@ import { formatDistance } from "@/filters/distance";
 import { formatDatetime } from "@/filters/datetime";
 import { formatPosition } from "@/filters/position";
 import colors from "vuetify/lib/util/colors";
+import circleToPolygon from "circle-to-polygon";
 
 @Component({})
 export default class LocationHistoryMap extends Vue {
@@ -24,13 +25,15 @@ export default class LocationHistoryMap extends Vue {
     };
 
     @Prop({ default: [] }) locations!: Location[];
-    @Prop() highlightedLocation!: Location;
+    @Prop() highlightedLocation!: Location | null;
     @Prop() drawLine!: boolean;
 
     map!: mapboxgl.Map;
     mapLoaded = false;
+    mapPopup!: mapboxgl.Popup;
 
     red = colors.red.base;
+    blue = colors.blue.base;
     grey = colors.grey.base;
 
     async mounted() {
@@ -48,41 +51,21 @@ export default class LocationHistoryMap extends Vue {
         this.map.addControl(new mapboxgl.NavigationControl(), "top-right");
         this.map.addControl(new mapboxgl.ScaleControl(), "bottom-right");
 
-        const popup = new mapboxgl.Popup({
+        this.mapPopup = new mapboxgl.Popup({
             closeButton: false,
             closeOnClick: false
         });
 
         this.map.on("mouseenter", "points", event => {
             this.map.getCanvas().style.cursor = "pointer";
-
-            const feature = event.features![0] as GeoJSON.Feature<
-                GeoJSON.Point
-            >;
-            const position = feature.geometry.coordinates as [number, number];
-            const location = feature.properties as Location;
-            const html = `
-                <div class="body-2 mb-3">${formatDatetime(
-                    location.dateTimeUtc
-                )}</div>
-                <div>Souřadnice: ${formatPosition(position)}</div>
-                ${
-                    location.accuracy
-                        ? `<div>Přesnost: ${formatDistance(
-                              location.accuracy
-                          )}</div>`
-                        : ""
-                }
-            `;
-
-            popup
-                .setLngLat(new mapboxgl.LngLat(position[0], position[1]))
-                .setHTML(html)
-                .addTo(this.map);
+            this.$emit(
+                "update:highlightedLocation",
+                event.features![0].properties
+            );
         });
         this.map.on("mouseleave", "points", () => {
             this.map.getCanvas().style.cursor = "";
-            popup.remove();
+            this.$emit("update:highlightedLocation", null);
         });
 
         this.map.on("load", () => {
@@ -91,6 +74,10 @@ export default class LocationHistoryMap extends Vue {
                 data: { type: "FeatureCollection", features: [] }
             });
             this.map.addSource("points", {
+                type: "geojson",
+                data: { type: "FeatureCollection", features: [] }
+            });
+            this.map.addSource("circles", {
                 type: "geojson",
                 data: { type: "FeatureCollection", features: [] }
             });
@@ -114,6 +101,26 @@ export default class LocationHistoryMap extends Vue {
                 layout: {},
                 paint: {
                     "circle-color": this.red
+                }
+            });
+            this.map.addLayer({
+                id: "circles-fill",
+                type: "fill",
+                source: "circles",
+                layout: {},
+                paint: {
+                    "fill-color": this.blue,
+                    "fill-opacity": 0.2
+                }
+            });
+            this.map.addLayer({
+                id: "circles-stroke",
+                type: "line",
+                source: "circles",
+                layout: {},
+                paint: {
+                    "line-color": this.blue,
+                    "line-width": 2
                 }
             });
             this.map.addLayer({
@@ -162,18 +169,46 @@ export default class LocationHistoryMap extends Vue {
         if (this.highlightedLocation) {
             this.map.setPaintProperty("lines", "line-color", this.grey);
             this.map.setPaintProperty("points", "circle-color", this.grey);
+            (this.map.getSource("circles") as GeoJSONSource).setData(
+                this.locationsToPolygons([this.highlightedLocation])
+            );
             (this.map.getSource("points-highlighted") as GeoJSONSource).setData(
                 this.locationsToPoints([this.highlightedLocation])
             );
+
+            const position = this.locationToPosition(this.highlightedLocation);
+            const html = `
+                <div class="body-2 mb-3">${formatDatetime(
+                    this.highlightedLocation.dateTimeUtc
+                )}</div>
+                <div>Souřadnice: ${formatPosition(position)}</div>
+                ${
+                    this.highlightedLocation.accuracy
+                        ? `<div>Přesnost: ${formatDistance(
+                              this.highlightedLocation.accuracy
+                          )}</div>`
+                        : ""
+                }
+            `;
+
+            this.mapPopup
+                .setLngLat(new mapboxgl.LngLat(position[0], position[1]))
+                .setHTML(html)
+                .addTo(this.map);
         } else {
             this.map.setPaintProperty("lines", "line-color", this.red);
             this.map.setPaintProperty("points", "circle-color", this.red);
+            (this.map.getSource("circles") as GeoJSONSource).setData({
+                type: "FeatureCollection",
+                features: []
+            });
             (this.map.getSource("points-highlighted") as GeoJSONSource).setData(
                 {
                     type: "FeatureCollection",
                     features: []
                 }
             );
+            this.mapPopup.remove();
         }
     }
 
@@ -254,6 +289,34 @@ export default class LocationHistoryMap extends Vue {
                 type: "Point",
                 coordinates: this.locationToPosition(location)
             },
+            properties: location
+        };
+    }
+
+    locationsToPolygons(
+        locations: Location[]
+    ): GeoJSON.FeatureCollection<GeoJSON.Polygon> {
+        return {
+            type: "FeatureCollection",
+            features: locations
+                .map(location => this.locationToPolygon(location))
+                .filter(x => !!x) as GeoJSON.Feature<GeoJSON.Polygon>[]
+        };
+    }
+
+    locationToPolygon(
+        location: Location
+    ): GeoJSON.Feature<GeoJSON.Polygon> | null {
+        if (!location.accuracy) {
+            return null;
+        }
+        return {
+            type: "Feature",
+            geometry: circleToPolygon(
+                this.locationToPosition(location),
+                location.accuracy,
+                64
+            ),
             properties: location
         };
     }
