@@ -26,7 +26,7 @@ export default class LocationHistoryMap extends Vue {
 
     @Prop({ default: [] }) locations!: Location[];
     @Prop() highlightedLocation!: Location | null;
-    @Prop() drawLine!: boolean;
+    @Prop() showDetails!: boolean;
 
     map!: mapboxgl.Map;
     mapLoaded = false;
@@ -57,6 +57,9 @@ export default class LocationHistoryMap extends Vue {
         });
 
         this.map.on("mouseenter", "points", event => {
+            if (!this.showDetails) {
+                return;
+            }
             this.map.getCanvas().style.cursor = "pointer";
             this.$emit(
                 "update:highlightedLocation",
@@ -64,6 +67,9 @@ export default class LocationHistoryMap extends Vue {
             );
         });
         this.map.on("mouseleave", "points", () => {
+            if (!this.showDetails) {
+                return;
+            }
             this.map.getCanvas().style.cursor = "";
             this.$emit("update:highlightedLocation", null);
         });
@@ -132,11 +138,21 @@ export default class LocationHistoryMap extends Vue {
                     "circle-color": this.red
                 }
             });
+            this.map.addLayer({
+                id: "heatmap",
+                type: "heatmap",
+                source: "points",
+                layout: {},
+                paint: {
+                    "heatmap-radius": 15,
+                    "heatmap-weight": 0.5
+                }
+            });
 
             this.mapLoaded = true;
 
             this.renderLocations();
-            this.renderLine();
+            this.renderDetails();
         });
     }
 
@@ -212,8 +228,8 @@ export default class LocationHistoryMap extends Vue {
         }
     }
 
-    @Watch("drawLine")
-    renderLine() {
+    @Watch("showDetails")
+    renderDetails() {
         if (!this.map || !this.mapLoaded) {
             return;
         }
@@ -221,7 +237,12 @@ export default class LocationHistoryMap extends Vue {
         this.map.setLayoutProperty(
             "lines",
             "visibility",
-            this.drawLine ? "visible" : "none"
+            this.showDetails ? "visible" : "none"
+        );
+        this.map.setLayoutProperty(
+            "heatmap",
+            "visibility",
+            this.showDetails ? "none" : "visible"
         );
     }
 
