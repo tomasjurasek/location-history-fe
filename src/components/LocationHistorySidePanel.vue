@@ -1,14 +1,13 @@
 <template>
-    <v-row no-gutters class="flex-column fill-height mx-6 my-3">
-        <v-col style="flex: 0">
-            <h2>Detaily</h2>
-            <DatePicker
-                :value="date"
-                :allowed-dates="allowedDates"
-                @input="$emit('update:date', $event)"
-            />
-        </v-col>
-        <v-col class="pa-1 overflow-y-auto">
+    <div class="side-panel">
+        <h2>Detaily</h2>
+        <DatePicker
+            class="date-picker"
+            :value="date"
+            :allowed-dates="allowedDates"
+            @input="$emit('update:date', $event)"
+        />
+        <div class="point-list">
             <div v-if="date">
                 <v-expansion-panels v-if="selectedLocations.length">
                     <v-expansion-panel
@@ -44,20 +43,48 @@
                 </v-expansion-panels>
                 <div v-else>
                     <span class="caption grey--text">
-                        Žádné body ke zobrazení
+                        Žádné body k zobrazení
                     </span>
                 </div>
             </div>
             <div v-else>
                 <span class="caption grey--text">
-                    Vyberte datum ke zobrazení podrobností
+                    Vyberte datum pro zobrazení podrobností
                 </span>
             </div>
-        </v-col>
-    </v-row>
+        </div>
+    </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.side-panel {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+}
+
+.side-panel /deep/ > * {
+    flex: 0 0 auto !important;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+.date-picker {
+    margin: 8px 0;
+}
+
+.point-list {
+    flex: 1 1 0 !important;
+    padding: 4px;
+    margin: -4px;
+    overflow: auto;
+}
+</style>
 
 <script lang="ts">
 import Vue from "vue";

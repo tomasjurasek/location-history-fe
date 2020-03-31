@@ -4,6 +4,10 @@
 
 <style scoped>
 @import "~mapbox-gl/dist/mapbox-gl.css";
+
+.map {
+    height: 100%;
+}
 </style>
 
 <script lang="ts">

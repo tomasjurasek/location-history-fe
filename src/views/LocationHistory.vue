@@ -68,56 +68,48 @@
             Pro zadaný identifikátor nebyla nalezena žádná data.<br />
             Zkontroluje si adresu stránky, zda je zadaná správně.
         </Error>
-        <v-row no-gutters v-if="isProcessing || isSuccess">
-            <v-col cols="12" md="9" class="location-history__map">
-                <v-responsive
-                    :aspect-ratio="16 / 9"
-                    min-height="400"
-                    max-height="800"
+        <div class="map-wrapper" v-if="isProcessing || isSuccess">
+            <div class="map">
+                <div v-if="isProcessing" class="map-overlay">
+                    <div class="map-overlay__content">
+                        <v-progress-circular
+                            class="map-overlay__progress"
+                            color="rgba(0, 45, 208)"
+                            size="50"
+                            width="6"
+                            indeterminate
+                        />
+                        <h1 class="map-overlay__title">
+                            Generování mapy historie polohy
+                        </h1>
+                        <p class="map-overlay__description">
+                            Za malou chvíli uvidíte svou historii polohy na
+                            mapě.
+                        </p>
+                    </div>
+                </div>
+                <div
+                    v-else-if="isSuccess && !locations.length"
+                    class="map-overlay"
                 >
-                    <div v-if="isProcessing" class="map-overlay">
-                        <div class="map-overlay__content">
-                            <v-progress-circular
-                                class="map-overlay__progress"
-                                color="rgba(0, 45, 208)"
-                                size="50"
-                                width="6"
-                                indeterminate
-                            />
-                            <h1 class="map-overlay__title">
-                                Generování mapy historie polohy
-                            </h1>
-                            <p class="map-overlay__description">
-                                Za malou chvíli uvidíte svou historii polohy na
-                                mapě.
-                            </p>
-                        </div>
+                    <div class="map-overlay__content">
+                        <h1 class="map-overlay__title">
+                            Bohužel
+                        </h1>
+                        <p class="map-overlay__description">
+                            Za poslední dobu nebyly nalezeny žádné záznamy
+                            polohy.
+                        </p>
                     </div>
-                    <div
-                        v-else-if="isSuccess && !locations.length"
-                        class="map-overlay"
-                    >
-                        <div class="map-overlay__content">
-                            <h1 class="map-overlay__title">
-                                Bohužel
-                            </h1>
-                            <p class="map-overlay__description">
-                                Za poslední dobu nebyly nalezeny žádné záznamy
-                                polohy.
-                            </p>
-                        </div>
-                    </div>
-                    <LocationHistoryMap
-                        :locations="date ? selectedLocations : locations"
-                        :highlighted-location="highlightedLocation"
-                        :show-details="!!date"
-                        @update:highlightedLocation="
-                            highlightedLocation = $event
-                        "
-                    />
-                </v-responsive>
-            </v-col>
-            <v-col cols="12" md="3" class="location-history__side-panel">
+                </div>
+                <LocationHistoryMap
+                    :locations="date ? selectedLocations : locations"
+                    :highlighted-location="highlightedLocation"
+                    :show-details="!!date"
+                    @update:highlightedLocation="highlightedLocation = $event"
+                />
+            </div>
+            <div class="side-panel">
                 <LocationHistorySidePanel
                     :date="date"
                     :locations="locations"
@@ -125,8 +117,8 @@
                     @update:date="filterLocations"
                     @update:highlightedLocation="highlightedLocation = $event"
                 />
-            </v-col>
-        </v-row>
+            </div>
+        </div>
     </v-container>
 </template>
 
@@ -217,8 +209,16 @@
     display: none;
 }
 
-.location-history__map {
+.map-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+}
+
+.map {
     position: relative;
+    min-height: 400px;
+    flex: 1 1 auto;
 }
 
 .map-overlay {
@@ -257,7 +257,9 @@
     opacity: 0.75;
 }
 
-.location-history__side-panel {
+.side-panel {
+    position: relative;
+    width: 300px;
     min-height: 400px;
 }
 
@@ -278,6 +280,16 @@
     .success-info__url {
         width: 100%;
         margin-right: 0;
+    }
+}
+
+@media (max-width: 959px) {
+    .map-wrapper {
+        flex-direction: column;
+    }
+
+    .side-panel {
+        width: auto;
     }
 }
 </style>
