@@ -110,7 +110,10 @@
                     <LocationHistoryMap
                         :locations="date ? selectedLocations : locations"
                         :highlighted-location="highlightedLocation"
-                        :draw-line="!!date"
+                        :show-details="!!date"
+                        @update:highlightedLocation="
+                            highlightedLocation = $event
+                        "
                     />
                 </v-responsive>
             </v-col>
