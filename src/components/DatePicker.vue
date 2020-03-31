@@ -16,6 +16,9 @@
                 clearable
                 v-on="on"
                 readonly
+                outlined
+                dense
+                hide-details
             >
                 <template #append-outer>
                     <v-btn
@@ -64,8 +67,13 @@
 </template>
 
 <style scoped>
+.v-input {
+    margin: 16px 0;
+}
+
 .v-input /deep/ .v-input__append-outer {
-    margin-top: -2px;
+    margin: 0 !important;
+    margin-top: 2px !important;
 }
 </style>
 
