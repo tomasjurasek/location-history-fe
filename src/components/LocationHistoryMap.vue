@@ -18,6 +18,8 @@ import { formatPosition } from "@/filters/position";
 import colors from "vuetify/lib/util/colors";
 import circleToPolygon from "circle-to-polygon";
 
+const MAPTILER_API_KEY = "R1lSouzUdcrAwXeY6zJy"; // free key limited to 100k requests/month
+
 @Component({})
 export default class LocationHistoryMap extends Vue {
     $refs!: {
@@ -43,8 +45,7 @@ export default class LocationHistoryMap extends Vue {
     loadMap() {
         this.map = new mapboxgl.Map({
             container: this.$refs.map,
-            style:
-                "https://api.maptiler.com/maps/streets/style.json?key=R1lSouzUdcrAwXeY6zJy",
+            style: `https://api.maptiler.com/maps/streets/style.json?key=${MAPTILER_API_KEY}`,
             center: [15.339133, 49.7437],
             zoom: 6
         });
