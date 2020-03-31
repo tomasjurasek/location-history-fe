@@ -36,6 +36,7 @@
                     <v-text-field
                         class="phone-input"
                         v-model="phoneNumber"
+                        ref="phoneNumberInput"
                         placeholder="777 123 456"
                         background-color="white"
                         filled
@@ -70,33 +71,34 @@
                     </a>
                 </p>
 
-                <v-text-field
-                    v-model="verificationCode"
-                    label="Ověřovací kód z SMS"
-                    background-color="white"
-                    filled
-                    rounded
-                    :rules="[verificationCodeValidation]"
-                    :disabled="codeVerified"
-                    class="verification-input"
-                    style="width: 323px"
-                />
+                <div class="d-flex align-start flex-wrap">
+                    <v-text-field
+                        class="verification-input"
+                        v-model="verificationCode"
+                        ref="verificationCodeInput"
+                        label="Ověřovací kód z SMS"
+                        background-color="white"
+                        filled
+                        rounded
+                        dense
+                        :rules="[verificationCodeValidation]"
+                        :loading="codeVerifying"
+                        :disabled="codeVerified"
+                    />
 
-                <v-btn
-                    class="verify-button"
-                    color="success"
-                    dark
-                    x-large
-                    depressed
-                    :disabled="!codeValid || codeVerified"
-                    @click="verifyCode"
-                >
-                    Ověřit
-                </v-btn>
-
-                <v-alert type="error" v-if="codeMismatch">
-                    Zadán neplatný ověřovací kód!
-                </v-alert>
+                    <v-btn
+                        class="verify-button"
+                        color="success"
+                        dark
+                        x-large
+                        depressed
+                        :loading="codeVerifying"
+                        :disabled="!codeValid || codeVerified"
+                        @click="verifyCode"
+                    >
+                        Ověřit
+                    </v-btn>
+                </div>
             </div>
         </section>
         <section class="section" :class="{ disabled: !codeVerified }">
@@ -124,7 +126,6 @@
             <v-checkbox
                 class="terms-consent checkbox"
                 v-model="termsConsent"
-                :disabled="!verificationCode"
                 :rules="[termsConsentValidation]"
                 dark
             >
@@ -142,7 +143,6 @@
             <v-checkbox
                 class="data-processing-consent checkbox"
                 v-model="dataProcessingConsent"
-                :disabled="!verificationCode"
                 :rules="[dataProcessingConsentValidation]"
                 dark
             >
@@ -255,6 +255,7 @@
 .verification-input {
     display: inline-block;
     margin-right: 16px !important;
+    width: 335px;
 }
 
 .phone-input /deep/ .v-input__slot {
@@ -328,7 +329,15 @@ import axios from "axios";
 @Component({})
 export default class UploadForm extends Vue {
     $refs!: {
-        form: Vue & { resetValidation: () => void };
+        form: Vue & {
+            resetValidation(): void;
+        };
+        phoneNumberInput: Vue & {
+            validate(): void;
+        };
+        verificationCodeInput: Vue & {
+            validate(): void;
+        };
     };
 
     phoneCallingCodeOptions = [
@@ -352,6 +361,7 @@ export default class UploadForm extends Vue {
     dataProcessingConsent = false;
     verificationCodeSending = false;
     verificationCodeSent = false;
+    verificationCodeSendingFailed = false;
     id = "";
     verificationCode = "";
     file: File | null = null;
@@ -361,52 +371,65 @@ export default class UploadForm extends Vue {
 
     codeValid = false;
     /* Code verified server-side.*/
+    codeVerifying = false;
     codeVerified = false;
-    /* Server rejected the code as invalid. */
-    codeMismatch = false;
+    codeVerifyingFailed = false;
 
     uploading = false;
 
     resetVerification() {
+        if (this.codeVerified) {
+            return;
+        }
         this.id = "";
         this.verificationCode = "";
         this.verificationCodeSending = false;
         this.verificationCodeSent = false;
+        this.verificationCodeSendingFailed = false;
     }
 
     async sendVerificationCode() {
-        this.$refs.form.resetValidation();
         this.verificationCodeSending = true;
+        this.verificationCodeSent = false;
+        this.verificationCodeSendingFailed = false;
         const url = `${process.env.VUE_APP_API_URL}/users/send`;
         const data = `${this.phoneCallingCode.value}${this.phoneNumber.replace(
             /\s/g,
             ""
         )}`;
-        const response = await axios.post(url, data, {
-            headers: {
-                // FIXME: text/plain? or change BE to accept and send JSON
-                "Content-Type": "application/json"
-            }
-        });
-        this.id = response.data;
+        try {
+            const response = await axios.post(url, data, {
+                headers: {
+                    // FIXME: text/plain? or change BE to accept and send JSON
+                    "Content-Type": "application/json"
+                }
+            });
+            this.id = response.data;
+            this.verificationCodeSent = true;
+        } catch (e) {
+            this.verificationCodeSendingFailed = true;
+            this.$refs.phoneNumberInput.validate();
+        }
         this.verificationCodeSending = false;
-        this.verificationCodeSent = true;
     }
 
     async verifyCode() {
-        this.codeMismatch = false;
+        this.codeVerifying = true;
+        this.codeVerifyingFailed = false;
+        this.codeVerified = false;
         const url = `${process.env.VUE_APP_API_URL}/users/${this.id}/verify?verifyCode=${this.verificationCode}`;
-
         try {
-            const response = await axios.get(url, {
+            await axios.get(url, {
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
-            this.codeVerified = response.status === 200;
+            this.codeVerified = true;
         } catch (exception) {
-            this.codeMismatch = true;
+            this.codeVerifyingFailed = true;
+            this.$refs.verificationCodeInput.validate();
         }
+        this.codeVerifying = false;
     }
 
     submitFile() {
@@ -421,16 +444,17 @@ export default class UploadForm extends Vue {
 
     phoneNumberValidation(value: string) {
         this.phoneValid = false;
-
         if (!value) {
             return "Telefonní číslo je povinné.";
         }
         if (!value.match(/^\s*(\d\s*){9}$/)) {
             return "Formát telefonního čísla je nnnnnnnnn (9 číslic).";
         }
-
         this.phoneValid = true;
-
+        if (this.verificationCodeSendingFailed) {
+            this.verificationCodeSendingFailed = false;
+            return "Odeslání SMS se nezdařilo.";
+        }
         return true;
     }
 
@@ -440,6 +464,10 @@ export default class UploadForm extends Vue {
             return "Ověřovací kód z SMS je povinný.";
         }
         this.codeValid = true;
+        if (this.codeVerifyingFailed) {
+            this.codeVerifyingFailed = false;
+            return "Zadán neplatný ověřovací kód.";
+        }
         return true;
     }
 
@@ -447,7 +475,6 @@ export default class UploadForm extends Vue {
         if (!value) {
             return "Musíte souhlasit s podmínkami užití.";
         }
-
         return true;
     }
 
@@ -455,7 +482,6 @@ export default class UploadForm extends Vue {
         if (!value) {
             return "Musíte souhlasit se zpracováním.";
         }
-
         return true;
     }
 
