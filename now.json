@@ -8,7 +8,7 @@
     "regions": ["bru1","cdg1","lhr1"],
     "build": {
         "env": {
-            "VUE_APP_API_URL": "https://location-history-api.azurewebsites.net/api"
+            "VUE_APP_API_URL": "https://google-history-api.azurewebsites.net/api"
         }
     }
 }
