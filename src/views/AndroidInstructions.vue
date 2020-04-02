@@ -12,8 +12,8 @@
             buttonLink="/"
         >
             Pokud tuto chybu vidíte opakovaně,<br />napište nám prosím na
-            <a href="mailto:polohaprohygienu@gmail.com" target="_blank"
-                >polohaprohygienu@gmail.com</a
+            <a href="mailto:covid19cz@keboola.cloud" target="_blank"
+                >covid19cz@keboola.cloud</a
             >.
         </Error>
         <HomeLayout v-else>
