@@ -155,7 +155,7 @@
                         </li>
                         <li>
                             <span>2.5.</span> Data bude Poskytovatel ukládat po
-                            dobu 14 dnů a následně dojde k jejich výmazu.
+                            dobu 8 hodin a následně dojde k jejich výmazu.
                             Poskytovatel výslovně upozorňuje uživatele, že
                             hygienické stanice mohou mít nastavenou jinou dobu
                             uchování dat, přičemž pro zjištění doby uchování dat
@@ -368,8 +368,7 @@
                         <li>
                             <span>8.1.</span> Veškerá komunikace mezi stranami
                             bude probíhat v českém jazyce elektronicky
-                            prostřednictvím e-mailové adresy [•] nebo
-                            telefonicky na čísle [•].
+                            prostřednictvím e-mailové adresy covid19cz@keboola.cloud
                         </li>
                         <li>
                             <span>8.2.</span> Tyto Podmínky nabývají účinnost
