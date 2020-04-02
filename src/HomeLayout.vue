@@ -58,10 +58,10 @@
                         Napište nám na<br />
                         <a
                             class="mail"
-                            href="mailto:polohaprohygienu@gmail.com"
+                            href="mailto:covid19cz@keboola.cloud"
                             target="_blank"
                         >
-                            polohaprohygienu@gmail.com
+                            covid19cz@keboola.cloud
                         </a>
                     </nav>
                 </div>
